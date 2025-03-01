@@ -1,15 +1,13 @@
 //
-//  StructDeclSyntax+Extensions.swift
+//  TypeDeclSyntax+Extensions.swift
 //  Dummyable
 //
-//  Created by Nayanda Haberty on 26/02/25.
+//  Created by Nayanda Haberty on 01/03/25.
 //
 
 import SwiftSyntax
 
-
-
-extension StructDeclSyntax {
+extension TypeDeclSyntax {
     var initDeclMarkedWithDummyableInitAttr: InitializerDeclSyntax? {
         memberBlock.members
             .compactMap {

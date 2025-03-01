@@ -28,4 +28,25 @@ extension TypeDeclExtraction {
                 .map { .attribute($0).trimmed }
         )
     }
+    
+    @inlinable
+    var modifiers: DeclModifierListSyntax {
+        sourceDecl.modifiers.trimmed
+    }
+    
+    var usableInitDecl: InitializerDeclSyntax? {
+        nil
+    }
+}
+
+extension DummiesInitStaticFuncDeclFactory {
+    init(typeExtraction: TypeDeclExtraction) {
+        self.init(
+            attributes: typeExtraction.usableAttributes,
+            modifiers: typeExtraction.modifiers,
+            returnType: IdentifierTypeSyntax(name: typeExtraction.declName),
+            initType: DeclReferenceExprSyntax(baseName: typeExtraction.declName),
+            dummyInitializerParameters: typeExtraction.usableInitDecl?.asInitializerParameters() ?? []
+        )
+    }
 }

@@ -9,6 +9,14 @@ import SwiftSyntax
 
 extension InitializerDeclSyntax {
     
+    static var baseVoidInit: InitializerDeclSyntax {
+        InitializerDeclSyntax(
+            signature: FunctionSignatureSyntax(
+                parameterClause: FunctionParameterClauseSyntax(parameters: [])
+            )
+        )
+    }
+    
     var hasDummyableInitAttribute: Bool {
         attributes
             .compactMap { $0.as(AttributeSyntax.self) }
@@ -50,6 +58,13 @@ extension InitializerDeclSyntax {
                 )
                     
             }
+    }
+    
+    func isSimilar(with other: InitializerDeclSyntax) -> Bool {
+        return self.optionalMark?.trimmedDescription == other.optionalMark?.trimmedDescription
+        && self.genericParameterClause?.trimmedDescription == other.genericParameterClause?.trimmedDescription
+        && self.signature.trimmedDescription == other.signature.trimmedDescription
+        && self.genericWhereClause?.trimmedDescription == other.genericWhereClause?.trimmedDescription
     }
 }
 

@@ -14,6 +14,7 @@ public enum DummyableMacroError: CustomStringConvertible, Error {
     case dummyNeedDummyableInit
     case wrongArguments
     case failToGenerateMacro
+    case enumCaseNotFound
     
     @inlinable
     public var description: String {
@@ -30,6 +31,8 @@ public enum DummyableMacroError: CustomStringConvertible, Error {
             return "Wrong arguments provided for @Dummyable"
         case .failToGenerateMacro:
             return "Fail to generate macro"
+        case .enumCaseNotFound:
+            return "No enumeration case can be found"
         }
     }
 }

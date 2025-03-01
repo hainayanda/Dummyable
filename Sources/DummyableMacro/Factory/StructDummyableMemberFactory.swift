@@ -1,5 +1,5 @@
 //
-//  DummyOnStructTypeMemberDeclMacroFactory.swift
+//  StructDummyableMemberFactory.swift
 //  Dummyable
 //
 //  Created by Nayanda Haberty on 25/02/25.
@@ -7,25 +7,25 @@
 
 import SwiftSyntax
 
-struct DummyOnStructTypeMemberDeclMacroFactory {
+struct StructDummyableMemberFactory {
     
     let extraction: StructDeclExtraction
-    let initDeclFactory: DummyInitDeclFactory
+    let memberwiseInitDeclFactory: DummyMemberwiseInitDeclFactory
     
     var shouldGenerateInit: Bool { extraction.usableInitDecl == nil }
     
     init(extraction: StructDeclExtraction) {
         self.extraction = extraction
-        self.initDeclFactory = DummyInitDeclFactory(
+        self.memberwiseInitDeclFactory = DummyMemberwiseInitDeclFactory(
             modifiers: extraction.modifiers.noLessThanInternal(),
-            parameters: extraction.variablesNeededForInit.asInitializerDirectParameters()
+            parameters: extraction.variablesNeededForInit.asInitMemberwiseParam()
         )
     }
     
     func expandDeclCodeGeneration() -> DeclSyntax? {
         guard shouldGenerateInit else { return nil }
         return DeclSyntax(
-            initDeclFactory.buildInitDecl()
+            memberwiseInitDeclFactory.buildInitDecl()
         )
     }
 }

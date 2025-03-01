@@ -27,15 +27,3 @@ struct ClassDeclExtraction: TypeDeclExtraction {
         self.usableInitDecl = initDecl
     }
 }
-
-extension DummiesStaticFuncDeclFactory {
-    init(typeExtraction: TypeDeclExtraction) {
-        self.init(
-            attributes: typeExtraction.usableAttributes,
-            modifiers: typeExtraction.modifiers,
-            returnType: IdentifierTypeSyntax(name: typeExtraction.declName),
-            initType: DeclReferenceExprSyntax(baseName: typeExtraction.declName),
-            dummyInitializerParameters: typeExtraction.usableInitDecl?.asInitializerParameters() ?? []
-        )
-    }
-}

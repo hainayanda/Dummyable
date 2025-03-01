@@ -25,6 +25,11 @@ public macro DummyableInit() = #externalMacro(
     module: "DummyableMacro", type: "DummyableInitMacro"
 )
 
+@attached(peer, names: arbitrary)
+public macro DummyableCase() = #externalMacro(
+    module: "DummyableMacro", type: "DummyableCaseMacro"
+)
+
 public enum DummyType {
     case `struct`
     case `class`

@@ -24,10 +24,10 @@ extension DummyableMacro: PeerMacro {
     }
     
     private static func expansion(of protocolDecl: ProtocolDeclSyntax, _ node: AttributeSyntax) throws -> [DeclSyntax] {
-        try DummyOnProtocolTypeDeclFactory(
+        try ProtocolDummyablePeerFactory(
             extraction: ProtocolDeclExtraction(source: protocolDecl, attribute: node)
         )
-            .buildDecl()
-            .inArray()
+        .buildDecl()
+        .inArray()
     }
 }

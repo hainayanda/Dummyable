@@ -7,11 +7,12 @@
 
 import SwiftSyntax
 
-struct ProtocolDeclExtraction {
+struct ProtocolDeclExtraction: TypeDeclExtraction {
     
     typealias DTS = DummyableTokenSyntaxes
     
     let source: ProtocolDeclSyntax
+    var sourceDecl: TypeDeclSyntax { source }
     let attribute: AttributeSyntax
     
     @inlinable
@@ -34,31 +35,7 @@ struct ProtocolDeclExtraction {
         source.name.append(DTS.dummyType).trimmed
     }
     
-    @inlinable
-    var declName: TokenSyntax {
-        source.name.trimmed
-    }
-    
-    @inlinable
-    var usableAttributes: AttributeListSyntax {
-        AttributeListSyntax(
-            source.attributes
-                .compactMap { $0.as(AttributeSyntax.self) }
-                .filter { $0.is(.available) }
-                .map { .attribute($0).trimmed }
-        )
-    }
-    
-    @inlinable
-    var modifiers: DeclModifierListSyntax {
-        source.modifiers.trimmed
-    }
-    
-    var variablesNeededForInit: [VariableDeclSyntax] {
-        source.memberBlock.members.compactMap {
-            $0.decl.as(VariableDeclSyntax.self)?.trimmed
-        }
-    }
+    let variablesNeededForInit: [VariableDeclSyntax]
     
     var mandatoryFunctions: [FunctionDeclSyntax] {
         source.memberBlock.members.compactMap {
@@ -66,13 +43,28 @@ struct ProtocolDeclExtraction {
         }
     }
     
+    var mandatoryInits: [InitializerDeclSyntax] {
+        let fromProtocol = source.memberBlock.members.compactMap {
+            $0.decl.as(InitializerDeclSyntax.self)?.trimmed
+        }
+        .filter {
+            $0.isSimilar(with: .baseVoidInit) == false
+        }
+        return [.baseVoidInit] + fromProtocol
+    }
+    
+    var usableInitDecl: InitializerDeclSyntax?
+    
     init(source: ProtocolDeclSyntax, attribute: AttributeSyntax) {
         self.source = source
         self.attribute = attribute
+        self.variablesNeededForInit = source.memberBlock.members.compactMap {
+            $0.decl.as(VariableDeclSyntax.self)?.trimmed
+        }
     }
 }
 
-extension DummiesStaticFuncDeclFactory {
+extension DummiesInitStaticFuncDeclFactory {
     init(protocolExtraction: ProtocolDeclExtraction) {
         self.init(
             attributes: protocolExtraction.usableAttributes,

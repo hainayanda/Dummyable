@@ -12,11 +12,6 @@ struct StructDeclExtraction: TypeDeclExtraction {
     let source: StructDeclSyntax
     var sourceDecl: TypeDeclSyntax { source }
     
-    @inlinable
-    var modifiers: DeclModifierListSyntax {
-        source.modifiers.trimmed
-    }
-    
     let variablesNeededForInit: [VariableDeclSyntax]
     let usableInitDecl: InitializerDeclSyntax?
     

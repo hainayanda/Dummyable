@@ -59,7 +59,7 @@ extension Dummies {
 
 private let basicStructWithInit = #"""
 @Dummyable
-struct Some {
+private struct Some {
     var string: String?
     let int: Int
     var doubles: [Double] = []
@@ -74,7 +74,7 @@ struct Some {
 """#
 
 private let basicStructWithInitExpansions = #"""
-struct Some {
+private struct Some {
     var string: String?
     let int: Int
     var doubles: [Double] = []
@@ -87,7 +87,7 @@ struct Some {
     }
 }
 
-extension Dummies {
+private extension Dummies {
     static func dummy(of type: Some.Type) -> Some {
         Some(string: Dummies.dummy(of: String?.self))
     }

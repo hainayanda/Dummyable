@@ -8,9 +8,13 @@
 import SwiftSyntax
 
 protocol TypeDeclSyntax {
-    var name: TokenSyntax { get }
     var attributes: AttributeListSyntax { get }
+    var modifiers: DeclModifierListSyntax { get }
+    var name: TokenSyntax { get }
+    var memberBlock: MemberBlockSyntax { get }
 }
 
 extension StructDeclSyntax: TypeDeclSyntax {}
 extension ClassDeclSyntax: TypeDeclSyntax {}
+extension EnumDeclSyntax: TypeDeclSyntax {}
+extension ProtocolDeclSyntax: TypeDeclSyntax {}

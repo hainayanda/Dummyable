@@ -29,20 +29,10 @@ extension VariableDeclSyntax {
     }
     
     var extraction: VariableDeclExtraction? {
-        bindings.compactMap { binding -> VariableDeclExtraction? in
-            guard let identifierPattern = binding.pattern.as(IdentifierPatternSyntax.self)?.trimmed,
-                  let type = binding.typeAnnotation else {
-                return nil
-            }
-            return VariableDeclExtraction(
-                name: identifierPattern,
-                typeAnotation: type
-            )
-        }
-        .first
+        VariableDeclExtraction(variable: self)
     }
     
-    var asInitializerDirectParameter: InitializerDirectParameter? {
+    var asInitMemberwiseParam: InitMemberwiseParam? {
         bindings.compactMap { binding -> FunctionParameterSyntax? in
             guard let identifierPattern = binding.pattern.as(IdentifierPatternSyntax.self)?.trimmed,
                   let type = binding.typeAnnotation?.type else {
@@ -54,7 +44,7 @@ extension VariableDeclSyntax {
             )
         }
         .map {
-            InitializerDirectParameter(
+            InitMemberwiseParam(
                 raw: $0,
                 destination: $0.firstName
             )
@@ -65,25 +55,13 @@ extension VariableDeclSyntax {
 
 extension Sequence where Element == VariableDeclSyntax {
     
-    func asInitializerDirectParameters() -> [InitializerDirectParameter] {
-        compactMap { $0.asInitializerDirectParameter }
+    func asInitMemberwiseParam() -> [InitMemberwiseParam] {
+        compactMap { $0.asInitMemberwiseParam }
+    }
+    
+    func extracts() -> [VariableDeclExtraction] {
+        compactMap { $0.extraction }
     }
 }
 
-struct InitializerDirectParameter {
-    let raw: FunctionParameterSyntax
-    let destination: TokenSyntax
-    
-    var parameterName: TokenSyntax {
-        raw.firstName
-    }
-    
-    var type: TypeSyntax {
-        raw.type
-    }
-}
 
-struct VariableDeclExtraction {
-    let name: IdentifierPatternSyntax
-    let typeAnotation: TypeAnnotationSyntax
-}

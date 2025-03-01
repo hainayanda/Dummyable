@@ -24,7 +24,7 @@ extension DummyableMacro: MemberMacro {
     }
     
     private static func expansion(of structDecl: StructDeclSyntax) -> [DeclSyntax] {
-        return DummyOnStructTypeMemberDeclMacroFactory(
+        return StructDummyableMemberFactory(
             extraction: StructDeclExtraction(source: structDecl)
         )
         .expandDeclCodeGeneration()

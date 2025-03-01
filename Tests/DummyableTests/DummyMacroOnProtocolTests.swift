@@ -39,6 +39,7 @@ private let basicStruct = #"""
 protocol Some {
     var string: String { get }
     var float: Float? { get set }
+    init?(int: Int)
     func voidFunc() async throws
     func returnFunc(arg argument: String) async throws -> String
 }
@@ -48,6 +49,7 @@ private let basicStructExpansions = #"""
 protocol Some {
     var string: String { get }
     var float: Float? { get set }
+    init?(int: Int)
     func voidFunc() async throws
     func returnFunc(arg argument: String) async throws -> String
 }
@@ -55,9 +57,13 @@ protocol Some {
 private struct SomeDummy: Some {
     var string: String
     var float: Float?
-    init(string: String = Dummies.dummy(of: String.self), float: Float? = Dummies.dummy(of: Float?.self)) {
-        self.string = string
-        self.float = float
+    init() {
+        self.string = Dummies.dummy(of: String.self)
+        self.float = Dummies.dummy(of: Float?.self)
+    }
+    init?(int: Int) {
+        self.string = Dummies.dummy(of: String.self)
+        self.float = Dummies.dummy(of: Float?.self)
     }
     func voidFunc() async throws {
         Dummies.dummy(of: Void.self)
@@ -79,6 +85,7 @@ private let basicClass = #"""
 private protocol Some {
     var string: String { get }
     var float: Float? { get set }
+    init?(int: Int)
     func voidFunc() async throws
     func returnFunc(arg argument: String) async throws -> String
 }
@@ -88,6 +95,7 @@ private let basicClassExpansions = #"""
 private protocol Some {
     var string: String { get }
     var float: Float? { get set }
+    init?(int: Int)
     func voidFunc() async throws
     func returnFunc(arg argument: String) async throws -> String
 }
@@ -95,9 +103,13 @@ private protocol Some {
 final private class SomeDummy: Some {
     var string: String
     var float: Float?
-    init(string: String = Dummies.dummy(of: String.self), float: Float? = Dummies.dummy(of: Float?.self)) {
-        self.string = string
-        self.float = float
+    init() {
+        self.string = Dummies.dummy(of: String.self)
+        self.float = Dummies.dummy(of: Float?.self)
+    }
+    init?(int: Int) {
+        self.string = Dummies.dummy(of: String.self)
+        self.float = Dummies.dummy(of: Float?.self)
     }
     func voidFunc() async throws {
         Dummies.dummy(of: Void.self)
@@ -119,6 +131,7 @@ private let basicObjectProtocol = #"""
 public protocol Some: AnyObject {
     var string: String { get }
     var float: Float? { get set }
+    init()
     func voidFunc() async throws
     func returnFunc(arg argument: String) async throws -> String
 }
@@ -128,6 +141,7 @@ private let basicObjectProtocolExpansions = #"""
 public protocol Some: AnyObject {
     var string: String { get }
     var float: Float? { get set }
+    init()
     func voidFunc() async throws
     func returnFunc(arg argument: String) async throws -> String
 }
@@ -135,9 +149,9 @@ public protocol Some: AnyObject {
 final private class SomeDummy: Some {
     public var string: String
     public var float: Float?
-    public init(string: String = Dummies.dummy(of: String.self), float: Float? = Dummies.dummy(of: Float?.self)) {
-        self.string = string
-        self.float = float
+    public init() {
+        self.string = Dummies.dummy(of: String.self)
+        self.float = Dummies.dummy(of: Float?.self)
     }
     public func voidFunc() async throws {
         Dummies.dummy(of: Void.self)

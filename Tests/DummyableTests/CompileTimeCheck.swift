@@ -17,6 +17,8 @@ protocol StructDummyProtocol {
     var doubles: [Double] { get async }
     var floats: [Float]? { get throws }
     
+    init(bool: Bool)
+    
     func voidFunc()
     func returnFunc() -> Int
     func paramFunc(param: String) -> [String: String]
@@ -32,6 +34,8 @@ protocol ClassDummyProtocol {
     var doubles: [Double] { get async }
     var floats: [Float]? { get throws }
     
+    init(bool: Bool)
+    
     func voidFunc()
     func returnFunc() -> Int
     func paramFunc(param: String) -> [String: String]
@@ -46,6 +50,8 @@ protocol AnyObjectDummyProtocol: AnyObject {
     var int: Int { get set }
     var doubles: [Double] { get async }
     var floats: [Float]? { get throws }
+    
+    init(bool: Bool)
     
     func voidFunc()
     func returnFunc() -> Int
@@ -77,4 +83,29 @@ struct StructDummyableMarkedInit {
         self.int = number
         self.doubles = Array(repeating: Double(number), count: number)
     }
+}
+
+// periphery:ignore
+@Dummyable
+class ClassDummyableMarkedInit {
+    var string: String?
+    let int: Int
+    var doubles: [Double] = []
+    let floats: Float = 0.0
+    
+    @DummyableInit
+    init(number: Int) {
+        self.string = "\(number)"
+        self.int = number
+        self.doubles = Array(repeating: Double(number), count: number)
+    }
+}
+
+func testCompiledDummyCreation() {
+    _ = Dummies.dummy(of: StructDummyProtocol.self)
+    _ = Dummies.dummy(of: ClassDummyProtocol.self)
+    _ = Dummies.dummy(of: AnyObjectDummyProtocol.self)
+    _ = Dummies.dummy(of: StructDummy.self)
+    _ = Dummies.dummy(of: StructDummyableMarkedInit.self)
+    _ = Dummies.dummy(of: ClassDummyableMarkedInit.self)
 }

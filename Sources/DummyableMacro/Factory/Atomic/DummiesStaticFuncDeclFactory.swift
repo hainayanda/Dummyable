@@ -1,31 +1,27 @@
 //
-//  DummiesStaticFuncDeclCodeFactory.swift
+//  Dumm.swift
 //  Dummyable
 //
-//  Created by Nayanda Haberty on 26/02/25.
+//  Created by Nayanda Haberty on 02/03/25.
 //
 
 import SwiftSyntax
 
-struct DummiesStaticFuncDeclFactory: DummyFuncCallCodeBuilder {
+struct DummiesStaticFuncDeclFactory {
     
     typealias DTS = DummyableTokenSyntaxes
     
     let attributes: AttributeListSyntax
     let modifiers: DeclModifierListSyntax
     let returnType: IdentifierTypeSyntax
-    let initType: DeclReferenceExprSyntax
-    let dummyInitializerParameters: [InitializerParameter]
     
-    init(attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax, returnType: IdentifierTypeSyntax, initType: DeclReferenceExprSyntax, dummyInitializerParameters: [InitializerParameter]) {
+    init(attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax, returnType: IdentifierTypeSyntax) {
         self.attributes = attributes
         self.modifiers = modifiers
         self.returnType = returnType
-        self.initType = initType
-        self.dummyInitializerParameters = dummyInitializerParameters
     }
     
-    func buildDummyFuncDecl() -> ExtensionDeclSyntax {
+    func buildDummyFuncDecl(codeBlockBuilder: @escaping () -> CodeBlockItemListSyntax) -> ExtensionDeclSyntax {
         ExtensionDeclSyntax(
             attributes: attributes,
             modifiers: modifiers,
@@ -38,7 +34,7 @@ struct DummiesStaticFuncDeclFactory: DummyFuncCallCodeBuilder {
                     },
                     name: DTS.dummy,
                     signature: buildDummyFuncSignature()) {
-                        buildDummyableInitializeCodeBlock()
+                        codeBlockBuilder()
                     }
             )
         }
@@ -63,35 +59,4 @@ struct DummiesStaticFuncDeclFactory: DummyFuncCallCodeBuilder {
             )
         }
     }
-    
-    private func buildDummyableInitializeCodeBlock() -> CodeBlockItemListSyntax {
-        CodeBlockItemListSyntax {
-            FunctionCallExprSyntax(
-                calledExpression: initType,
-                leftParen: .leftParenToken(),
-                arguments: buildDummyableInitializerArguments(),
-                rightParen: .rightParenToken()
-            )
-        }
-    }
-    
-    private func buildDummyableInitializerArguments() -> LabeledExprListSyntax {
-        LabeledExprListSyntax {
-            for parameter in dummyInitializerParameters {
-                if let name = parameter.name {
-                    LabeledExprSyntax(
-                        label: name,
-                        colon: .colonToken(),
-                        expression: buildDummyFunctionCallExpr(forType: parameter.type)
-                    )
-                } else {
-                    LabeledExprSyntax(
-                        expression: buildDummyFunctionCallExpr(forType: parameter.type)
-                    )
-                }
-            }
-            
-        }
-    }
 }
-

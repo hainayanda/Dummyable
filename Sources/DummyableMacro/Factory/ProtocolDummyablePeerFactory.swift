@@ -7,17 +7,12 @@
 
 import SwiftSyntax
 
-struct DummyOnProtocolTypeDeclFactory: DummyFuncCallCodeBuilder {
+struct ProtocolDummyablePeerFactory: DummyFuncCallCodeBuilder {
     
     let extraction: ProtocolDeclExtraction
-    let initDeclFactory: DummyInitDeclFactory
     
     init(extraction: ProtocolDeclExtraction) {
         self.extraction = extraction
-        self.initDeclFactory = DummyInitDeclFactory(
-            modifiers: extraction.modifiers.noLessThanInternal(),
-            parameters: extraction.variablesNeededForInit.asInitializerDirectParameters()
-        )
     }
     
     func buildDecl() throws -> DeclSyntax {
@@ -39,7 +34,9 @@ struct DummyOnProtocolTypeDeclFactory: DummyFuncCallCodeBuilder {
             for variable in extraction.variablesNeededForInit {
                 try buildVariableDecl(from: variable)
             }
-            initDeclFactory.buildInitDecl()
+            for initializer in extraction.mandatoryInits {
+                buildMandatoryInit(from: initializer)
+            }
             for function in extraction.mandatoryFunctions {
                 buildFuncDecl(from: function)
             }
@@ -56,7 +53,9 @@ struct DummyOnProtocolTypeDeclFactory: DummyFuncCallCodeBuilder {
             for variable in extraction.variablesNeededForInit {
                 try buildVariableDecl(from: variable)
             }
-            initDeclFactory.buildInitDecl()
+            for initializer in extraction.mandatoryInits {
+                buildMandatoryInit(from: initializer)
+            }
             for function in extraction.mandatoryFunctions {
                 buildFuncDecl(from: function)
             }
@@ -74,28 +73,28 @@ struct DummyOnProtocolTypeDeclFactory: DummyFuncCallCodeBuilder {
     }
     
     private func buildVariableDecl(from variable: VariableDeclSyntax) throws -> VariableDeclSyntax {
-        guard let variableExtraction = variable.extraction else {
-            throw DummyableMacroError.failToGenerateMacro
-        }
-        var variable = variable
-        variable.modifiers = extraction.modifiers.noLessThanInternal()
-        variable.bindings = PatternBindingListSyntax {
-            PatternBindingSyntax(
-                pattern: variableExtraction.name,
-                typeAnnotation: variableExtraction.typeAnotation
-            )
-        }
-        return variable
+        try DummyVariableFromProtocolDeclFactory(
+            modifiers: extraction.modifiers.noLessThanInternal(),
+            baseVariable: variable
+        )
+        .buildVariableDecl()
+    }
+    
+    private func buildMandatoryInit(from initializer: InitializerDeclSyntax) -> InitializerDeclSyntax {
+        DummyInitFromProtocolDeclFactory(
+            modifiers: extraction.modifiers.noLessThanInternal(),
+            baseInit: initializer,
+            mandatoryVariables: extraction.variablesNeededForInit.extracts()
+        )
+        .buildInitDecl()
     }
     
     private func buildFuncDecl(from function: FunctionDeclSyntax) -> FunctionDeclSyntax {
-        var function = function
-        function.attributes = extraction.usableAttributes
-        function.modifiers = extraction.modifiers.noLessThanInternal()
-        function.body = CodeBlockSyntax {
-            buildDummyFunctionCallExpr(forType: function.signature.returnClause?.type)
-        }
-        return function
+        DummyFuncFromProtocolDeclFactory(
+            modifiers: extraction.modifiers.noLessThanInternal(),
+            baseFunc: function
+        )
+        .buildFuncDecl()
     }
 }
 
