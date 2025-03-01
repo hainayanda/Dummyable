@@ -9,6 +9,7 @@ import SwiftUI
 import Dummyable
 import Observation
 
+// periphery:ignore
 @Dummyable(type: .struct)
 protocol StructDummyProtocol {
     var string: String? { get }
@@ -23,6 +24,7 @@ protocol StructDummyProtocol {
     func asyncThrowsFunc() async throws -> String
 }
 
+// periphery:ignore
 @Dummyable(type: .class)
 protocol ClassDummyProtocol {
     var string: String? { get }
@@ -37,6 +39,7 @@ protocol ClassDummyProtocol {
     func asyncThrowsFunc() async throws -> String
 }
 
+// periphery:ignore
 @Dummyable
 protocol AnyObjectDummyProtocol: AnyObject {
     var string: String? { get }
@@ -51,6 +54,7 @@ protocol AnyObjectDummyProtocol: AnyObject {
     func asyncThrowsFunc() async throws -> String
 }
 
+// periphery:ignore
 @Dummyable
 struct StructDummy {
     var string: String?
@@ -59,6 +63,7 @@ struct StructDummy {
     let floats: Float = 0.0
 }
 
+// periphery:ignore
 @Dummyable
 struct StructDummyableMarkedInit {
     var string: String?
@@ -73,24 +78,3 @@ struct StructDummyableMarkedInit {
         self.doubles = Array(repeating: Double(number), count: number)
     }
 }
-
-
-struct StructDummyableInit {
-    var string: String?
-    let int: Int
-    var doubles: [Double] = []
-    let floats: Float = 0.0
-    
-    init(string: String? = nil, int: Int) {
-        self.string = string
-        self.int = int
-    }
-}
-
-extension StructDummyableInit : Dummyable {
-    static var dummy: StructDummyableInit {
-        StructDummyableInit (int: Dummies.dummy(of: Int.self))
-    }
-}
-
-

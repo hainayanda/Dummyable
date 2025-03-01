@@ -9,6 +9,5 @@ import SwiftSyntax
 
 struct ArgumentExpression {
     let offset: Int
-    let label: TokenSyntax?
     let expr: ExprSyntax
 }

@@ -39,6 +39,18 @@ extension InitializerDeclSyntax {
         }
         return true
     }
+    
+    func asInitializerParameters() -> [InitializerParameter] {
+        signature.parameterClause.parameters
+            .filter { $0.defaultValue == nil }
+            .compactMap {
+                InitializerParameter(
+                    name: $0.firstName.trimmed,
+                    type: $0.type.trimmed
+                )
+                    
+            }
+    }
 }
 
 extension Sequence where Element == InitializerDeclSyntax {

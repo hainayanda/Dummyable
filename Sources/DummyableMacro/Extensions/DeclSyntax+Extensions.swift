@@ -12,3 +12,10 @@ extension DeclSyntax {
         [self]
     }
 }
+
+extension Optional where Wrapped == DeclSyntax {
+    func inArray() -> [DeclSyntax] {
+        guard let self = self else { return [] }
+        return [self]
+    }
+}

@@ -7,9 +7,9 @@
 
 import SwiftUI
 
+@attached(member, names: arbitrary)
 @attached(extension, names: arbitrary)
 @attached(peer, names: named(dummy), suffixed(Dummy))
-@attached(extension, conformances: Dummyable, names: arbitrary)
 public macro Dummyable() = #externalMacro(
     module: "DummyableMacro", type: "DummyableMacro"
 )

@@ -9,7 +9,6 @@
 import XCTest
 import SwiftSyntaxMacrosTestSupport
 @testable import DummyableMacro
-import Dummyable
 
 final class DummyMacroOnClassTests: XCTestCase {
     
@@ -53,44 +52,7 @@ class Some {
 
 extension Dummies {
     static func dummy(of type: Some.Type) -> Some {
-        Some (string: dummy(of: String?.self))
-    }
-}
-"""#
-
-private let basicFinalClass = #"""
-@Dummyable
-final class Some {
-    var string: String?
-    let int: Int
-    var doubles: [Double] = []
-    let floats: Float = 0.0
-
-    @DummyableInit
-    init(string: String?, int: Int = 10) {
-        self.string = string
-        self.int = int
-    }
-}
-"""#
-
-private let basicFinalClassExpansions = #"""
-final class Some {
-    var string: String?
-    let int: Int
-    var doubles: [Double] = []
-    let floats: Float = 0.0
-
-    @DummyableInit
-    init(string: String?, int: Int = 10) {
-        self.string = string
-        self.int = int
-    }
-}
-
-extension Some : Dummyable {
-    static var dummy: Some {
-        Some (string: dummy(of: String?.self))
+        Some(string: Dummies.dummy(of: String?.self))
     }
 }
 """#

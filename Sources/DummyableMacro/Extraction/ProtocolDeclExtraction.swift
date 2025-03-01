@@ -7,9 +7,7 @@
 
 import SwiftSyntax
 
-
-
-struct ProtocolDeclExtraction: TypeDeclExtracting {
+struct ProtocolDeclExtraction {
     
     typealias DTS = DummyableTokenSyntaxes
     
@@ -33,43 +31,55 @@ struct ProtocolDeclExtraction: TypeDeclExtracting {
     
     @inlinable
     var generationName: TokenSyntax {
-        source.name.append(DTS.dummyType)
+        source.name.append(DTS.dummyType).trimmed
     }
     
     @inlinable
     var declName: TokenSyntax {
-        source.name
+        source.name.trimmed
     }
     
     @inlinable
-    var availableAttributes: [AttributeListSyntax.Element] {
-        source.attributes
-            .compactMap { $0.as(AttributeSyntax.self) }
-            .filter { $0.is(.available) }
-            .map { .attribute($0) }
+    var usableAttributes: AttributeListSyntax {
+        AttributeListSyntax(
+            source.attributes
+                .compactMap { $0.as(AttributeSyntax.self) }
+                .filter { $0.is(.available) }
+                .map { .attribute($0).trimmed }
+        )
     }
     
     @inlinable
     var modifiers: DeclModifierListSyntax {
-        source.modifiers.noLessThanInternal()
+        source.modifiers.trimmed
     }
     
     var variablesNeededForInit: [VariableDeclSyntax] {
         source.memberBlock.members.compactMap {
-            $0.decl.as(VariableDeclSyntax.self)
+            $0.decl.as(VariableDeclSyntax.self)?.trimmed
         }
     }
     
     var mandatoryFunctions: [FunctionDeclSyntax] {
         source.memberBlock.members.compactMap {
-            $0.decl.as(FunctionDeclSyntax.self)
+            $0.decl.as(FunctionDeclSyntax.self)?.trimmed
         }
     }
-    
-    var usableInitDecl: InitializerDeclSyntax? { nil }
     
     init(source: ProtocolDeclSyntax, attribute: AttributeSyntax) {
         self.source = source
         self.attribute = attribute
+    }
+}
+
+extension DummiesStaticFuncDeclFactory {
+    init(protocolExtraction: ProtocolDeclExtraction) {
+        self.init(
+            attributes: protocolExtraction.usableAttributes,
+            modifiers: protocolExtraction.modifiers,
+            returnType: IdentifierTypeSyntax(name: protocolExtraction.declName),
+            initType: DeclReferenceExprSyntax(baseName: protocolExtraction.generationName),
+            dummyInitializerParameters: []
+        )
     }
 }

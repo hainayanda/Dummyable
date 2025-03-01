@@ -8,11 +8,12 @@
 import SwiftSyntax
 
 extension FunctionParameterSyntax {
-    func match(with variable: VariableDeclSyntax) -> Bool {
-        guard let extraction = variable.extraction else {
-            return false
-        }
-        return firstName.trimmedDescription == extraction.name.trimmedDescription
-        && type.trimmedDescription == extraction.typeAnotation.type.trimmedDescription
+    func withDefaultValue(_ value: InitializerClauseSyntax) -> FunctionParameterSyntax {
+        return FunctionParameterSyntax(
+            firstName: firstName,
+            secondName: secondName,
+            type: type,
+            defaultValue: value
+        )
     }
 }

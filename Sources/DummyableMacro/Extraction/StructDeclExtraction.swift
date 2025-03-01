@@ -7,37 +7,21 @@
 
 import SwiftSyntax
 
-struct StructDeclExtraction: TypeDeclExtracting {
-    
-    typealias DTS = DummyableTokenSyntaxes
+struct StructDeclExtraction: TypeDeclExtraction {
     
     let source: StructDeclSyntax
-    let attribute: AttributeSyntax
-    
-    @inlinable
-    var declName: TokenSyntax {
-        source.name
-    }
-    
-    @inlinable
-    var availableAttributes: [AttributeListSyntax.Element] {
-        source.attributes
-            .compactMap { $0.as(AttributeSyntax.self) }
-            .filter { $0.is(.available) }
-            .map { .attribute($0) }
-    }
+    var sourceDecl: TypeDeclSyntax { source }
     
     @inlinable
     var modifiers: DeclModifierListSyntax {
-        source.modifiers.noLessThanInternal()
+        source.modifiers.trimmed
     }
     
     let variablesNeededForInit: [VariableDeclSyntax]
     let usableInitDecl: InitializerDeclSyntax?
     
-    init(source: StructDeclSyntax, attribute: AttributeSyntax) {
+    init(source: StructDeclSyntax) {
         self.source = source
-        self.attribute = attribute
         self.usableInitDecl = source.initDeclMarkedWithDummyableInitAttr ?? source.initDeclWithMandatoryParameters
         self.variablesNeededForInit = if usableInitDecl == nil {
             source.mandatoryVariables

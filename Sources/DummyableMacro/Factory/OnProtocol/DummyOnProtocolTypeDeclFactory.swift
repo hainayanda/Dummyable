@@ -1,5 +1,5 @@
 //
-//  DummyOnProtocolDeclMacroFactory.swift
+//  DummyOnProtocolTypeDeclFactory.swift
 //  Dummyable
 //
 //  Created by Nayanda Haberty on 24/02/25.
@@ -7,58 +7,56 @@
 
 import SwiftSyntax
 
-struct DummyOnProtocolDeclMacroFactory: DeclSyntaxExpander, DummyConcreteInitCodeBuilder {
-    
-    typealias DTS = DummyableTokenSyntaxes
+struct DummyOnProtocolTypeDeclFactory: DummyFuncCallCodeBuilder {
     
     let extraction: ProtocolDeclExtraction
-    var typeDeclExtraction: TypeDeclExtracting { extraction }
-    var staticDummyType: TokenSyntax { extraction.generationName }
-    var dummyInitializerParameters: [ParameterDeclExtraction] { [] }
+    let initDeclFactory: DummyInitDeclFactory
     
     init(extraction: ProtocolDeclExtraction) {
         self.extraction = extraction
+        self.initDeclFactory = DummyInitDeclFactory(
+            modifiers: extraction.modifiers.noLessThanInternal(),
+            parameters: extraction.variablesNeededForInit.asInitializerDirectParameters()
+        )
     }
     
-    func expandDeclCodeGeneration() throws -> DeclSyntax {
+    func buildDecl() throws -> DeclSyntax {
         return switch try extraction.generationType {
         case .class:
-            try DeclSyntax(expandClassCodeGeneration())
+            try DeclSyntax(buildClassDecl())
         case .struct:
-            try DeclSyntax(expandStructCodeGeneration())
+            try DeclSyntax(buildStructDecl())
         }
     }
     
-    private func expandStructCodeGeneration() throws -> StructDeclSyntax {
+    private func buildStructDecl() throws -> StructDeclSyntax {
         try StructDeclSyntax(
-            attributes: AttributeListSyntax(extraction.availableAttributes),
-            modifiers: extraction.modifiers,
+            attributes: extraction.usableAttributes,
+            modifiers: [.private],
             name: extraction.generationName,
             inheritanceClause: buildInherintanceClause()
         ) {
-            try buildDummyStaticVariableDecl()
             for variable in extraction.variablesNeededForInit {
                 try buildVariableDecl(from: variable)
             }
-            try buildInitDecl()
+            initDeclFactory.buildInitDecl()
             for function in extraction.mandatoryFunctions {
                 buildFuncDecl(from: function)
             }
         }
     }
     
-    private func expandClassCodeGeneration() throws -> ClassDeclSyntax {
+    private func buildClassDecl() throws -> ClassDeclSyntax {
         try ClassDeclSyntax(
-            attributes: AttributeListSyntax(extraction.availableAttributes),
-            modifiers: extraction.modifiers.withFinalModifier(),
+            attributes: extraction.usableAttributes,
+            modifiers: [.final, .private],
             name: extraction.generationName,
             inheritanceClause: buildInherintanceClause()
         ) {
-            try buildDummyStaticVariableDecl()
             for variable in extraction.variablesNeededForInit {
                 try buildVariableDecl(from: variable)
             }
-            try buildInitDecl()
+            initDeclFactory.buildInitDecl()
             for function in extraction.mandatoryFunctions {
                 buildFuncDecl(from: function)
             }
@@ -71,9 +69,6 @@ struct DummyOnProtocolDeclMacroFactory: DeclSyntaxExpander, DummyConcreteInitCod
                 InheritedTypeSyntax(
                     type: IdentifierTypeSyntax(name: extraction.declName)
                 )
-                InheritedTypeSyntax(
-                    type: IdentifierTypeSyntax(name: DTS.dummyableType)
-                )
             }
         )
     }
@@ -83,7 +78,7 @@ struct DummyOnProtocolDeclMacroFactory: DeclSyntaxExpander, DummyConcreteInitCod
             throw DummyableMacroError.failToGenerateMacro
         }
         var variable = variable
-        variable.modifiers = extraction.modifiers
+        variable.modifiers = extraction.modifiers.noLessThanInternal()
         variable.bindings = PatternBindingListSyntax {
             PatternBindingSyntax(
                 pattern: variableExtraction.name,
@@ -95,7 +90,8 @@ struct DummyOnProtocolDeclMacroFactory: DeclSyntaxExpander, DummyConcreteInitCod
     
     private func buildFuncDecl(from function: FunctionDeclSyntax) -> FunctionDeclSyntax {
         var function = function
-        function.modifiers = extraction.modifiers
+        function.attributes = extraction.usableAttributes
+        function.modifiers = extraction.modifiers.noLessThanInternal()
         function.body = CodeBlockSyntax {
             buildDummyFunctionCallExpr(forType: function.signature.returnClause?.type)
         }

@@ -41,20 +41,49 @@ extension VariableDeclSyntax {
         }
         .first
     }
+    
+    var asInitializerDirectParameter: InitializerDirectParameter? {
+        bindings.compactMap { binding -> FunctionParameterSyntax? in
+            guard let identifierPattern = binding.pattern.as(IdentifierPatternSyntax.self)?.trimmed,
+                  let type = binding.typeAnnotation?.type else {
+                return nil
+            }
+            return FunctionParameterSyntax(
+                firstName: identifierPattern.identifier.trimmed,
+                type: type
+            )
+        }
+        .map {
+            InitializerDirectParameter(
+                raw: $0,
+                destination: $0.firstName
+            )
+        }
+        .first
+    }
 }
 
 extension Sequence where Element == VariableDeclSyntax {
-    func extractions() -> [VariableDeclExtraction] {
-        compactMap { $0.extraction }
+    
+    func asInitializerDirectParameters() -> [InitializerDirectParameter] {
+        compactMap { $0.asInitializerDirectParameter }
+    }
+}
+
+struct InitializerDirectParameter {
+    let raw: FunctionParameterSyntax
+    let destination: TokenSyntax
+    
+    var parameterName: TokenSyntax {
+        raw.firstName
+    }
+    
+    var type: TypeSyntax {
+        raw.type
     }
 }
 
 struct VariableDeclExtraction {
     let name: IdentifierPatternSyntax
     let typeAnotation: TypeAnnotationSyntax
-}
-
-struct ParameterDeclExtraction {
-    let name: TokenSyntax?
-    let type: TypeSyntax
 }

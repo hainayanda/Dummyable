@@ -16,7 +16,6 @@ extension LabeledExprListSyntax {
             .map { offset, labeledExpr in
                 ArgumentExpression(
                     offset: offset,
-                    label: labeledExpr.label,
                     expr: labeledExpr.expression
                 )
             }

@@ -9,8 +9,6 @@ import SwiftSyntax
 
 extension DeclModifierListSyntax {
     
-    typealias DTS = DummyableTokenSyntaxes
-    
     func noLessThanInternal() -> DeclModifierListSyntax {
         DeclModifierListSyntax {
             self.filter {
@@ -22,10 +20,24 @@ extension DeclModifierListSyntax {
         }
     }
     
-    func withFinalModifier() -> DeclModifierListSyntax {
+    func onlyAccessModifier() -> DeclModifierListSyntax {
         DeclModifierListSyntax {
-            DeclModifierSyntax(name: DTS.final)
-            self
+            self.filter {
+                $0.trimmedDescription == "private"
+                || $0.trimmedDescription == "fileprivate"
+                || $0.trimmedDescription == "internal"
+                || $0.trimmedDescription == "public"
+            }
         }
+    }
+}
+
+
+extension DeclModifierSyntax {
+    static var `private`: DeclModifierSyntax {
+        DeclModifierSyntax(name: .keyword(.private))
+    }
+    static var final: DeclModifierSyntax {
+        DeclModifierSyntax(name: .keyword(.final))
     }
 }

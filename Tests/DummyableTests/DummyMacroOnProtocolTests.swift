@@ -9,7 +9,6 @@
 import XCTest
 import SwiftSyntaxMacrosTestSupport
 @testable import DummyableMacro
-import Dummyable
 
 final class DummyMacroOnProtocolTests: XCTestCase {
     
@@ -53,27 +52,24 @@ protocol Some {
     func returnFunc(arg argument: String) async throws -> String
 }
 
-struct SomeDummy: Some , Dummyable {
-    static var dummy: SomeDummy {
-        SomeDummy()
-    }
-        var string: String
-        var float: Float?
+private struct SomeDummy: Some {
+    var string: String
+    var float: Float?
     init(string: String = Dummies.dummy(of: String.self), float: Float? = Dummies.dummy(of: Float?.self)) {
         self.string = string
         self.float = float
     }
-        func voidFunc() async throws {
+    func voidFunc() async throws {
         Dummies.dummy(of: Void.self)
     }
-        func returnFunc(arg argument: String) async throws -> String {
+    func returnFunc(arg argument: String) async throws -> String {
         Dummies.dummy(of: String.self)
     }
 }
 
 extension Dummies {
-    static func dummy(of type: Some .Type) -> Some {
-        SomeDummy.dummy
+    static func dummy(of type: Some.Type) -> Some {
+        SomeDummy()
     }
 }
 """#
@@ -96,27 +92,24 @@ private protocol Some {
     func returnFunc(arg argument: String) async throws -> String
 }
 
-final class SomeDummy: Some , Dummyable {
-    static var dummy: SomeDummy {
-        SomeDummy()
-    }
-        var string: String
-        var float: Float?
+final private class SomeDummy: Some {
+    var string: String
+    var float: Float?
     init(string: String = Dummies.dummy(of: String.self), float: Float? = Dummies.dummy(of: Float?.self)) {
         self.string = string
         self.float = float
     }
-        func voidFunc() async throws {
+    func voidFunc() async throws {
         Dummies.dummy(of: Void.self)
     }
-        func returnFunc(arg argument: String) async throws -> String {
+    func returnFunc(arg argument: String) async throws -> String {
         Dummies.dummy(of: String.self)
     }
 }
 
-extension Dummies {
-    static func dummy(of type: Some .Type) -> Some {
-        SomeDummy.dummy
+private extension Dummies {
+    static func dummy(of type: Some.Type) -> Some {
+        SomeDummy()
     }
 }
 """#
@@ -139,32 +132,24 @@ public protocol Some: AnyObject {
     func returnFunc(arg argument: String) async throws -> String
 }
 
-final
-public class SomeDummy: Some, Dummyable {
-    public static var dummy: SomeDummy {
-        SomeDummy()
-    }
-    public
-        var string: String
-    public
-        var float: Float?
+final private class SomeDummy: Some {
+    public var string: String
+    public var float: Float?
     public init(string: String = Dummies.dummy(of: String.self), float: Float? = Dummies.dummy(of: Float?.self)) {
         self.string = string
         self.float = float
     }
-    public
-        func voidFunc() async throws {
+    public func voidFunc() async throws {
         Dummies.dummy(of: Void.self)
     }
-    public
-        func returnFunc(arg argument: String) async throws -> String {
+    public func returnFunc(arg argument: String) async throws -> String {
         Dummies.dummy(of: String.self)
     }
 }
 
 public extension Dummies {
     static func dummy(of type: Some.Type) -> Some {
-        SomeDummy.dummy
+        SomeDummy()
     }
 }
 """#

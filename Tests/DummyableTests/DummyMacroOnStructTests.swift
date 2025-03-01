@@ -9,7 +9,6 @@
 import XCTest
 import SwiftSyntaxMacrosTestSupport
 @testable import DummyableMacro
-import Dummyable
 
 final class DummyMacroOnStructTests: XCTestCase {
     
@@ -44,15 +43,16 @@ struct Some {
     let int: Int
     var doubles: [Double] = []
     let floats: Float = 0.0
-}
 
-extension Some : Dummyable {
-    static var dummy: Some {
-        Some ()
-    }
     init(string: String? = Dummies.dummy(of: String?.self), int: Int = Dummies.dummy(of: Int.self)) {
         self.string = string
         self.int = int
+    }
+}
+
+extension Dummies {
+    static func dummy(of type: Some.Type) -> Some {
+        Some()
     }
 }
 """#
@@ -87,9 +87,9 @@ struct Some {
     }
 }
 
-extension Some : Dummyable {
-    static var dummy: Some {
-        Some (string: Dummies.dummy(of: String?.self))
+extension Dummies {
+    static func dummy(of type: Some.Type) -> Some {
+        Some(string: Dummies.dummy(of: String?.self))
     }
 }
 """#

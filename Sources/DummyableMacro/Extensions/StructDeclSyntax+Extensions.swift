@@ -7,6 +7,8 @@
 
 import SwiftSyntax
 
+
+
 extension StructDeclSyntax {
     var initDeclMarkedWithDummyableInitAttr: InitializerDeclSyntax? {
         memberBlock.members

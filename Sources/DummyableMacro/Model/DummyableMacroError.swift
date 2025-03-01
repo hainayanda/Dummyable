@@ -11,6 +11,7 @@ public enum DummyableMacroError: CustomStringConvertible, Error {
     case needToAttachedToInit
     case attachedToInvalidType
     case dummyNeedExplicitType
+    case dummyNeedDummyableInit
     case wrongArguments
     case failToGenerateMacro
     
@@ -22,7 +23,9 @@ public enum DummyableMacroError: CustomStringConvertible, Error {
         case .attachedToInvalidType:
             return "@Dummyable can only be attached to protocol, class, struct or enum"
         case .dummyNeedExplicitType:
-            return "Protocol with Dummyable attribute need explicit Dummyable Type (e.g; @Dummyable(type: .class))"
+            return "Protocol with @Dummyable attribute need explicit Dummyable Type (e.g; @Dummyable(type: .class))"
+        case .dummyNeedDummyableInit:
+            return "class attached with @Dummyable attribute need init attached with @DummyableInit attribute"
         case .wrongArguments:
             return "Wrong arguments provided for @Dummyable"
         case .failToGenerateMacro:

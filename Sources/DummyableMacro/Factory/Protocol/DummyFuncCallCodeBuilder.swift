@@ -8,7 +8,7 @@
 import SwiftSyntax
 
 protocol DummyFuncCallCodeBuilder {
-    func buildDummyFunctionCallExpr(forType type: TypeSyntax?) throws -> FunctionCallExprSyntax
+    func buildDummyFunctionCallExpr(forType type: TypeSyntax?) -> FunctionCallExprSyntax
 }
 
 extension DummyFuncCallCodeBuilder {
