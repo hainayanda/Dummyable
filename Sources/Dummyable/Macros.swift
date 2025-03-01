@@ -30,7 +30,19 @@ public macro DummyableCase() = #externalMacro(
     module: "DummyableMacro", type: "DummyableCaseMacro"
 )
 
+@freestanding(declaration)
+public macro Dummy<T>(of type: T.Type, modifier: DummyModifier = .internal, dummyProvider: () -> T) = #externalMacro(
+    module: "DummyableMacro", type: "DummyMacro"
+)
+
 public enum DummyType {
     case `struct`
     case `class`
+}
+
+public enum DummyModifier {
+    case `public`
+    case `internal`
+    case `private`
+    case `fileprivate`
 }

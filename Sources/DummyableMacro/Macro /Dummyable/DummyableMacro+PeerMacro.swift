@@ -14,7 +14,10 @@ extension DummyableMacro: PeerMacro {
     
     static func expansion(of node: AttributeSyntax, providingPeersOf declaration: some DeclSyntaxProtocol, in context: some MacroExpansionContext) throws -> [DeclSyntax] {
         guard declaration.canBeAttachedWithDummyMacro else {
-            throw DummyableMacroError.attachedToInvalidType
+            throw DummyableMacroError.attachedToInvalidType(
+                attribute: "@Dummyable",
+                type: "protocol, struct, class or enum"
+            )
         }
         if let protocolDecl = declaration.as(ProtocolDeclSyntax.self) {
             return try expansion(of: protocolDecl, node)
@@ -28,6 +31,5 @@ extension DummyableMacro: PeerMacro {
             extraction: ProtocolDeclExtraction(source: protocolDecl, attribute: node)
         )
         .buildDecl()
-        .inArray()
     }
 }

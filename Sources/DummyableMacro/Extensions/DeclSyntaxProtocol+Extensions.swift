@@ -20,4 +20,9 @@ extension DeclSyntaxProtocol {
     var canBeAttachedWithDummyableInitMacro: Bool {
         self.is(InitializerDeclSyntax.self)
     }
+    
+    @inlinable
+    var canBeAttachedWithDummyableCaseMacro: Bool {
+        self.is(EnumCaseDeclSyntax.self)
+    }
 }

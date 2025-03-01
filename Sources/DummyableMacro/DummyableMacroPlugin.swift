@@ -12,6 +12,6 @@ import SwiftSyntaxMacros
 @main
 struct DummyableMacroPlugin: CompilerPlugin {
     let providingMacros: [Macro.Type] = [
-        DummyableMacro.self, DummyableInitMacro.self, DummyableCaseMacro.self
+        DummyableMacro.self, DummyableInitMacro.self, DummyableCaseMacro.self, DummyMacro.self
     ]
 }

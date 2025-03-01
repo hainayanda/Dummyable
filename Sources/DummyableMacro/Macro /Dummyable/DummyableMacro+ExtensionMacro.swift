@@ -22,7 +22,10 @@ extension DummyableMacro: ExtensionMacro {
         } else if let enumDecl = declaration.as(EnumDeclSyntax.self) {
             return try expansion(of: enumDecl)
         } else {
-            throw DummyableMacroError.attachedToInvalidType
+            throw DummyableMacroError.attachedToInvalidType(
+                attribute: "@Dummyable",
+                type: "protocol, struct, class or enum"
+            )
         }
     }
     

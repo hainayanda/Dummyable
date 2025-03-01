@@ -1,5 +1,5 @@
 //
-//  DummyMacroOnStructTests.swift
+//  DummyableMacroOnStructTests.swift
 //  Dummyable
 //
 //  Created by Nayanda Haberty on 26/02/25.
@@ -10,7 +10,7 @@ import XCTest
 import SwiftSyntaxMacrosTestSupport
 @testable import DummyableMacro
 
-final class DummyMacroOnStructTests: XCTestCase {
+final class DummyableMacroOnStructTests: XCTestCase {
     
     func test_givenBasicStruct_whenExpanded_shouldUseBasicStructExpansion() {
         assertMacroExpansion(

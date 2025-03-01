@@ -1,5 +1,5 @@
 //
-//  DummyMacroOnClassTests.swift
+//  DummyableMacroOnClassTests.swift
 //  Dummyable
 //
 //  Created by Nayanda Haberty on 26/02/25.
@@ -10,7 +10,7 @@ import XCTest
 import SwiftSyntaxMacrosTestSupport
 @testable import DummyableMacro
 
-final class DummyMacroOnClassTests: XCTestCase {
+final class DummyableMacroOnClassTests: XCTestCase {
     
     func test_givenClass_whenExpanded_shouldUseClassExpansion() {
         assertMacroExpansion(

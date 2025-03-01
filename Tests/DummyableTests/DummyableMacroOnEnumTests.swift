@@ -1,5 +1,5 @@
 //
-//  DummyMacroOnEnumTests.swift
+//  DummyableMacroOnEnumTests.swift
 //  Dummyable
 //
 //  Created by Nayanda Haberty on 02/03/25.
@@ -10,7 +10,7 @@ import XCTest
 import SwiftSyntaxMacrosTestSupport
 @testable import DummyableMacro
 
-final class DummyMacroOnEnumTests: XCTestCase {
+final class DummyableMacroOnEnumTests: XCTestCase {
     
     func test_givenEnum_whenExpanded_shouldUseEnumExpansion() {
         assertMacroExpansion(

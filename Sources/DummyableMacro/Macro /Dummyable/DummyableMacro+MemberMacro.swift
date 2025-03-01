@@ -14,7 +14,10 @@ extension DummyableMacro: MemberMacro {
     
     static func expansion(of node: AttributeSyntax, providingMembersOf declaration: some DeclGroupSyntax, in context: some MacroExpansionContext) throws -> [DeclSyntax] {
         guard declaration.canBeAttachedWithDummyMacro else {
-            throw DummyableMacroError.attachedToInvalidType
+            throw DummyableMacroError.attachedToInvalidType(
+                attribute: "@Dummyable",
+                type: "protocol, struct, class or enum"
+            )
         }
         if let structDecl = declaration.as(StructDeclSyntax.self) {
             return expansion(of: structDecl)
@@ -27,7 +30,6 @@ extension DummyableMacro: MemberMacro {
         return StructDummyableMemberFactory(
             extraction: StructDeclExtraction(source: structDecl)
         )
-        .expandDeclCodeGeneration()
-        .inArray()
+        .buildExtDecl()
     }
 }

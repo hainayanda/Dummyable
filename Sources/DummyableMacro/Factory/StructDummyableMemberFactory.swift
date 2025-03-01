@@ -22,11 +22,13 @@ struct StructDummyableMemberFactory {
         )
     }
     
-    func expandDeclCodeGeneration() -> DeclSyntax? {
-        guard shouldGenerateInit else { return nil }
-        return DeclSyntax(
-            memberwiseInitDeclFactory.buildInitDecl()
-        )
+    func buildExtDecl() -> [DeclSyntax] {
+        guard shouldGenerateInit else { return [] }
+        return [
+            DeclSyntax(
+                memberwiseInitDeclFactory.buildInitDecl()
+            )
+        ]
     }
 }
 

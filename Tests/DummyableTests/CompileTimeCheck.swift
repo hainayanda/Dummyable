@@ -101,6 +101,32 @@ class ClassDummyableMarkedInit {
     }
 }
 
+// periphery:ignore
+@Dummyable
+enum EnumDummyable {
+    case some
+    case another(string: String)
+    case any
+}
+
+// periphery:ignore
+@Dummyable
+enum EnumDummyableMarkedCase {
+    case some
+    @DummyableCase
+    case another(string: String)
+    case any
+}
+
+struct Dum {
+    let string: String?
+}
+
+#Dummy(of: Dum.self) {
+    Dum(string: "some")
+}
+
+// periphery:ignore
 func testCompiledDummyCreation() {
     _ = Dummies.dummy(of: StructDummyProtocol.self)
     _ = Dummies.dummy(of: ClassDummyProtocol.self)
@@ -108,4 +134,7 @@ func testCompiledDummyCreation() {
     _ = Dummies.dummy(of: StructDummy.self)
     _ = Dummies.dummy(of: StructDummyableMarkedInit.self)
     _ = Dummies.dummy(of: ClassDummyableMarkedInit.self)
+    _ = Dummies.dummy(of: EnumDummyable.self)
+    _ = Dummies.dummy(of: EnumDummyableMarkedCase.self)
+    _ = Dummies.dummy(of: Dum.self)
 }

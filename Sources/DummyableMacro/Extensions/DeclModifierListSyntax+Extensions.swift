@@ -32,11 +32,19 @@ extension DeclModifierListSyntax {
     }
 }
 
-
 extension DeclModifierSyntax {
     static var `private`: DeclModifierSyntax {
         DeclModifierSyntax(name: .keyword(.private))
     }
+    
+    static var `public`: DeclModifierSyntax {
+        DeclModifierSyntax(name: .keyword(.public))
+    }
+    
+    static var `fileprivate`: DeclModifierSyntax {
+        DeclModifierSyntax(name: .keyword(.fileprivate))
+    }
+    
     static var final: DeclModifierSyntax {
         DeclModifierSyntax(name: .keyword(.final))
     }

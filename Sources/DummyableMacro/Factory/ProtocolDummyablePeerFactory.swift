@@ -15,12 +15,12 @@ struct ProtocolDummyablePeerFactory: DummyFuncCallCodeBuilder {
         self.extraction = extraction
     }
     
-    func buildDecl() throws -> DeclSyntax {
+    func buildDecl() throws -> [DeclSyntax] {
         return switch try extraction.generationType {
         case .class:
-            try DeclSyntax(buildClassDecl())
+            [try DeclSyntax(buildClassDecl())]
         case .struct:
-            try DeclSyntax(buildStructDecl())
+            [try DeclSyntax(buildStructDecl())]
         }
     }
     

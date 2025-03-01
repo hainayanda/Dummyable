@@ -9,10 +9,7 @@ import SwiftSyntax
 
 struct DummiesEnumStaticFuncDeclFactory: DummyFuncCallCodeBuilder {
     
-    typealias DTS = DummyableTokenSyntaxes
-    
     let baseFactory: DummiesStaticFuncDeclFactory
-    
     let enumCase: EnumCaseElementSyntax
     
     init(attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax, returnType: IdentifierTypeSyntax, enumCase: EnumCaseElementSyntax) {

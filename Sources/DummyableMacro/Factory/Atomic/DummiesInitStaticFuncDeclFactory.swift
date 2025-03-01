@@ -8,11 +8,8 @@
 import SwiftSyntax
 
 struct DummiesInitStaticFuncDeclFactory: DummyFuncCallCodeBuilder {
-    
-    typealias DTS = DummyableTokenSyntaxes
-    
+
     let baseFactory: DummiesStaticFuncDeclFactory
-    
     let initType: DeclReferenceExprSyntax
     let dummyInitializerParameters: [InitializerParameter]
     

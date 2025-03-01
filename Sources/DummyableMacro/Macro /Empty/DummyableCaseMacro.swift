@@ -11,8 +11,11 @@ import SwiftSyntax
 
 struct DummyableCaseMacro: PeerMacro {
     static func expansion(of node: AttributeSyntax, providingPeersOf declaration: some DeclSyntaxProtocol, in context: some MacroExpansionContext) throws -> [DeclSyntax] {
-        guard declaration.canBeAttachedWithDummyableInitMacro else {
-            throw DummyableMacroError.attachedToInvalidType
+        guard declaration.canBeAttachedWithDummyableCaseMacro else {
+            throw DummyableMacroError.attachedToInvalidType(
+                attribute: "@DummyableCase",
+                type: "enumeration case"
+            )
         }
         return []
     }
