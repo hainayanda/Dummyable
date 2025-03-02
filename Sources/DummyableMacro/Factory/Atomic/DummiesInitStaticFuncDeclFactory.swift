@@ -23,8 +23,8 @@ struct DummiesInitStaticFuncDeclFactory: DummyFuncCallCodeBuilder {
         )
     }
     
-    func buildDummyFuncDecl() -> ExtensionDeclSyntax {
-        baseFactory.buildDummyFuncDecl {
+    func builDummiesExtDecl() -> ExtensionDeclSyntax {
+        baseFactory.builDummiesExtDecl {
             buildDummyableInitializeCodeBlock()
         }
     }

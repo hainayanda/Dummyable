@@ -22,7 +22,7 @@ struct ProtocolDummyableExtensionFactory {
     
     func buildExtDecl() -> [ExtensionDeclSyntax] {
         staticFuncFactory
-            .buildDummyFuncDecl()
+            .builDummiesExtDecl()
             .inArray()
     }
 }

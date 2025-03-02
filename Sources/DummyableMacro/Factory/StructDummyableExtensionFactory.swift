@@ -22,7 +22,7 @@ struct StructDummyableExtensionFactory {
     
     func buildExtDecl() -> [ExtensionDeclSyntax] {
         staticFuncDeclFactory
-            .buildDummyFuncDecl()
+            .builDummiesExtDecl()
             .inArray()
     }
 }

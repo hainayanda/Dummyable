@@ -20,7 +20,7 @@ struct EnumDummyableExtensionFactory {
     
     func buildExtDecl() -> [ExtensionDeclSyntax] {
         staticFuncFactory
-            .buildDummyFuncDecl()
+            .builDummiesExtDecl()
             .inArray()
     }
 }

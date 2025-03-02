@@ -21,8 +21,8 @@ struct DummiesEnumStaticFuncDeclFactory: DummyFuncCallCodeBuilder {
         self.enumCase = enumCase
     }
     
-    func buildDummyFuncDecl() -> ExtensionDeclSyntax {
-        baseFactory.buildDummyFuncDecl {
+    func builDummiesExtDecl() -> ExtensionDeclSyntax {
+        baseFactory.builDummiesExtDecl {
             buildDummyableCaseCodeBlock()
         }
     }

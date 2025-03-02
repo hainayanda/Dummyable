@@ -122,8 +122,10 @@ struct Dum {
     let string: String?
 }
 
-#Dummy(of: Dum.self) {
-    Dum(string: "some")
+extension Dummies {
+    #Dummy(of: Dum.self) {
+        Dum(string: "some")
+    }
 }
 
 // periphery:ignore

@@ -8,20 +8,22 @@
 import SwiftSyntax
 
 struct FreestandingDummyDeclarationFactory {
-    let staticMacroFactory: DummiesClosureStaticFuncDeclFactory
+    let extraction: FreestandingMacroExtraction
+    let staticMacroFactory: StaticDummyFuncDeclFactory
     
     init(extraction: FreestandingMacroExtraction) {
-        self.staticMacroFactory = DummiesClosureStaticFuncDeclFactory(
-            modifiers: extraction.modifiers,
-            returnType: IdentifierTypeSyntax(name: extraction.type.baseName),
-            closure: extraction.closure
+        self.extraction = extraction
+        self.staticMacroFactory = StaticDummyFuncDeclFactory(
+            returnType: IdentifierTypeSyntax(name: extraction.type.baseName)
         )
     }
     
     func buildDecl() throws -> [DeclSyntax] {
         [
             DeclSyntax(
-                staticMacroFactory.buildDummyFuncDecl()
+                staticMacroFactory.buildDummyFuncDecl {
+                    extraction.closure.statements.trimmed
+                }
             )
         ]
     }

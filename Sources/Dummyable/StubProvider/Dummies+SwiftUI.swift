@@ -10,15 +10,15 @@ import SwiftUI
 
 // periphery:ignore
 extension Dummies {
-    public static func dummy(of type: Color.Type) -> Color {
+    @inlinable public static func dummy(of type: Color.Type) -> Color {
         Color.clear
     }
     
-    public static func dummy(of type: Font.Type) -> Font {
+    @inlinable public static func dummy(of type: Font.Type) -> Font {
         Font.body
     }
     
-    public static func dummy(of type: Image.Type) -> Image {
+    @inlinable public static func dummy(of type: Image.Type) -> Image {
         Image(systemName: "circle")
     }
 
