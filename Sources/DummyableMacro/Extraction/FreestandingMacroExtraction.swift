@@ -8,6 +8,7 @@
 import SwiftSyntax
 
 struct FreestandingMacroExtraction {
+    let modifiers: DeclModifierListSyntax
     let type: DeclReferenceExprSyntax
     let closure: ClosureExprSyntax
     
@@ -16,13 +17,21 @@ struct FreestandingMacroExtraction {
               let type = expression.base?.as(DeclReferenceExprSyntax.self) else {
             throw DummyableMacroError.wrongArguments
         }
+        
         self.type = type.trimmed
+        
         self.closure = if let trailingClosure = node.trailingClosure {
             trailingClosure.trimmed
         } else if node.argumentList.count == 2, let closure = node.argumentList.last?.expression.as(ClosureExprSyntax.self) {
             closure.trimmed
         } else {
             throw DummyableMacroError.wrongArguments
+        }
+        
+        self.modifiers = switch node.macro.trimmedDescription {
+        case "PublicDummy", "Dummyable.PublicDummy": [.public]
+        case "PrivateDummy", "Dummyable.PrivateDummy": [.private]
+        default: []
         }
     }
 }

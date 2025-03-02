@@ -32,3 +32,13 @@ public macro DummyableCase() = #externalMacro(
 public macro Dummy<T>(of type: T.Type, dummyProvider: () -> T) = #externalMacro(
     module: "DummyableMacro", type: "DummyMacro"
 )
+
+@freestanding(declaration, names: named(dummy(of:)))
+public macro PublicDummy<T>(of type: T.Type, dummyProvider: () -> T) = #externalMacro(
+    module: "DummyableMacro", type: "DummyMacro"
+)
+
+@freestanding(declaration, names: named(dummy(of:)))
+public macro PrivateDummy<T>(of type: T.Type, dummyProvider: () -> T) = #externalMacro(
+    module: "DummyableMacro", type: "DummyMacro"
+)

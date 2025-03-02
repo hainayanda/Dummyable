@@ -128,6 +128,24 @@ struct Dum {
 }
 
 // periphery:ignore
+struct PrivateDum {
+    let string: String?
+}
+
+#PrivateDummy(of: PrivateDum.self) {
+    PrivateDum(string: "some")
+}
+
+// periphery:ignore
+public struct PublicDum {
+    let string: String?
+}
+
+#PublicDummy(of: PublicDum.self) {
+    PublicDum(string: "some")
+}
+
+// periphery:ignore
 func testCompiledDummyCreation() {
     _ = dummy(of: StructDummyProtocol.self)
     _ = dummy(of: ClassDummyProtocol.self)
@@ -138,4 +156,6 @@ func testCompiledDummyCreation() {
     _ = dummy(of: EnumDummyable.self)
     _ = dummy(of: EnumDummyableMarkedCase.self)
     _ = dummy(of: Dum.self)
+    _ = dummy(of: PublicDum.self)
+    _ = dummy(of: PrivateDum.self)
 }

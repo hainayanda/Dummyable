@@ -15,7 +15,7 @@ struct FreestandingDummyDeclarationFactory: DeclBuilder {
         self.extraction = try FreestandingMacroExtraction(from: freestanding)
         self.dummyFuncDeclFactory = DummyFuncDeclFactory(
             attributes: [],
-            modifiers: [],
+            modifiers: extraction.modifiers,
             returnType: IdentifierTypeSyntax(name: extraction.type.baseName)
         )
     }

@@ -33,6 +33,10 @@ extension DeclModifierListSyntax {
 }
 
 extension DeclModifierSyntax {
+    @inlinable static var `public`: DeclModifierSyntax {
+        DeclModifierSyntax(name: .keyword(.public))
+    }
+    
     @inlinable static var `private`: DeclModifierSyntax {
         DeclModifierSyntax(name: .keyword(.private))
     }

@@ -27,6 +27,20 @@ final class DummyMacroOnStructTests: XCTestCase {
             macros: ["Dummy": DummyMacro.self]
         )
     }
+    
+    func test_givenPublicDummy_whenExpanded_shouldUsePublicDummyExpansion() {
+        assertMacroExpansion(
+            publicDummy, expandedSource: publicDummyExpansions,
+            macros: ["PublicDummy": DummyMacro.self]
+        )
+    }
+    
+    func test_givenPrivateDummy_whenExpanded_shouldUsePrivateDummyExpansion() {
+        assertMacroExpansion(
+            privateDummy, expandedSource: privateDummyExpansions,
+            macros: ["PrivateDummy": DummyMacro.self]
+        )
+    }
 }
 
 private let basicDummy = #"""
@@ -49,6 +63,30 @@ private let trailingDummy = #"""
 
 private let trailingDummyExpansions = #"""
 func dummy(of type: Some.Type) -> Some {
+    Some()
+}
+"""#
+
+private let publicDummy = #"""
+#PublicDummy(of: Some.self) {
+    Some()
+}
+"""#
+
+private let publicDummyExpansions = #"""
+public func dummy(of type: Some.Type) -> Some {
+    Some()
+}
+"""#
+
+private let privateDummy = #"""
+#PrivateDummy(of: Some.self) {
+    Some()
+}
+"""#
+
+private let privateDummyExpansions = #"""
+private func dummy(of type: Some.Type) -> Some {
     Some()
 }
 """#
