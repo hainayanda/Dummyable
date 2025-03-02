@@ -9,7 +9,7 @@ import SwiftSyntax
 
 struct EnumMemberFuncPeerFactory: DeclBuilder {
 
-    let dummyFuncDeclFactory: DummyEnumFuncDeclFactory
+    private let dummyFuncDeclFactory: DummyEnumFuncDeclFactory
     
     @inlinable init(enumDecl: EnumDeclSyntax) throws {
         self.dummyFuncDeclFactory = DummyEnumFuncDeclFactory(

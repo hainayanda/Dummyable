@@ -36,6 +36,8 @@ struct FreestandingMacroExtraction {
     }
 }
 
+// MARK: DummyClosureFuncDeclFactory + Extensions
+
 extension DummyClosureFuncDeclFactory {
     init(node: FreestandingMacroExpansionSyntax, closureType: DummyClosureFuncDeclFactory.ClosureType) throws {
         let extraction = try FreestandingMacroExtraction(from: node)

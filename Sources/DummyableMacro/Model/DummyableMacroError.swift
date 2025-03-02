@@ -16,8 +16,7 @@ public enum DummyableMacroError: CustomStringConvertible, Error {
     case failToGenerateMacro
     case enumCaseNotFound
     
-    @inlinable
-    public var description: String {
+    @inlinable public var description: String {
         switch self {
         case .needToAttachedToInit:
             return "@DummyableInit can only be attached to initializer"

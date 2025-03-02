@@ -24,6 +24,8 @@ struct EnumDeclExtraction: TypeDeclExtraction {
     }
 }
 
+// MARK: DummyEnumFuncDeclFactory + Extensions
+
 extension DummyEnumFuncDeclFactory {
     @inlinable init(extraction: EnumDeclExtraction) {
         self.init(
@@ -34,6 +36,8 @@ extension DummyEnumFuncDeclFactory {
         )
     }
 }
+
+// MARK: DummyClosureFuncDeclFactory + Extensions
 
 extension DummyClosureFuncDeclFactory {
     init(enumDecl: EnumDeclSyntax, closureType: DummyClosureFuncDeclFactory.ClosureType) throws {

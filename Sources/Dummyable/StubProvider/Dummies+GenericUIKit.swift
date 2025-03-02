@@ -8,6 +8,8 @@
 #if canImport(UIKit)
 import UIKit
 
+// MARK: UIView
+
 // periphery:ignore:parameters type
 @inlinable public func dummy<A: UIView>(of type: A.Type) -> A { A() }
 // periphery:ignore:parameters type
@@ -41,6 +43,8 @@ import UIKit
     }
 }
 
+// MARK: UIViewController
+
 // periphery:ignore:parameters type
 @inlinable public func dummy<A: UIViewController>(of type: A.Type) -> A { A() }
 // periphery:ignore:parameters type
@@ -73,6 +77,8 @@ import UIKit
         dummy(of: E.self)
     }
 }
+
+// MARK: UIWindow
 
 // periphery:ignore:parameters type
 @inlinable public func dummy<A: UIWindow>(of type: A.Type) -> A { A() }

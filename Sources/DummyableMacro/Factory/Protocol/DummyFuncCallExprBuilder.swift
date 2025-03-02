@@ -11,6 +11,8 @@ protocol DummyFuncCallExprBuilder {
     func buildDummyFuncCallExpr(forType type: TypeSyntax?) -> FunctionCallExprSyntax
 }
 
+// MARK: DummyFuncCallExprBuilder + Extension
+
 extension DummyFuncCallExprBuilder {
     @inlinable func buildDummyFuncCallExpr(forType type: TypeSyntax?) -> FunctionCallExprSyntax {
         let type = type ?? TypeSyntax(IdentifierTypeSyntax(name: DummyableTokenSyntaxes.voidType))

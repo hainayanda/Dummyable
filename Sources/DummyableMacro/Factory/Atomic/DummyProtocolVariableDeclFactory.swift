@@ -9,8 +9,13 @@ import SwiftSyntax
 
 struct DummyProtocolVariableDeclFactory {
     
-    let modifiers: DeclModifierListSyntax
-    let baseVariable: VariableDeclSyntax
+    private let modifiers: DeclModifierListSyntax
+    private let baseVariable: VariableDeclSyntax
+    
+    @inlinable init(modifiers: DeclModifierListSyntax, baseVariable: VariableDeclSyntax) {
+        self.modifiers = modifiers
+        self.baseVariable = baseVariable
+    }
     
     @inlinable func buildVariableDecl() throws -> VariableDeclSyntax {
         guard let variableExtraction = baseVariable.extraction else {

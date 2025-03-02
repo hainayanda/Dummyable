@@ -9,9 +9,9 @@ import SwiftSyntax
 
 struct DummyInitFuncDeclFactory: DummyFuncCallExprBuilder {
 
-    let baseFactory: DummyFuncDeclFactory
-    let initType: DeclReferenceExprSyntax
-    let dummyInitParameters: [InitializerParameter]
+    private let baseFactory: DummyFuncDeclFactory
+    private let initType: DeclReferenceExprSyntax
+    private let dummyInitParameters: [InitializerParameter]
     
     @inlinable init(attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax, returnType: IdentifierTypeSyntax, initType: DeclReferenceExprSyntax, dummyInitializerParameters: [InitializerParameter]) {
         self.initType = initType

@@ -8,8 +8,8 @@
 import SwiftSyntax
 
 struct FreestandingDummyDeclarationFactory: DeclBuilder {
-    let extraction: FreestandingMacroExtraction
-    let dummyFuncDeclFactory: DummyFuncDeclFactory
+    private let extraction: FreestandingMacroExtraction
+    private let dummyFuncDeclFactory: DummyFuncDeclFactory
     
     @inlinable init(use freestanding: FreestandingMacroExpansionSyntax) throws {
         self.extraction = try FreestandingMacroExtraction(from: freestanding)

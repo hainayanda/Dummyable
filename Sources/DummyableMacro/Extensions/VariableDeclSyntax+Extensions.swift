@@ -53,6 +53,8 @@ extension VariableDeclSyntax {
     }
 }
 
+// MARK: Sequence of VariableDeclSyntax
+
 extension Sequence where Element == VariableDeclSyntax {
     
     func asInitMemberwiseParam() -> [InitMemberwiseParam] {

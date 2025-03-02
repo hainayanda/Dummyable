@@ -9,7 +9,7 @@ import SwiftSyntax
 
 struct ProtocolDummyFuncDeclPeerFactory: DeclBuilder {
 
-    let dummyFuncDeclFactory: DummyInitFuncDeclFactory
+    private let dummyFuncDeclFactory: DummyInitFuncDeclFactory
     
     @inlinable init(protocolDecl: ProtocolDeclSyntax, node: AttributeSyntax) {
         self.dummyFuncDeclFactory = DummyInitFuncDeclFactory(

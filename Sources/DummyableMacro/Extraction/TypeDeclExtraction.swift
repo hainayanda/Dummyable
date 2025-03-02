@@ -38,6 +38,8 @@ extension TypeDeclExtraction {
     }
 }
 
+// MARK: DummyInitFuncDeclFactory + Extensions
+
 extension DummyInitFuncDeclFactory {
     @inlinable init(typeExtraction: TypeDeclExtraction) {
         self.init(
@@ -49,6 +51,8 @@ extension DummyInitFuncDeclFactory {
         )
     }
 }
+
+// MARK: DummyClosureFuncDeclFactory + Extensions
 
 extension DummyClosureFuncDeclFactory {
     init(typeExtraction: TypeDeclExtraction, closureType: DummyClosureFuncDeclFactory.ClosureType, creationType: DummyClosureFuncDeclFactory.ClosureTypeCreation = .dummyFuncCall) {

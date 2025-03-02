@@ -18,6 +18,7 @@ protocol BuildableTypeDeclSyntax: SyntaxProtocol {
       ) rethrows
 }
 
+// MARK: ClassDeclSyntax + BuildableTypeDeclSyntax
 
 extension ClassDeclSyntax: BuildableTypeDeclSyntax {
     @inlinable init(attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax, name: TokenSyntax, inheritanceClause: InheritanceClauseSyntax, memberBlockBuilder: () throws -> MemberBlockItemListSyntax) rethrows {
@@ -31,6 +32,8 @@ extension ClassDeclSyntax: BuildableTypeDeclSyntax {
         )
     }
 }
+
+// MARK: StructDeclSyntax + BuildableTypeDeclSyntax
 
 extension StructDeclSyntax: BuildableTypeDeclSyntax {
     @inlinable init(attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax, name: TokenSyntax, inheritanceClause: InheritanceClauseSyntax, memberBlockBuilder: () throws -> MemberBlockItemListSyntax) rethrows {

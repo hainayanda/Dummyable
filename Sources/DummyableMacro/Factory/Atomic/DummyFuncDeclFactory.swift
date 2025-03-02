@@ -11,10 +11,10 @@ struct DummyFuncDeclFactory {
     
     typealias DTS = DummyableTokenSyntaxes
     
-    let attributes: AttributeListSyntax
-    let modifiers: DeclModifierListSyntax
-    let genericParameters: GenericParameterClauseSyntax?
-    let returnType: IdentifierTypeSyntax
+    private let attributes: AttributeListSyntax
+    private let modifiers: DeclModifierListSyntax
+    private let genericParameters: GenericParameterClauseSyntax?
+    private let returnType: IdentifierTypeSyntax
     
     init(attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax, genericParameters: GenericParameterClauseSyntax? = nil, returnType: IdentifierTypeSyntax) {
         self.attributes = attributes

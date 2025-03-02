@@ -68,6 +68,8 @@ extension InitializerDeclSyntax {
     }
 }
 
+// MARK: Sequence of InitializerDeclSyntax
+
 extension Sequence where Element == InitializerDeclSyntax {
     @inlinable func withDummyableInitAttribute() -> [InitializerDeclSyntax] {
         filter { $0.hasDummyableInitAttribute && $0.canBeUsedAsDummyableInit }

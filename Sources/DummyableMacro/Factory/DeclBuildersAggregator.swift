@@ -9,7 +9,7 @@ import SwiftSyntax
 
 struct DeclBuildersAggregator {
     
-    let builders: [DeclBuilder]
+    private let builders: [DeclBuilder]
     
     @inlinable init(_ builders: DeclBuilder...) {
         self.builders = builders

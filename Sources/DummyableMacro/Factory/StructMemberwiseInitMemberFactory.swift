@@ -9,8 +9,8 @@ import SwiftSyntax
 
 struct StructMemberwiseInitMemberFactory: DeclBuilder {
     
-    let extraction: StructDeclExtraction
-    let memberwiseInitDeclFactory: DummyMemberwiseInitDeclFactory
+    private let extraction: StructDeclExtraction
+    private let memberwiseInitDeclFactory: DummyMemberwiseInitDeclFactory
     
     @inlinable var shouldGenerateInit: Bool { extraction.usableInitDecl == nil }
     

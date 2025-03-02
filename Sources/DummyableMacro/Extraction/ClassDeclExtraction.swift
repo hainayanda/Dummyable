@@ -27,6 +27,8 @@ struct ClassDeclExtraction: TypeDeclExtraction {
     }
 }
 
+// MARK: DummyClosureFuncDeclFactory + Extensions
+
 extension DummyClosureFuncDeclFactory {
     init(classDecl: ClassDeclSyntax, closureType: DummyClosureFuncDeclFactory.ClosureType) throws {
         self.init(

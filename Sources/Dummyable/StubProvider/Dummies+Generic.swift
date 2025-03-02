@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: Any
+
 // periphery:ignore:parameters type
 @inlinable public func dummy(of type: Any.Type) -> Any { 0 }
 // periphery:ignore:parameters type
@@ -39,6 +41,8 @@ import Foundation
         dummy(of: Any.self)
     }
 }
+
+// MARK: Optional
 
 // periphery:ignore:parameters type
 @inlinable public func dummy<A>(of type: A?.Type) -> A? { nil }
@@ -73,6 +77,8 @@ import Foundation
     }
 }
 
+// MARK: Array
+
 // periphery:ignore:parameters type
 @inlinable public func dummy<T>(of type: [T].Type) -> [T] { [] }
 // periphery:ignore:parameters type
@@ -105,6 +111,8 @@ import Foundation
         dummy(of: [E].self)
     }
 }
+
+// MARK: Dictionary
 
 // periphery:ignore:parameters type
 @inlinable public func dummy<Key, Value>(of type: [Key: Value].Type) -> [Key: Value] { [:] }

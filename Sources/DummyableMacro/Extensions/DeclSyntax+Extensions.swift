@@ -13,6 +13,8 @@ extension DeclSyntax {
     }
 }
 
+// MARK: Optional<DeclSyntax>
+
 extension Optional where Wrapped == DeclSyntax {
     @inlinable func inArray() -> [DeclSyntax] {
         guard let self = self else { return [] }

@@ -9,8 +9,13 @@ import SwiftSyntax
 
 struct DummyMemberwiseInitDeclFactory: DummyFuncCallExprBuilder {
     
-    let modifiers: DeclModifierListSyntax
-    let parameters: [InitMemberwiseParam]
+    private let modifiers: DeclModifierListSyntax
+    private let parameters: [InitMemberwiseParam]
+    
+    @inlinable init(modifiers: DeclModifierListSyntax, parameters: [InitMemberwiseParam]) {
+        self.modifiers = modifiers
+        self.parameters = parameters
+    }
     
     @inlinable func buildInitDecl() -> InitializerDeclSyntax {
         InitializerDeclSyntax(

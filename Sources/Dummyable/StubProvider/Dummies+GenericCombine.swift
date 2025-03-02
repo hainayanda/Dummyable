@@ -8,6 +8,8 @@
 #if canImport(Combine)
 import Combine
 
+// MARK: Future
+
 // periphery:ignore:parameters type
 @inlinable public func dummy<Output, Failure>(of type: Future<Output, Failure>.Type) -> Future<Output, Failure> {
     Future { _ in }
@@ -42,6 +44,8 @@ import Combine
         dummy(of: Future<Output, Failure>.self)
     }
 }
+
+// MARK: AnyPublisher
 
 // periphery:ignore:parameters type
 @inlinable public func dummy<Output, Failure>(of type: AnyPublisher<Output, Failure>.Type) -> AnyPublisher<Output, Failure> {
@@ -78,6 +82,8 @@ import Combine
     }
 }
 
+// MARK: PassthroughSubject
+
 // periphery:ignore:parameters type
 @inlinable public func dummy<Output, Failure>(of type: PassthroughSubject<Output, Failure>.Type) -> PassthroughSubject<Output, Failure> {
     PassthroughSubject()
@@ -107,7 +113,9 @@ import Combine
     }
 }
 // periphery:ignore:parameters type
-@inlinable public func dummy<A, B, C, D, Output, Failure>(of type: FourArgsClosure<A, B, C, D, PassthroughSubject<Output, Failure>>.Type) -> FourArgsClosure<A, B, C, D, PassthroughSubject<Output, Failure>> {
+@inlinable public func dummy<A, B, C, D, Output, Failure>(
+    of type: FourArgsClosure<A, B, C, D, PassthroughSubject<Output, Failure>>.Type
+) -> FourArgsClosure<A, B, C, D, PassthroughSubject<Output, Failure>> {
     { _, _, _, _ in
         dummy(of: PassthroughSubject<Output, Failure>.self)
     }

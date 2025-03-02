@@ -9,7 +9,7 @@ import SwiftSyntax
 
 struct ProtocolDummyTypeDeclPeerFactory: DeclBuilder, DummyFuncCallExprBuilder {
     
-    let extraction: ProtocolDeclExtraction
+    private let extraction: ProtocolDeclExtraction
     
     @inlinable init(protocolDecl: ProtocolDeclSyntax, node: AttributeSyntax) {
         self.extraction = ProtocolDeclExtraction(source: protocolDecl, attribute: node)

@@ -9,8 +9,8 @@ import SwiftSyntax
 
 struct DummyEnumFuncDeclFactory: DummyFuncCallExprBuilder {
     
-    let baseFactory: DummyFuncDeclFactory
-    let enumCase: EnumCaseElementSyntax
+    private let baseFactory: DummyFuncDeclFactory
+    private let enumCase: EnumCaseElementSyntax
     
     @inlinable init(attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax, returnType: IdentifierTypeSyntax, enumCase: EnumCaseElementSyntax) {
         self.baseFactory = DummyFuncDeclFactory(

@@ -9,8 +9,13 @@ import SwiftSyntax
 
 struct DummyFuncFromProtocolDeclFactory: DummyFuncCallExprBuilder {
     
-    let modifiers: DeclModifierListSyntax
-    let baseFunc: FunctionDeclSyntax
+    private let modifiers: DeclModifierListSyntax
+    private let baseFunc: FunctionDeclSyntax
+    
+    @inlinable init(modifiers: DeclModifierListSyntax, baseFunc: FunctionDeclSyntax) {
+        self.modifiers = modifiers
+        self.baseFunc = baseFunc
+    }
     
     @inlinable func buildFuncDecl() -> FunctionDeclSyntax {
         var modifiedFunc = baseFunc

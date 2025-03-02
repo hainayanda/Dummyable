@@ -11,11 +11,11 @@ struct DummyClosureFuncDeclFactory: DeclBuilder {
     
     typealias DTS = DummyableTokenSyntaxes
     
-    let closureType: ClosureType
-    let attributes: AttributeListSyntax
-    let modifiers: DeclModifierListSyntax
-    let returnType: IdentifierTypeSyntax
-    let creationType: ClosureTypeCreation
+    private let closureType: ClosureType
+    private let attributes: AttributeListSyntax
+    private let modifiers: DeclModifierListSyntax
+    private let returnType: IdentifierTypeSyntax
+    private let creationType: ClosureTypeCreation
     
     init(closureType: ClosureType, attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax, returnType: IdentifierTypeSyntax, creationType: ClosureTypeCreation) {
         self.closureType = closureType
@@ -138,6 +138,8 @@ struct DummyClosureFuncDeclFactory: DeclBuilder {
     }
 }
 
+// MARK: DummyClosureFuncDeclFactory.ClosureType
+
 extension DummyClosureFuncDeclFactory {
     enum ClosureType: Int {
         case noArg = 0
@@ -161,7 +163,11 @@ extension DummyClosureFuncDeclFactory {
             }
         }
     }
-    
+}
+
+// MARK: DummyClosureFuncDeclFactory.ClosureTypeCreation
+
+extension DummyClosureFuncDeclFactory {
     enum ClosureTypeCreation {
         case dummyFuncCall
         case emptyInitCall(TokenSyntax)

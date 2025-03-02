@@ -9,8 +9,8 @@ import SwiftSyntax
 
 struct DummyTypeDeclFactory<Syntax: BuildableTypeDeclSyntax>: DeclBuilder {
     
-    let modifiers: DeclModifierListSyntax
-    let extraction: ProtocolDeclExtraction
+    private let modifiers: DeclModifierListSyntax
+    private let extraction: ProtocolDeclExtraction
     
     // periphery:ignore:parameters type
     @inlinable init(modifiers: DeclModifierListSyntax, extraction: ProtocolDeclExtraction, for type: Syntax.Type) {

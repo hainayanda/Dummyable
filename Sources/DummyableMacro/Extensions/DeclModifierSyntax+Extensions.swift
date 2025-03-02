@@ -1,11 +1,27 @@
 //
-//  DeclModifierListSyntax+Extensions.swift
+//  DeclModifierSyntax+Extensions.swift
 //  Dummyable
 //
 //  Created by Nayanda Haberty on 25/02/25.
 //
 
 import SwiftSyntax
+
+extension DeclModifierSyntax {
+    @inlinable static var `public`: DeclModifierSyntax {
+        DeclModifierSyntax(name: .keyword(.public))
+    }
+    
+    @inlinable static var `private`: DeclModifierSyntax {
+        DeclModifierSyntax(name: .keyword(.private))
+    }
+    
+    @inlinable static var final: DeclModifierSyntax {
+        DeclModifierSyntax(name: .keyword(.final))
+    }
+}
+
+// MARK: DeclModifierListSyntax
 
 extension DeclModifierListSyntax {
     
@@ -29,19 +45,5 @@ extension DeclModifierListSyntax {
                 || $0.trimmedDescription == "public"
             }
         }
-    }
-}
-
-extension DeclModifierSyntax {
-    @inlinable static var `public`: DeclModifierSyntax {
-        DeclModifierSyntax(name: .keyword(.public))
-    }
-    
-    @inlinable static var `private`: DeclModifierSyntax {
-        DeclModifierSyntax(name: .keyword(.private))
-    }
-    
-    @inlinable static var final: DeclModifierSyntax {
-        DeclModifierSyntax(name: .keyword(.final))
     }
 }
