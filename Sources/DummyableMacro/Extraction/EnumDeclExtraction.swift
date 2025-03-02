@@ -34,3 +34,12 @@ extension DummyEnumFuncDeclFactory {
         )
     }
 }
+
+extension DummyClosureFuncDeclFactory {
+    init(enumDecl: EnumDeclSyntax, closureType: DummyClosureFuncDeclFactory.ClosureType) throws {
+        self.init(
+            typeExtraction: try EnumDeclExtraction(source: enumDecl),
+            closureType: closureType
+        )
+    }
+}

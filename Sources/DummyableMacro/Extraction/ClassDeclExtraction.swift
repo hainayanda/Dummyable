@@ -26,3 +26,12 @@ struct ClassDeclExtraction: TypeDeclExtraction {
         self.usableInitDecl = initDecl
     }
 }
+
+extension DummyClosureFuncDeclFactory {
+    init(classDecl: ClassDeclSyntax, closureType: DummyClosureFuncDeclFactory.ClosureType) throws {
+        self.init(
+            typeExtraction: try ClassDeclExtraction(source: classDecl),
+            closureType: closureType
+        )
+    }
+}

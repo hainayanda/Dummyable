@@ -37,14 +37,14 @@ extension DummyableMacro: MemberMacro {
 extension DummyableMacro: PeerMacro {
     
     @inlinable static func expansion(of node: AttributeSyntax, providingPeersOf declaration: some DeclSyntaxProtocol, in context: some MacroExpansionContext) throws -> [DeclSyntax] {
-        if let protocolDecl = declaration.as(ProtocolDeclSyntax.self) {
-            return try peerExpansion(of: protocolDecl, node)
+        return if let protocolDecl = declaration.as(ProtocolDeclSyntax.self) {
+            try peerExpansion(of: protocolDecl, node)
         } else if let classDecl = declaration.as(ClassDeclSyntax.self) {
-            return try peerExpansion(of: classDecl)
+            try peerExpansion(of: classDecl)
         } else if let structDecl = declaration.as(StructDeclSyntax.self) {
-            return peerExpansion(of: structDecl)
+            try peerExpansion(of: structDecl)
         } else if let enumDecl = declaration.as(EnumDeclSyntax.self) {
-            return try peerExpansion(of: enumDecl)
+            try peerExpansion(of: enumDecl)
         } else {
             throw DummyableMacroError.attachedToInvalidType(
                 attribute: "@Dummyable",
@@ -56,27 +56,50 @@ extension DummyableMacro: PeerMacro {
     private static func peerExpansion(of protocolDecl: ProtocolDeclSyntax, _ node: AttributeSyntax) throws -> [DeclSyntax] {
         try DeclBuildersAggregator(
             ProtocolDummyTypeDeclPeerFactory(protocolDecl: protocolDecl, node: node),
-            ProtocolDummyFuncDeclPeerFactory(protocolDecl: protocolDecl, node: node)
+            ProtocolDummyFuncDeclPeerFactory(protocolDecl: protocolDecl, node: node),
+            DummyClosureFuncDeclFactory(protocolDecl: protocolDecl, node: node, closureType: .noArg),
+            DummyClosureFuncDeclFactory(protocolDecl: protocolDecl, node: node, closureType: .oneArg),
+            DummyClosureFuncDeclFactory(protocolDecl: protocolDecl, node: node, closureType: .twoArg),
+            DummyClosureFuncDeclFactory(protocolDecl: protocolDecl, node: node, closureType: .threeArg),
+            DummyClosureFuncDeclFactory(protocolDecl: protocolDecl, node: node, closureType: .fourArg)
         )
         .buildAllDecl()
     }
     
-    private static func peerExpansion(of structDecl: StructDeclSyntax) -> [DeclSyntax] {
-        StructInitFuncPeerFactory(structDecl: structDecl)
-            .buildDecl()
-            .inArray()
+    private static func peerExpansion(of structDecl: StructDeclSyntax) throws -> [DeclSyntax] {
+        try DeclBuildersAggregator(
+            StructInitFuncPeerFactory(structDecl: structDecl),
+            DummyClosureFuncDeclFactory(structDecl: structDecl, closureType: .noArg),
+            DummyClosureFuncDeclFactory(structDecl: structDecl, closureType: .oneArg),
+            DummyClosureFuncDeclFactory(structDecl: structDecl, closureType: .twoArg),
+            DummyClosureFuncDeclFactory(structDecl: structDecl, closureType: .threeArg),
+            DummyClosureFuncDeclFactory(structDecl: structDecl, closureType: .fourArg)
+        )
+        .buildAllDecl()
     }
     
     private static func peerExpansion(of classDecl: ClassDeclSyntax) throws -> [DeclSyntax] {
-        try ClassInitFuncPeerFactory(classDecl: classDecl)
-            .buildDecl()
-            .inArray()
+        try DeclBuildersAggregator(
+            ClassInitFuncPeerFactory(classDecl: classDecl),
+            DummyClosureFuncDeclFactory(classDecl: classDecl, closureType: .noArg),
+            DummyClosureFuncDeclFactory(classDecl: classDecl, closureType: .oneArg),
+            DummyClosureFuncDeclFactory(classDecl: classDecl, closureType: .twoArg),
+            DummyClosureFuncDeclFactory(classDecl: classDecl, closureType: .threeArg),
+            DummyClosureFuncDeclFactory(classDecl: classDecl, closureType: .fourArg)
+        )
+        .buildAllDecl()
     }
     
     private static func peerExpansion(of enumDecl: EnumDeclSyntax) throws -> [DeclSyntax] {
-        try EnumMemberFuncPeerFactory(enumDecl: enumDecl)
-            .buildDecl()
-            .inArray()
+        try DeclBuildersAggregator(
+            EnumMemberFuncPeerFactory(enumDecl: enumDecl),
+            DummyClosureFuncDeclFactory(enumDecl: enumDecl, closureType: .noArg),
+            DummyClosureFuncDeclFactory(enumDecl: enumDecl, closureType: .oneArg),
+            DummyClosureFuncDeclFactory(enumDecl: enumDecl, closureType: .twoArg),
+            DummyClosureFuncDeclFactory(enumDecl: enumDecl, closureType: .threeArg),
+            DummyClosureFuncDeclFactory(enumDecl: enumDecl, closureType: .fourArg)
+        )
+        .buildAllDecl()
     }
 }
 

@@ -76,6 +76,36 @@ private struct SomeDummy: Some {
 func dummy(of type: Some.Type) -> Some {
     SomeDummy()
 }
+
+func dummy(of type: Closure<Some>.Type) -> Closure<Some> {
+    {
+        SomeDummy()
+    }
+}
+
+func dummy<A>(of type: ArgClosure<A, Some>.Type) -> ArgClosure<A, Some> {
+    { _ in
+        SomeDummy()
+    }
+}
+
+func dummy<A, B>(of type: TwoArgsClosure<A, B, Some>.Type) -> TwoArgsClosure<A, B, Some> {
+    { _, _ in
+        SomeDummy()
+    }
+}
+
+func dummy<A, B, C>(of type: ThreeArgsClosure<A, B, C, Some>.Type) -> ThreeArgsClosure<A, B, C, Some> {
+    { _, _, _ in
+        SomeDummy()
+    }
+}
+
+func dummy<A, B, C, D>(of type: FourArgsClosure<A, B, C, D, Some>.Type) -> FourArgsClosure<A, B, C, D, Some> {
+    { _, _, _, _ in
+        SomeDummy()
+    }
+}
 """#
 
 private let basicClass = #"""
@@ -120,6 +150,36 @@ final private class SomeDummy: Some {
 private func dummy(of type: Some.Type) -> Some {
     SomeDummy()
 }
+
+private func dummy(of type: Closure<Some>.Type) -> Closure<Some> {
+    {
+        SomeDummy()
+    }
+}
+
+private func dummy<A>(of type: ArgClosure<A, Some>.Type) -> ArgClosure<A, Some> {
+    { _ in
+        SomeDummy()
+    }
+}
+
+private func dummy<A, B>(of type: TwoArgsClosure<A, B, Some>.Type) -> TwoArgsClosure<A, B, Some> {
+    { _, _ in
+        SomeDummy()
+    }
+}
+
+private func dummy<A, B, C>(of type: ThreeArgsClosure<A, B, C, Some>.Type) -> ThreeArgsClosure<A, B, C, Some> {
+    { _, _, _ in
+        SomeDummy()
+    }
+}
+
+private func dummy<A, B, C, D>(of type: FourArgsClosure<A, B, C, D, Some>.Type) -> FourArgsClosure<A, B, C, D, Some> {
+    { _, _, _, _ in
+        SomeDummy()
+    }
+}
 """#
 
 private let basicObjectProtocol = #"""
@@ -159,6 +219,36 @@ final private class SomeDummy: Some {
 
 public func dummy(of type: Some.Type) -> Some {
     SomeDummy()
+}
+
+public func dummy(of type: Closure<Some>.Type) -> Closure<Some> {
+    {
+        SomeDummy()
+    }
+}
+
+public func dummy<A>(of type: ArgClosure<A, Some>.Type) -> ArgClosure<A, Some> {
+    { _ in
+        SomeDummy()
+    }
+}
+
+public func dummy<A, B>(of type: TwoArgsClosure<A, B, Some>.Type) -> TwoArgsClosure<A, B, Some> {
+    { _, _ in
+        SomeDummy()
+    }
+}
+
+public func dummy<A, B, C>(of type: ThreeArgsClosure<A, B, C, Some>.Type) -> ThreeArgsClosure<A, B, C, Some> {
+    { _, _, _ in
+        SomeDummy()
+    }
+}
+
+public func dummy<A, B, C, D>(of type: FourArgsClosure<A, B, C, D, Some>.Type) -> FourArgsClosure<A, B, C, D, Some> {
+    { _, _, _, _ in
+        SomeDummy()
+    }
 }
 """#
 #endif

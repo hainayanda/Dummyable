@@ -12,8 +12,14 @@ import SwiftSyntax
 
 struct DummyMacro: DeclarationMacro {
     @inlinable static func expansion(of node: some FreestandingMacroExpansionSyntax, in context: some MacroExpansionContext) throws -> [DeclSyntax] {
-        try FreestandingDummyDeclarationFactory(use: node)
-            .buildDecl()
-            .inArray()
+        try DeclBuildersAggregator(
+            FreestandingDummyDeclarationFactory(use: node),
+            DummyClosureFuncDeclFactory(node: node, closureType: .noArg),
+            DummyClosureFuncDeclFactory(node: node, closureType: .oneArg),
+            DummyClosureFuncDeclFactory(node: node, closureType: .twoArg),
+            DummyClosureFuncDeclFactory(node: node, closureType: .threeArg),
+            DummyClosureFuncDeclFactory(node: node, closureType: .fourArg)
+        )
+        .buildAllDecl()
     }
 }

@@ -25,3 +25,12 @@ struct StructDeclExtraction: TypeDeclExtraction {
         }
     }
 }
+
+extension DummyClosureFuncDeclFactory {
+    init(structDecl: StructDeclSyntax, closureType: DummyClosureFuncDeclFactory.ClosureType) {
+        self.init(
+            typeExtraction: StructDeclExtraction(source: structDecl),
+            closureType: closureType
+        )
+    }
+}

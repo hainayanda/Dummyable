@@ -53,5 +53,35 @@ class Some {
 func dummy(of type: Some.Type) -> Some {
     Some(string: dummy(of: String?.self))
 }
+
+func dummy(of type: Closure<Some>.Type) -> Closure<Some> {
+    {
+        dummy(of: Some.self)
+    }
+}
+
+func dummy<A>(of type: ArgClosure<A, Some>.Type) -> ArgClosure<A, Some> {
+    { _ in
+        dummy(of: Some.self)
+    }
+}
+
+func dummy<A, B>(of type: TwoArgsClosure<A, B, Some>.Type) -> TwoArgsClosure<A, B, Some> {
+    { _, _ in
+        dummy(of: Some.self)
+    }
+}
+
+func dummy<A, B, C>(of type: ThreeArgsClosure<A, B, C, Some>.Type) -> ThreeArgsClosure<A, B, C, Some> {
+    { _, _, _ in
+        dummy(of: Some.self)
+    }
+}
+
+func dummy<A, B, C, D>(of type: FourArgsClosure<A, B, C, D, Some>.Type) -> FourArgsClosure<A, B, C, D, Some> {
+    { _, _, _, _ in
+        dummy(of: Some.self)
+    }
+}
 """#
 #endif

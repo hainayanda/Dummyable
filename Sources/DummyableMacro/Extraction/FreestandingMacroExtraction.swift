@@ -35,3 +35,17 @@ struct FreestandingMacroExtraction {
         }
     }
 }
+
+extension DummyClosureFuncDeclFactory {
+    init(node: FreestandingMacroExpansionSyntax, closureType: DummyClosureFuncDeclFactory.ClosureType) throws {
+        let extraction = try FreestandingMacroExtraction(from: node)
+        self.init(
+            closureType: closureType,
+            attributes: [],
+            modifiers: extraction.modifiers,
+            returnType: IdentifierTypeSyntax(name: .identifier(extraction.type.trimmedDescription)),
+            creationType: .codeBlock(extraction.closure.statements.trimmed)
+        )
+    }
+        
+}

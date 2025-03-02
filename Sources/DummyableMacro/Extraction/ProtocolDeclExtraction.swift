@@ -74,3 +74,14 @@ extension DummyInitFuncDeclFactory {
         )
     }
 }
+
+extension DummyClosureFuncDeclFactory {
+    init(protocolDecl: ProtocolDeclSyntax, node: AttributeSyntax, closureType: DummyClosureFuncDeclFactory.ClosureType) {
+        let extraction = ProtocolDeclExtraction(source: protocolDecl, attribute: node)
+        self.init(
+            typeExtraction: extraction,
+            closureType: closureType,
+            creationType: .emptyInitCall(extraction.generationName)
+        )
+    }
+}

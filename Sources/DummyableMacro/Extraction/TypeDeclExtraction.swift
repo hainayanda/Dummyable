@@ -49,3 +49,15 @@ extension DummyInitFuncDeclFactory {
         )
     }
 }
+
+extension DummyClosureFuncDeclFactory {
+    init(typeExtraction: TypeDeclExtraction, closureType: DummyClosureFuncDeclFactory.ClosureType, creationType: DummyClosureFuncDeclFactory.ClosureTypeCreation = .dummyFuncCall) {
+        self.init(
+            closureType: closureType,
+            attributes: typeExtraction.usableAttributes,
+            modifiers: typeExtraction.modifiers.onlyAccessModifier(),
+            returnType: IdentifierTypeSyntax(name: typeExtraction.declName),
+            creationType: creationType
+        )
+    }
+}
