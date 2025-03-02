@@ -7,16 +7,16 @@
 
 import SwiftSyntax
 
-struct DummyFuncFromProtocolDeclFactory: DummyFuncCallCodeBuilder {
+struct DummyFuncFromProtocolDeclFactory: DummyFuncCallExprBuilder {
     
     let modifiers: DeclModifierListSyntax
     let baseFunc: FunctionDeclSyntax
     
-    func buildFuncDecl() -> FunctionDeclSyntax {
+    @inlinable func buildFuncDecl() -> FunctionDeclSyntax {
         var modifiedFunc = baseFunc
         modifiedFunc.modifiers = modifiers
         modifiedFunc.body = CodeBlockSyntax {
-            buildDummyFunctionCallExpr(forType: baseFunc.signature.returnClause?.type)
+            buildDummyFuncCallExpr(forType: baseFunc.signature.returnClause?.type)
         }
         return modifiedFunc
     }

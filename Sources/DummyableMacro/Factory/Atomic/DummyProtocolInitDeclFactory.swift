@@ -1,5 +1,5 @@
 //
-//  DummyInitFromProtocolDeclFactory.swift
+//  DummyProtocolInitDeclFactory.swift
 //  Dummyable
 //
 //  Created by Nayanda Haberty on 01/03/25.
@@ -7,13 +7,13 @@
 
 import SwiftSyntax
 
-struct DummyInitFromProtocolDeclFactory: DummyFuncCallCodeBuilder {
+struct DummyProtocolInitDeclFactory: DummyFuncCallExprBuilder {
     
     let modifiers: DeclModifierListSyntax
     let baseInit: InitializerDeclSyntax
     let mandatoryVariables: [VariableDeclExtraction]
     
-    func buildInitDecl() -> InitializerDeclSyntax {
+    @inlinable func buildInitDecl() -> InitializerDeclSyntax {
         var modifiedInit = baseInit
         modifiedInit.modifiers = modifiers
         modifiedInit.body = CodeBlockSyntax(statements: buildInitBodyCodeBlock())
@@ -30,7 +30,7 @@ struct DummyInitFromProtocolDeclFactory: DummyFuncCallCodeBuilder {
                         name: .identifier(variable.name.trimmedDescription)
                     )
                     AssignmentExprSyntax()
-                    buildDummyFunctionCallExpr(
+                    buildDummyFuncCallExpr(
                         forType: variable.typeAnotation.type
                     )
                 }

@@ -58,25 +58,23 @@ private struct SomeDummy: Some {
     var string: String
     var float: Float?
     init() {
-        self.string = Dummies.dummy(of: String.self)
-        self.float = Dummies.dummy(of: Float?.self)
+        self.string = dummy(of: String.self)
+        self.float = dummy(of: Float?.self)
     }
     init?(int: Int) {
-        self.string = Dummies.dummy(of: String.self)
-        self.float = Dummies.dummy(of: Float?.self)
+        self.string = dummy(of: String.self)
+        self.float = dummy(of: Float?.self)
     }
     func voidFunc() async throws {
-        Dummies.dummy(of: Void.self)
+        dummy(of: Void.self)
     }
     func returnFunc(arg argument: String) async throws -> String {
-        Dummies.dummy(of: String.self)
+        dummy(of: String.self)
     }
 }
 
-extension Dummies {
-    static func dummy(of type: Some.Type) -> Some {
-        SomeDummy()
-    }
+func dummy(of type: Some.Type) -> Some {
+    SomeDummy()
 }
 """#
 
@@ -104,25 +102,23 @@ final private class SomeDummy: Some {
     var string: String
     var float: Float?
     init() {
-        self.string = Dummies.dummy(of: String.self)
-        self.float = Dummies.dummy(of: Float?.self)
+        self.string = dummy(of: String.self)
+        self.float = dummy(of: Float?.self)
     }
     init?(int: Int) {
-        self.string = Dummies.dummy(of: String.self)
-        self.float = Dummies.dummy(of: Float?.self)
+        self.string = dummy(of: String.self)
+        self.float = dummy(of: Float?.self)
     }
     func voidFunc() async throws {
-        Dummies.dummy(of: Void.self)
+        dummy(of: Void.self)
     }
     func returnFunc(arg argument: String) async throws -> String {
-        Dummies.dummy(of: String.self)
+        dummy(of: String.self)
     }
 }
 
-private extension Dummies {
-    static func dummy(of type: Some.Type) -> Some {
-        SomeDummy()
-    }
+private func dummy(of type: Some.Type) -> Some {
+    SomeDummy()
 }
 """#
 
@@ -150,21 +146,19 @@ final private class SomeDummy: Some {
     public var string: String
     public var float: Float?
     public init() {
-        self.string = Dummies.dummy(of: String.self)
-        self.float = Dummies.dummy(of: Float?.self)
+        self.string = dummy(of: String.self)
+        self.float = dummy(of: Float?.self)
     }
     public func voidFunc() async throws {
-        Dummies.dummy(of: Void.self)
+        dummy(of: Void.self)
     }
     public func returnFunc(arg argument: String) async throws -> String {
-        Dummies.dummy(of: String.self)
+        dummy(of: String.self)
     }
 }
 
-public extension Dummies {
-    static func dummy(of type: Some.Type) -> Some {
-        SomeDummy()
-    }
+public func dummy(of type: Some.Type) -> Some {
+    SomeDummy()
 }
 """#
 #endif

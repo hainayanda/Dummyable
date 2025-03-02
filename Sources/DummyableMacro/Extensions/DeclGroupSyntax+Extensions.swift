@@ -8,8 +8,7 @@
 import SwiftSyntax
 
 extension DeclGroupSyntax {
-    @inlinable
-    var canBeAttachedWithDummyMacro: Bool {
+    @inlinable var canBeAttachedWithDummyMacro: Bool {
         self.is(ClassDeclSyntax.self)
         || self.is(StructDeclSyntax.self)
         || self.is(ProtocolDeclSyntax.self)

@@ -8,14 +8,14 @@
 import SwiftSyntax
 
 extension EnumDeclSyntax {
-    var caseMarkedWithDummyableCaseAttr: EnumCaseElementSyntax? {
+    @inlinable var caseMarkedWithDummyableCaseAttr: EnumCaseElementSyntax? {
         memberBlock.members
             .compactMap { $0.decl.as(EnumCaseDeclSyntax.self) }
             .filter { $0.hasDummyableCaseAttribute }
             .first?.elements.first
     }
     
-    var easiestCase: EnumCaseElementSyntax? {
+    @inlinable var easiestCase: EnumCaseElementSyntax? {
         memberBlock.members
             .compactMap { $0.decl.as(EnumCaseDeclSyntax.self) }
             .compactMap { $0.elements.first }

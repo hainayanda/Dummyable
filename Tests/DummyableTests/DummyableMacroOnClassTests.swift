@@ -50,10 +50,8 @@ class Some {
     }
 }
 
-extension Dummies {
-    static func dummy(of type: Some.Type) -> Some {
-        Some(string: Dummies.dummy(of: String?.self))
-    }
+func dummy(of type: Some.Type) -> Some {
+    Some(string: dummy(of: String?.self))
 }
 """#
 #endif

@@ -8,7 +8,7 @@
 import SwiftSyntax
 
 extension ProtocolDeclSyntax {
-    var isObjectProtocol: Bool {
+    @inlinable var isObjectProtocol: Bool {
         inheritanceClause?.inheritedTypes.contains {
             $0.trimmedDescription == "AnyObject"
             || $0.trimmedDescription == "class"

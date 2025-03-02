@@ -8,14 +8,14 @@
 import SwiftSyntax
 
 extension DeclSyntax {
-    func inArray() -> [DeclSyntax] {
+    @inlinable func inArray() -> [DeclSyntax] {
         [self]
     }
 }
 
 extension Optional where Wrapped == DeclSyntax {
-    func inArray() -> [DeclSyntax] {
+    @inlinable func inArray() -> [DeclSyntax] {
         guard let self = self else { return [] }
-        return [self]
+        return self.inArray()
     }
 }

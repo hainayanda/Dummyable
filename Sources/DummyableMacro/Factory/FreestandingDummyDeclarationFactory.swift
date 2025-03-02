@@ -7,24 +7,24 @@
 
 import SwiftSyntax
 
-struct FreestandingDummyDeclarationFactory {
+struct FreestandingDummyDeclarationFactory: DeclBuilder {
     let extraction: FreestandingMacroExtraction
-    let staticMacroFactory: StaticDummyFuncDeclFactory
+    let dummyFuncDeclFactory: DummyFuncDeclFactory
     
-    init(extraction: FreestandingMacroExtraction) {
-        self.extraction = extraction
-        self.staticMacroFactory = StaticDummyFuncDeclFactory(
+    @inlinable init(use freestanding: FreestandingMacroExpansionSyntax) throws {
+        self.extraction = try FreestandingMacroExtraction(from: freestanding)
+        self.dummyFuncDeclFactory = DummyFuncDeclFactory(
+            attributes: [],
+            modifiers: [],
             returnType: IdentifierTypeSyntax(name: extraction.type.baseName)
         )
     }
     
-    func buildDecl() throws -> [DeclSyntax] {
-        [
-            DeclSyntax(
-                staticMacroFactory.buildDummyFuncDecl {
-                    extraction.closure.statements.trimmed
-                }
-            )
-        ]
+    @inlinable func buildDecl() throws -> DeclSyntax? {
+        DeclSyntax(
+            dummyFuncDeclFactory.buildDummyFuncDecl {
+                extraction.closure.statements.trimmed
+            }
+        )
     }
 }

@@ -11,7 +11,7 @@ struct FreestandingMacroExtraction {
     let type: DeclReferenceExprSyntax
     let closure: ClosureExprSyntax
     
-    init(from node: some FreestandingMacroExpansionSyntax) throws {
+    @inlinable init(from node: FreestandingMacroExpansionSyntax) throws {
         guard let expression = node.argumentList.first?.expression.as(MemberAccessExprSyntax.self),
               let type = expression.base?.as(DeclReferenceExprSyntax.self) else {
             throw DummyableMacroError.wrongArguments

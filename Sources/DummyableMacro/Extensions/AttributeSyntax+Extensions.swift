@@ -10,8 +10,8 @@ import SwiftSyntax
 extension AttributeSyntax {
     typealias DTS = DummyableTokenSyntaxes
     
-    @inlinable
-    func `is`(_ name: AttributeName) -> Bool { name.applicableAttributes.contains(attributeName.trimmedDescription)
+    @inlinable func `is`(_ name: AttributeName) -> Bool {
+        name.applicableAttributes.contains(attributeName.trimmedDescription)
     }
     
     var typeArgumentGenerationType: DummyGenerationType? {

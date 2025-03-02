@@ -7,6 +7,7 @@
 
 import SwiftSyntax
 
+@usableFromInline
 struct ArgumentExpression {
     let offset: Int
     let expr: ExprSyntax

@@ -52,10 +52,8 @@ enum Some {
     case none
 }
 
-extension Dummies {
-    static func dummy(of type: Some.Type) -> Some {
-        .none
-    }
+func dummy(of type: Some.Type) -> Some {
+    .none
 }
 """#
 
@@ -75,10 +73,8 @@ enum Some {
     case threeParameter(string: String, int: Int, double: Double)
 }
 
-extension Dummies {
-    static func dummy(of type: Some.Type) -> Some {
-        .oneParameter(string: Dummies.dummy(of: String.self))
-    }
+func dummy(of type: Some.Type) -> Some {
+    .oneParameter(string: dummy(of: String.self))
 }
 """#
 
@@ -100,10 +96,8 @@ enum Some {
     case none
 }
 
-extension Dummies {
-    static func dummy(of type: Some.Type) -> Some {
-        .withParameter(string: Dummies.dummy(of: String.self), int: Dummies.dummy(of: Int.self))
-    }
+func dummy(of type: Some.Type) -> Some {
+    .withParameter(string: dummy(of: String.self), int: dummy(of: Int.self))
 }
 """#
 #endif

@@ -11,12 +11,12 @@ struct ProtocolDeclExtraction: TypeDeclExtraction {
     
     typealias DTS = DummyableTokenSyntaxes
     
-    let source: ProtocolDeclSyntax
-    var sourceDecl: TypeDeclSyntax { source }
+    private let source: ProtocolDeclSyntax
+    @inlinable var sourceDecl: TypeDeclSyntax { source }
+    
     let attribute: AttributeSyntax
     
-    @inlinable
-    var generationType: DummyGenerationType {
+    @inlinable var generationType: DummyGenerationType {
         get throws {
             let isObjectProtocol = source.isObjectProtocol
             if let fromArguments = try attribute.typeArgumentGenerationType {
@@ -30,20 +30,19 @@ struct ProtocolDeclExtraction: TypeDeclExtraction {
         }
     }
     
-    @inlinable
-    var generationName: TokenSyntax {
+    @inlinable var generationName: TokenSyntax {
         source.name.append(DTS.dummyType).trimmed
     }
     
     let variablesNeededForInit: [VariableDeclSyntax]
     
-    var mandatoryFunctions: [FunctionDeclSyntax] {
+    @inlinable var mandatoryFunctions: [FunctionDeclSyntax] {
         source.memberBlock.members.compactMap {
             $0.decl.as(FunctionDeclSyntax.self)?.trimmed
         }
     }
     
-    var mandatoryInits: [InitializerDeclSyntax] {
+    @inlinable var mandatoryInits: [InitializerDeclSyntax] {
         let fromProtocol = source.memberBlock.members.compactMap {
             $0.decl.as(InitializerDeclSyntax.self)?.trimmed
         }
@@ -55,7 +54,7 @@ struct ProtocolDeclExtraction: TypeDeclExtraction {
     
     var usableInitDecl: InitializerDeclSyntax?
     
-    init(source: ProtocolDeclSyntax, attribute: AttributeSyntax) {
+    @inlinable init(source: ProtocolDeclSyntax, attribute: AttributeSyntax) {
         self.source = source
         self.attribute = attribute
         self.variablesNeededForInit = source.memberBlock.members.compactMap {
@@ -64,8 +63,8 @@ struct ProtocolDeclExtraction: TypeDeclExtraction {
     }
 }
 
-extension DummiesInitStaticFuncDeclFactory {
-    init(protocolExtraction: ProtocolDeclExtraction) {
+extension DummyInitFuncDeclFactory {
+    @inlinable init(protocolExtraction: ProtocolDeclExtraction) {
         self.init(
             attributes: protocolExtraction.usableAttributes,
             modifiers: protocolExtraction.modifiers,

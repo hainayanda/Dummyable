@@ -8,19 +8,18 @@
 #if canImport(SwiftUI)
 import SwiftUI
 
-// periphery:ignore
-extension Dummies {
-    @inlinable public static func dummy(of type: Color.Type) -> Color {
-        Color.clear
-    }
-    
-    @inlinable public static func dummy(of type: Font.Type) -> Font {
-        Font.body
-    }
-    
-    @inlinable public static func dummy(of type: Image.Type) -> Image {
-        Image(systemName: "circle")
-    }
+// periphery:ignore:parameters type
+@inlinable public func dummy(of type: Color.Type) -> Color {
+    Color.clear
+}
 
+// periphery:ignore:parameters type
+@inlinable public func dummy(of type: Font.Type) -> Font {
+    Font.body
+}
+
+// periphery:ignore:parameters type
+@inlinable public func dummy(of type: Image.Type) -> Image {
+    Image(systemName: "circle")
 }
 #endif

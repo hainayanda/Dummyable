@@ -8,22 +8,23 @@
 #if canImport(Combine)
 import Combine
 
-// periphery:ignore
-extension Dummies {
-    @inlinable public static func dummy<Output, Failure>(of type: Future<Output, Failure>.Type) -> Future<Output, Failure> {
-        Future { _ in }
-    }
-    
-    @inlinable public static func dummy<Output, Failure>(of type: AnyPublisher<Output, Failure>.Type) -> AnyPublisher<Output, Failure> {
-        Empty(completeImmediately: true).eraseToAnyPublisher()
-    }
-    
-    @inlinable public static func dummy<Output, Failure>(of type: PassthroughSubject<Output, Failure>.Type) -> PassthroughSubject<Output, Failure> {
-        PassthroughSubject()
-    }
-    
-    @inlinable public static func dummy(of type: AnyCancellable.Type) -> AnyCancellable {
-        AnyCancellable {}
-    }
+// periphery:ignore:parameters type
+@inlinable public func dummy<Output, Failure>(of type: Future<Output, Failure>.Type) -> Future<Output, Failure> {
+    Future { _ in }
+}
+
+// periphery:ignore:parameters type
+@inlinable public func dummy<Output, Failure>(of type: AnyPublisher<Output, Failure>.Type) -> AnyPublisher<Output, Failure> {
+    Empty(completeImmediately: true).eraseToAnyPublisher()
+}
+
+// periphery:ignore:parameters type
+@inlinable public func dummy<Output, Failure>(of type: PassthroughSubject<Output, Failure>.Type) -> PassthroughSubject<Output, Failure> {
+    PassthroughSubject()
+}
+
+// periphery:ignore:parameters type
+@inlinable public func dummy(of type: AnyCancellable.Type) -> AnyCancellable {
+    AnyCancellable {}
 }
 #endif

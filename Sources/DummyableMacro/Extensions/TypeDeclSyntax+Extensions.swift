@@ -8,7 +8,7 @@
 import SwiftSyntax
 
 extension TypeDeclSyntax {
-    var initDeclMarkedWithDummyableInitAttr: InitializerDeclSyntax? {
+    @inlinable var initDeclMarkedWithDummyableInitAttr: InitializerDeclSyntax? {
         memberBlock.members
             .compactMap {
                 $0.decl.as(InitializerDeclSyntax.self)
@@ -17,7 +17,7 @@ extension TypeDeclSyntax {
             .first
     }
     
-    var initDeclWithMandatoryParameters: InitializerDeclSyntax? {
+    @inlinable var initDeclWithMandatoryParameters: InitializerDeclSyntax? {
         let variables = self.mandatoryVariables
         return memberBlock.members
             .compactMap {
@@ -27,7 +27,7 @@ extension TypeDeclSyntax {
             .first { $0.argumentMatched(with: variables) }
     }
     
-    var mandatoryVariables: [VariableDeclSyntax] {
+    @inlinable var mandatoryVariables: [VariableDeclSyntax] {
         memberBlock.members.compactMap {
             $0.decl.as(VariableDeclSyntax.self)
         }

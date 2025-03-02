@@ -1,5 +1,5 @@
 //
-//  DummiesEnumStaticFuncDeclFactory.swift
+//  DummyEnumFuncDeclFactory.swift
 //  Dummyable
 //
 //  Created by Nayanda Haberty on 02/03/25.
@@ -7,13 +7,13 @@
 
 import SwiftSyntax
 
-struct DummiesEnumStaticFuncDeclFactory: DummyFuncCallCodeBuilder {
+struct DummyEnumFuncDeclFactory: DummyFuncCallExprBuilder {
     
-    let baseFactory: DummiesStaticFuncDeclFactory
+    let baseFactory: DummyFuncDeclFactory
     let enumCase: EnumCaseElementSyntax
     
-    init(attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax, returnType: IdentifierTypeSyntax, enumCase: EnumCaseElementSyntax) {
-        self.baseFactory = DummiesStaticFuncDeclFactory(
+    @inlinable init(attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax, returnType: IdentifierTypeSyntax, enumCase: EnumCaseElementSyntax) {
+        self.baseFactory = DummyFuncDeclFactory(
             attributes: attributes,
             modifiers: modifiers,
             returnType: returnType
@@ -21,8 +21,8 @@ struct DummiesEnumStaticFuncDeclFactory: DummyFuncCallCodeBuilder {
         self.enumCase = enumCase
     }
     
-    func builDummiesExtDecl() -> ExtensionDeclSyntax {
-        baseFactory.builDummiesExtDecl {
+    @inlinable func buildDummyFuncDecl() -> FunctionDeclSyntax {
+        baseFactory.buildDummyFuncDecl {
             buildDummyableCaseCodeBlock()
         }
     }
@@ -55,11 +55,11 @@ struct DummiesEnumStaticFuncDeclFactory: DummyFuncCallCodeBuilder {
                     LabeledExprSyntax(
                         label: name,
                         colon: .colonToken(),
-                        expression: buildDummyFunctionCallExpr(forType: parameter.type)
+                        expression: buildDummyFuncCallExpr(forType: parameter.type)
                     )
                 } else {
                     LabeledExprSyntax(
-                        expression: buildDummyFunctionCallExpr(forType: parameter.type)
+                        expression: buildDummyFuncCallExpr(forType: parameter.type)
                     )
                 }
             }

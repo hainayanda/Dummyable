@@ -11,7 +11,7 @@ struct VariableDeclExtraction {
     let name: IdentifierPatternSyntax
     let typeAnotation: TypeAnnotationSyntax
     
-    init?(variable: VariableDeclSyntax) {
+    @inlinable init?(variable: VariableDeclSyntax) {
         let pair = variable.bindings.compactMap { binding -> (IdentifierPatternSyntax, TypeAnnotationSyntax)? in
             guard let identifierPattern = binding.pattern.as(IdentifierPatternSyntax.self)?.trimmed,
                   let type = binding.typeAnnotation else {

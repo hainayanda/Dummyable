@@ -9,12 +9,12 @@ import SwiftSyntax
 
 struct EnumDeclExtraction: TypeDeclExtraction {
     
-    let source: EnumDeclSyntax
-    var sourceDecl: TypeDeclSyntax { source }
+    private let source: EnumDeclSyntax
+    @inlinable var sourceDecl: TypeDeclSyntax { source }
     
     let choosenCase: EnumCaseElementSyntax
     
-    init(source: EnumDeclSyntax) throws {
+    @inlinable init(source: EnumDeclSyntax) throws {
         self.source = source
         let choosenCase = source.caseMarkedWithDummyableCaseAttr ?? source.easiestCase
         guard let choosenCase else {
@@ -24,8 +24,8 @@ struct EnumDeclExtraction: TypeDeclExtraction {
     }
 }
 
-extension DummiesEnumStaticFuncDeclFactory {
-    init(extraction: EnumDeclExtraction) {
+extension DummyEnumFuncDeclFactory {
+    @inlinable init(extraction: EnumDeclExtraction) {
         self.init(
             attributes: extraction.usableAttributes,
             modifiers: extraction.modifiers,

@@ -1,52 +1,31 @@
 //
-//  DummyOnProtocolTypeDeclFactory.swift
+//  DummyTypeDeclFactory.swift
 //  Dummyable
 //
-//  Created by Nayanda Haberty on 24/02/25.
+//  Created by Nayanda Haberty on 02/03/25.
 //
 
 import SwiftSyntax
 
-struct ProtocolDummyablePeerFactory: DummyFuncCallCodeBuilder {
+struct DummyTypeDeclFactory<Syntax: BuildableTypeDeclSyntax>: DeclBuilder {
     
+    let modifiers: DeclModifierListSyntax
     let extraction: ProtocolDeclExtraction
     
-    init(extraction: ProtocolDeclExtraction) {
+    // periphery:ignore:parameters type
+    @inlinable init(modifiers: DeclModifierListSyntax, extraction: ProtocolDeclExtraction, for type: Syntax.Type) {
+        self.modifiers = modifiers
         self.extraction = extraction
     }
     
-    func buildDecl() throws -> [DeclSyntax] {
-        return switch try extraction.generationType {
-        case .class:
-            [try DeclSyntax(buildClassDecl())]
-        case .struct:
-            [try DeclSyntax(buildStructDecl())]
-        }
+    @inlinable func buildDecl() throws -> DeclSyntax? {
+        try DeclSyntax(buildTypeDecl())
     }
     
-    private func buildStructDecl() throws -> StructDeclSyntax {
-        try StructDeclSyntax(
+    private func buildTypeDecl() throws -> Syntax {
+        try Syntax(
             attributes: extraction.usableAttributes,
-            modifiers: [.private],
-            name: extraction.generationName,
-            inheritanceClause: buildInherintanceClause()
-        ) {
-            for variable in extraction.variablesNeededForInit {
-                try buildVariableDecl(from: variable)
-            }
-            for initializer in extraction.mandatoryInits {
-                buildMandatoryInit(from: initializer)
-            }
-            for function in extraction.mandatoryFunctions {
-                buildFuncDecl(from: function)
-            }
-        }
-    }
-    
-    private func buildClassDecl() throws -> ClassDeclSyntax {
-        try ClassDeclSyntax(
-            attributes: extraction.usableAttributes,
-            modifiers: [.final, .private],
+            modifiers: modifiers,
             name: extraction.generationName,
             inheritanceClause: buildInherintanceClause()
         ) {
@@ -73,7 +52,7 @@ struct ProtocolDummyablePeerFactory: DummyFuncCallCodeBuilder {
     }
     
     private func buildVariableDecl(from variable: VariableDeclSyntax) throws -> VariableDeclSyntax {
-        try DummyVariableFromProtocolDeclFactory(
+        try DummyProtocolVariableDeclFactory(
             modifiers: extraction.modifiers.noLessThanInternal(),
             baseVariable: variable
         )
@@ -81,7 +60,7 @@ struct ProtocolDummyablePeerFactory: DummyFuncCallCodeBuilder {
     }
     
     private func buildMandatoryInit(from initializer: InitializerDeclSyntax) -> InitializerDeclSyntax {
-        DummyInitFromProtocolDeclFactory(
+        DummyProtocolInitDeclFactory(
             modifiers: extraction.modifiers.noLessThanInternal(),
             baseInit: initializer,
             mandatoryVariables: extraction.variablesNeededForInit.extracts()
@@ -97,5 +76,3 @@ struct ProtocolDummyablePeerFactory: DummyFuncCallCodeBuilder {
         .buildFuncDecl()
     }
 }
-
-

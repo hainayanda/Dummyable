@@ -8,7 +8,7 @@
 import SwiftSyntax
 
 extension EnumCaseElementSyntax {
-    var parameterCount: Int {
+    @inlinable var parameterCount: Int {
         parameterClause?.parameters.count ?? 0
     }
 }

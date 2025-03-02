@@ -118,25 +118,24 @@ enum EnumDummyableMarkedCase {
     case any
 }
 
+// periphery:ignore
 struct Dum {
     let string: String?
 }
 
-extension Dummies {
-    #Dummy(of: Dum.self) {
-        Dum(string: "some")
-    }
+#Dummy(of: Dum.self) {
+    Dum(string: "some")
 }
 
 // periphery:ignore
 func testCompiledDummyCreation() {
-    _ = Dummies.dummy(of: StructDummyProtocol.self)
-    _ = Dummies.dummy(of: ClassDummyProtocol.self)
-    _ = Dummies.dummy(of: AnyObjectDummyProtocol.self)
-    _ = Dummies.dummy(of: StructDummy.self)
-    _ = Dummies.dummy(of: StructDummyableMarkedInit.self)
-    _ = Dummies.dummy(of: ClassDummyableMarkedInit.self)
-    _ = Dummies.dummy(of: EnumDummyable.self)
-    _ = Dummies.dummy(of: EnumDummyableMarkedCase.self)
-    _ = Dummies.dummy(of: Dum.self)
+    _ = dummy(of: StructDummyProtocol.self)
+    _ = dummy(of: ClassDummyProtocol.self)
+    _ = dummy(of: AnyObjectDummyProtocol.self)
+    _ = dummy(of: StructDummy.self)
+    _ = dummy(of: StructDummyableMarkedInit.self)
+    _ = dummy(of: ClassDummyableMarkedInit.self)
+    _ = dummy(of: EnumDummyable.self)
+    _ = dummy(of: EnumDummyableMarkedCase.self)
+    _ = dummy(of: Dum.self)
 }

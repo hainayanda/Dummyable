@@ -10,12 +10,12 @@ import SwiftSyntax
 struct StructDeclExtraction: TypeDeclExtraction {
     
     let source: StructDeclSyntax
-    var sourceDecl: TypeDeclSyntax { source }
+    @inlinable var sourceDecl: TypeDeclSyntax { source }
     
     let variablesNeededForInit: [VariableDeclSyntax]
     let usableInitDecl: InitializerDeclSyntax?
     
-    init(source: StructDeclSyntax) {
+    @inlinable init(source: StructDeclSyntax) {
         self.source = source
         self.usableInitDecl = source.initDeclMarkedWithDummyableInitAttr ?? source.initDeclWithMandatoryParameters
         self.variablesNeededForInit = if usableInitDecl == nil {

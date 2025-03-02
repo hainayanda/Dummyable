@@ -8,12 +8,12 @@
 #if canImport(CoreGraphics)
 import CoreGraphics
 
-// periphery:ignore
-extension Dummies {
-    @inlinable public static func dummy(of type: CGSize.Type) -> CGSize { .zero }
-    
-    @inlinable public static func dummy(of type: CGPoint.Type) -> CGPoint { .zero }
-    
-    @inlinable public static func dummy(of type: CGRect.Type) -> CGRect { .zero }
-}
+// periphery:ignore:parameters type
+@inlinable public func dummy(of type: CGSize.Type) -> CGSize { .zero }
+
+// periphery:ignore:parameters type
+@inlinable public func dummy(of type: CGPoint.Type) -> CGPoint { .zero }
+
+// periphery:ignore:parameters type
+@inlinable public func dummy(of type: CGRect.Type) -> CGRect { .zero }
 #endif

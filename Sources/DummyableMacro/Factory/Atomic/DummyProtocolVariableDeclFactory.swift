@@ -1,5 +1,5 @@
 //
-//  DummyVariableFromProtocolDeclFactory.swift
+//  DummyProtocolVariableDeclFactory.swift
 //  Dummyable
 //
 //  Created by Nayanda Haberty on 02/03/25.
@@ -7,12 +7,12 @@
 
 import SwiftSyntax
 
-struct DummyVariableFromProtocolDeclFactory {
+struct DummyProtocolVariableDeclFactory {
     
     let modifiers: DeclModifierListSyntax
     let baseVariable: VariableDeclSyntax
     
-    func buildVariableDecl() throws -> VariableDeclSyntax {
+    @inlinable func buildVariableDecl() throws -> VariableDeclSyntax {
         guard let variableExtraction = baseVariable.extraction else {
             throw DummyableMacroError.failToGenerateMacro
         }

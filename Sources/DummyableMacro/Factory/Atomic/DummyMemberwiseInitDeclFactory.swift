@@ -7,12 +7,12 @@
 
 import SwiftSyntax
 
-struct DummyMemberwiseInitDeclFactory: DummyFuncCallCodeBuilder {
+struct DummyMemberwiseInitDeclFactory: DummyFuncCallExprBuilder {
     
     let modifiers: DeclModifierListSyntax
     let parameters: [InitMemberwiseParam]
     
-    func buildInitDecl() -> InitializerDeclSyntax {
+    @inlinable func buildInitDecl() -> InitializerDeclSyntax {
         InitializerDeclSyntax(
             modifiers: modifiers,
             signature: FunctionSignatureSyntax(
@@ -48,7 +48,7 @@ struct DummyMemberwiseInitDeclFactory: DummyFuncCallCodeBuilder {
                 for parameter in parameters {
                     parameter.raw.withDefaultValue(
                         InitializerClauseSyntax(
-                            value: buildDummyFunctionCallExpr(
+                            value: buildDummyFuncCallExpr(
                                 forType: parameter.type
                             )
                         )

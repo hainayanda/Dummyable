@@ -30,34 +30,26 @@ final class DummyMacroOnStructTests: XCTestCase {
 }
 
 private let basicDummy = #"""
-extension Dummies {
-    #Dummy(of: Some.self, dummyProvider: {
-        Some()
-    })
-}
+#Dummy(of: Some.self, dummyProvider: {
+    Some()
+})
 """#
 
 private let basicDummyExpansions = #"""
-extension Dummies {
-    static func dummy(of type: Some.Type) -> Some {
-        Some()
-    }
+func dummy(of type: Some.Type) -> Some {
+    Some()
 }
 """#
 
 private let trailingDummy = #"""
-extension Dummies {
-    #Dummy(of: Some.self) {
-        Some()
-    }
+#Dummy(of: Some.self) {
+    Some()
 }
 """#
 
 private let trailingDummyExpansions = #"""
-extension Dummies {
-    static func dummy(of type: Some.Type) -> Some {
-        Some()
-    }
+func dummy(of type: Some.Type) -> Some {
+    Some()
 }
 """#
 #endif

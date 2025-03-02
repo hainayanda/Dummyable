@@ -7,6 +7,7 @@
 
 import SwiftSyntax
 
+@usableFromInline
 struct InitMemberwiseParam {
     let raw: FunctionParameterSyntax
     let destination: TokenSyntax

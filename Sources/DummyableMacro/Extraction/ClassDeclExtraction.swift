@@ -9,17 +9,16 @@ import SwiftSyntax
 
 struct ClassDeclExtraction: TypeDeclExtraction {
     
-    let source: ClassDeclSyntax
-    var sourceDecl: TypeDeclSyntax { source }
+    private let source: ClassDeclSyntax
+    @inlinable var sourceDecl: TypeDeclSyntax { source }
     
-    @inlinable
-    var modifiers: DeclModifierListSyntax {
+    @inlinable var modifiers: DeclModifierListSyntax {
         source.modifiers.onlyAccessModifier().trimmed
     }
     
     let usableInitDecl: InitializerDeclSyntax?
     
-    init(source: ClassDeclSyntax) throws {
+    @inlinable init(source: ClassDeclSyntax) throws {
         self.source = source
         guard let initDecl = source.initDeclMarkedWithDummyableInitAttr else {
             throw DummyableMacroError.dummyNeedDummyableInit

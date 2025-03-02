@@ -16,11 +16,11 @@ protocol TypeDeclExtraction {
 }
 
 extension TypeDeclExtraction {
-    var declName: TokenSyntax {
+    @inlinable var declName: TokenSyntax {
         sourceDecl.name.trimmed
     }
     
-    var usableAttributes: AttributeListSyntax {
+    @inlinable var usableAttributes: AttributeListSyntax {
         AttributeListSyntax(
             sourceDecl.attributes
                 .compactMap { $0.as(AttributeSyntax.self) }
@@ -29,18 +29,17 @@ extension TypeDeclExtraction {
         )
     }
     
-    @inlinable
-    var modifiers: DeclModifierListSyntax {
+    @inlinable var modifiers: DeclModifierListSyntax {
         sourceDecl.modifiers.trimmed
     }
     
-    var usableInitDecl: InitializerDeclSyntax? {
+    @inlinable var usableInitDecl: InitializerDeclSyntax? {
         nil
     }
 }
 
-extension DummiesInitStaticFuncDeclFactory {
-    init(typeExtraction: TypeDeclExtraction) {
+extension DummyInitFuncDeclFactory {
+    @inlinable init(typeExtraction: TypeDeclExtraction) {
         self.init(
             attributes: typeExtraction.usableAttributes,
             modifiers: typeExtraction.modifiers,

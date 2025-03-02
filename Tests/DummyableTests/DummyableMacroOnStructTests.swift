@@ -44,16 +44,14 @@ struct Some {
     var doubles: [Double] = []
     let floats: Float = 0.0
 
-    init(string: String? = Dummies.dummy(of: String?.self), int: Int = Dummies.dummy(of: Int.self)) {
+    init(string: String? = dummy(of: String?.self), int: Int = dummy(of: Int.self)) {
         self.string = string
         self.int = int
     }
 }
 
-extension Dummies {
-    static func dummy(of type: Some.Type) -> Some {
-        Some()
-    }
+func dummy(of type: Some.Type) -> Some {
+    Some()
 }
 """#
 
@@ -87,10 +85,8 @@ private struct Some {
     }
 }
 
-private extension Dummies {
-    static func dummy(of type: Some.Type) -> Some {
-        Some(string: Dummies.dummy(of: String?.self))
-    }
+private func dummy(of type: Some.Type) -> Some {
+    Some(string: dummy(of: String?.self))
 }
 """#
 #endif

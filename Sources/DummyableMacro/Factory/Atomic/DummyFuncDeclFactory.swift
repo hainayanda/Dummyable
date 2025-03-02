@@ -1,5 +1,5 @@
 //
-//  StaticDummyFuncDeclFactory.swift
+//  DummyFuncDeclFactory.swift
 //  Dummyable
 //
 //  Created by Nayanda Haberty on 02/03/25.
@@ -7,17 +7,18 @@
 
 import SwiftSyntax
 
-struct StaticDummyFuncDeclFactory {
+struct DummyFuncDeclFactory {
     
     typealias DTS = DummyableTokenSyntaxes
     
+    let attributes: AttributeListSyntax
+    let modifiers: DeclModifierListSyntax
     let returnType: IdentifierTypeSyntax
     
-    func buildDummyFuncDecl(codeBlockBuilder: @escaping () -> CodeBlockItemListSyntax) -> FunctionDeclSyntax {
+    @inlinable func buildDummyFuncDecl(codeBlockBuilder: @escaping () -> CodeBlockItemListSyntax) -> FunctionDeclSyntax {
         FunctionDeclSyntax(
-            modifiers: DeclModifierListSyntax {
-                DeclModifierSyntax(name: .keyword(.static))
-            },
+            attributes: attributes,
+            modifiers: modifiers,
             name: DTS.dummy,
             signature: buildDummyFuncSignature()) {
                 codeBlockBuilder()

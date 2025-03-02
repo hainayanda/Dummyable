@@ -8,11 +8,12 @@
 
 import SwiftSyntax
 
+@usableFromInline
 enum DummyGenerationType {
     case `class`
     case `struct`
     
-    func validate(isObjectProtocol: Bool) throws {
+    @inlinable func validate(isObjectProtocol: Bool) throws {
         guard isObjectProtocol else { return }
         switch self {
         case .class:

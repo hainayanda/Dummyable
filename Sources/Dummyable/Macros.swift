@@ -8,14 +8,12 @@
 import SwiftUI
 
 @attached(member, names: arbitrary)
-@attached(extension, names: arbitrary)
-@attached(peer, names: named(dummy), suffixed(Dummy))
+@attached(peer, names: suffixed(Dummy), named(dummy(of:)))
 public macro Dummyable() = #externalMacro(
     module: "DummyableMacro", type: "DummyableMacro"
 )
 
-@attached(extension, names: arbitrary)
-@attached(peer, names: suffixed(Dummy))
+@attached(peer, names: suffixed(Dummy), named(dummy(of:)))
 public macro Dummyable(type: DummyType) = #externalMacro(
     module: "DummyableMacro", type: "DummyableMacro"
 )

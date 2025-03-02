@@ -8,7 +8,7 @@
 import SwiftSyntax
 
 extension FunctionParameterSyntax {
-    func withDefaultValue(_ value: InitializerClauseSyntax) -> FunctionParameterSyntax {
+    @inlinable func withDefaultValue(_ value: InitializerClauseSyntax) -> FunctionParameterSyntax {
         return FunctionParameterSyntax(
             firstName: firstName,
             secondName: secondName,

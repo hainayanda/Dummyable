@@ -10,8 +10,7 @@ import SwiftSyntax
 import SwiftSyntaxBuilder
 
 extension TokenSyntax {
-    @inlinable
-    func append(_ token: TokenSyntax) -> TokenSyntax {
+    @inlinable func append(_ token: TokenSyntax) -> TokenSyntax {
         "\(raw: trimmedDescription)\(raw: token.trimmedDescription)"
     }
 }

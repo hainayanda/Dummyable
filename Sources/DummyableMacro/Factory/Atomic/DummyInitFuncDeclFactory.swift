@@ -1,5 +1,5 @@
 //
-//  DummiesStaticFuncDeclCodeFactory.swift
+//  DummyInitFuncDeclFactory.swift
 //  Dummyable
 //
 //  Created by Nayanda Haberty on 26/02/25.
@@ -7,24 +7,24 @@
 
 import SwiftSyntax
 
-struct DummiesInitStaticFuncDeclFactory: DummyFuncCallCodeBuilder {
+struct DummyInitFuncDeclFactory: DummyFuncCallExprBuilder {
 
-    let baseFactory: DummiesStaticFuncDeclFactory
+    let baseFactory: DummyFuncDeclFactory
     let initType: DeclReferenceExprSyntax
-    let dummyInitializerParameters: [InitializerParameter]
+    let dummyInitParameters: [InitializerParameter]
     
-    init(attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax, returnType: IdentifierTypeSyntax, initType: DeclReferenceExprSyntax, dummyInitializerParameters: [InitializerParameter]) {
+    @inlinable init(attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax, returnType: IdentifierTypeSyntax, initType: DeclReferenceExprSyntax, dummyInitializerParameters: [InitializerParameter]) {
         self.initType = initType
-        self.dummyInitializerParameters = dummyInitializerParameters
-        self.baseFactory = DummiesStaticFuncDeclFactory(
+        self.dummyInitParameters = dummyInitializerParameters
+        self.baseFactory = DummyFuncDeclFactory(
             attributes: attributes,
             modifiers: modifiers,
             returnType: returnType
         )
     }
     
-    func builDummiesExtDecl() -> ExtensionDeclSyntax {
-        baseFactory.builDummiesExtDecl {
+    @inlinable func buildDummyFuncDecl() -> FunctionDeclSyntax {
+        baseFactory.buildDummyFuncDecl {
             buildDummyableInitializeCodeBlock()
         }
     }
@@ -42,16 +42,16 @@ struct DummiesInitStaticFuncDeclFactory: DummyFuncCallCodeBuilder {
     
     private func buildDummyableInitializerArguments() -> LabeledExprListSyntax {
         LabeledExprListSyntax {
-            for parameter in dummyInitializerParameters {
+            for parameter in dummyInitParameters {
                 if let name = parameter.name {
                     LabeledExprSyntax(
                         label: name,
                         colon: .colonToken(),
-                        expression: buildDummyFunctionCallExpr(forType: parameter.type)
+                        expression: buildDummyFuncCallExpr(forType: parameter.type)
                     )
                 } else {
                     LabeledExprSyntax(
-                        expression: buildDummyFunctionCallExpr(forType: parameter.type)
+                        expression: buildDummyFuncCallExpr(forType: parameter.type)
                     )
                 }
             }

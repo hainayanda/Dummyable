@@ -1,5 +1,5 @@
 //
-//  DummyFuncCallCodeBuilder.swift
+//  DummyFuncCallExprBuilder.swift
 //  Dummyable
 //
 //  Created by Nayanda Haberty on 26/02/25.
@@ -7,20 +7,15 @@
 
 import SwiftSyntax
 
-protocol DummyFuncCallCodeBuilder {
-    func buildDummyFunctionCallExpr(forType type: TypeSyntax?) -> FunctionCallExprSyntax
+protocol DummyFuncCallExprBuilder {
+    func buildDummyFuncCallExpr(forType type: TypeSyntax?) -> FunctionCallExprSyntax
 }
 
-extension DummyFuncCallCodeBuilder {
-    func buildDummyFunctionCallExpr(forType type: TypeSyntax?) -> FunctionCallExprSyntax {
+extension DummyFuncCallExprBuilder {
+    @inlinable func buildDummyFuncCallExpr(forType type: TypeSyntax?) -> FunctionCallExprSyntax {
         let type = type ?? TypeSyntax(IdentifierTypeSyntax(name: DummyableTokenSyntaxes.voidType))
         return FunctionCallExprSyntax(
-            calledExpression: MemberAccessExprSyntax(
-                base: DeclReferenceExprSyntax(
-                    baseName: .identifier(DummyableTokenSyntaxes.dummiesType.trimmedDescription)
-                ),
-                name: .identifier(DummyableTokenSyntaxes.dummy.trimmedDescription)
-            ),
+            calledExpression: DeclReferenceExprSyntax(baseName: DummyableTokenSyntaxes.dummy),
             leftParen: .leftParenToken(),
             arguments: LabeledExprListSyntax {
                 LabeledExprSyntax(

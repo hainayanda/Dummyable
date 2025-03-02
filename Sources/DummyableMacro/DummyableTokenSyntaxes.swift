@@ -23,7 +23,6 @@ public struct DummyableTokenSyntaxes {
     // MARK: Type
     
     static let dummyType: TokenSyntax = "Dummy"
-    static let dummiesType: TokenSyntax = "Dummies"
     static let typeType: TokenSyntax = "Type"
     static let voidType: TokenSyntax = "Void"
 }

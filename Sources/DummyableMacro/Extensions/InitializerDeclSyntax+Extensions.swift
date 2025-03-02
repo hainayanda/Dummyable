@@ -9,7 +9,7 @@ import SwiftSyntax
 
 extension InitializerDeclSyntax {
     
-    static var baseVoidInit: InitializerDeclSyntax {
+    @inlinable static var baseVoidInit: InitializerDeclSyntax {
         InitializerDeclSyntax(
             signature: FunctionSignatureSyntax(
                 parameterClause: FunctionParameterClauseSyntax(parameters: [])
@@ -17,14 +17,14 @@ extension InitializerDeclSyntax {
         )
     }
     
-    var hasDummyableInitAttribute: Bool {
+    @inlinable var hasDummyableInitAttribute: Bool {
         attributes
             .compactMap { $0.as(AttributeSyntax.self) }
             .compactMap { $0.attributeName.as(IdentifierTypeSyntax.self) }
             .contains { $0.name.trimmedDescription == "DummyableInit" }
     }
     
-    var canBeUsedAsDummyableInit: Bool {
+    @inlinable var canBeUsedAsDummyableInit: Bool {
         !modifiers.contains { $0.trimmedDescription == "private" }
         && genericWhereClause == nil
         && genericParameterClause == nil
@@ -56,11 +56,11 @@ extension InitializerDeclSyntax {
                     name: $0.firstName.trimmed,
                     type: $0.type.trimmed
                 )
-                    
+                
             }
     }
     
-    func isSimilar(with other: InitializerDeclSyntax) -> Bool {
+    @inlinable func isSimilar(with other: InitializerDeclSyntax) -> Bool {
         return self.optionalMark?.trimmedDescription == other.optionalMark?.trimmedDescription
         && self.genericParameterClause?.trimmedDescription == other.genericParameterClause?.trimmedDescription
         && self.signature.trimmedDescription == other.signature.trimmedDescription
@@ -69,7 +69,7 @@ extension InitializerDeclSyntax {
 }
 
 extension Sequence where Element == InitializerDeclSyntax {
-    func withDummyableInitAttribute() -> [InitializerDeclSyntax] {
+    @inlinable func withDummyableInitAttribute() -> [InitializerDeclSyntax] {
         filter { $0.hasDummyableInitAttribute && $0.canBeUsedAsDummyableInit }
     }
 }

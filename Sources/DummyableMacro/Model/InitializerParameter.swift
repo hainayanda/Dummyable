@@ -7,6 +7,7 @@
 
 import SwiftSyntax
 
+@usableFromInline
 struct InitializerParameter {
     let name: TokenSyntax?
     let type: TypeSyntax

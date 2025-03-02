@@ -8,7 +8,7 @@
 import SwiftSyntax
 
 extension EnumCaseDeclSyntax {
-    var hasDummyableCaseAttribute: Bool {
+    @inlinable var hasDummyableCaseAttribute: Bool {
         attributes
             .compactMap { $0.as(AttributeSyntax.self) }
             .compactMap { $0.attributeName.as(IdentifierTypeSyntax.self) }
