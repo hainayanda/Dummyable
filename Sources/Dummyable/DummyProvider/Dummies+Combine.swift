@@ -8,18 +8,17 @@
 #if canImport(Combine)
 import Combine
 
-#PublicDummy(of: Future<Generic, Generic>.self, .isGeneric(0, 1)) {
+#PublicDummy(of: Future<Generic, Generic>.self) {
     Future { _ in }
 }
-#PublicDummy(of: AnyPublisher<Generic, Generic>.self, .isGeneric(0, 1)) {
+#PublicDummy(of: AnyPublisher<Generic, Generic>.self) {
     Empty(completeImmediately: true).eraseToAnyPublisher()
 }
-#PublicDummy(of: PassthroughSubject<Generic, Generic>.self, .isGeneric(0, 1)) {
+#PublicDummy(of: PassthroughSubject<Generic, Generic>.self) {
     PassthroughSubject()
 }
 #PublicDummy(
     of: CurrentValueSubject<Generic, Generic>.self,
-    .isGeneric(0, 1),
     .where(0, conform: PlainInitializable.self)
 ) {
     CurrentValueSubject(.init())

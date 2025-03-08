@@ -48,7 +48,7 @@ import Foundation
 #PublicDummy(of: IndexPath.self) { IndexPath() }
 #PublicDummy(of: IndexSet.self) { IndexSet() }
 #PublicDummy(of: CGFloat.self) { .zero }
-#PublicDummy(of: Array<Generic>.self, .isGeneric(0)) { [] }
-#PublicDummy(of: Dictionary<Generic, Generic>.self, .isGeneric(0, 1)) { [:] }
-#PublicDummy(of: Optional<Generic>.self, .isGeneric(0)) { nil }
-#PublicDummy(of: Set<Generic>.self, .isGeneric(0)) { [] }
+#PublicDummy(of: Array<Generic>.self) { [] }
+#PublicDummy(of: Dictionary<Generic, Generic>.self) { [:] }
+#PublicDummy(of: Optional<Generic>.self) { nil }
+#PublicDummy(of: Set<Generic>.self) { [] }

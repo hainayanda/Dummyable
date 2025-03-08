@@ -22,9 +22,10 @@ struct FreestandingMacroExtraction {
         
         self.closure = closure
         
-        self.metaDatas = node.argumentList.dropFirst()
-            .compactMap { FreestandingMetaData(from: $0) }
-            .compacted()
+        self.metaDatas = (
+            node.argumentList.dropFirst().compactMap { FreestandingMetaData(from: $0) }
+            + expression.genericMetaDatas()
+        ).compacted()
         
         self.type = expression.identifierTypeSyntax(metaDatas: metaDatas)
         

@@ -8,6 +8,21 @@
 import SwiftSyntax
 
 extension ExprSyntax {
+    func genericMetaDatas() -> [FreestandingMetaData] {
+        guard let genericArgumentClause = getGenericArgumentClauseIfHasAny() else {
+            return []
+        }
+        let indexes = genericArgumentClause.arguments.enumerated()
+            .mapElement {
+                $0.trimmedDescription
+                    .replacingOccurrences(of: ",", with: "")
+                    .replacingOccurrences(of: " ", with: "")
+            }
+            .filter { $0.element == "Generic" }
+            .map { $0.offset }
+        return [.isGeneric(indexes)]
+    }
+    
     func identifierTypeSyntax(metaDatas: [FreestandingMetaData]) -> IdentifierTypeSyntax {
         IdentifierTypeSyntax(
             name: getBaseNameIfHasAny() ?? .identifier(trimmedDescription),

@@ -233,7 +233,7 @@ private func dummy<A, B, C, D>(of type: FourArgsClosure<A, B, C, D, Some>.Type) 
 """#
 
 private let genericDummy = #"""
-#PrivateDummy(of: Some<Generic>.self, .isGeneric(0)) {
+#PrivateDummy(of: Some<Generic>.self) {
     Some()
 }
 """#
