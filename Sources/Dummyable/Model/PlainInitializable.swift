@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol EmptyInitializable {
+public protocol PlainInitializable {
     init()
 }

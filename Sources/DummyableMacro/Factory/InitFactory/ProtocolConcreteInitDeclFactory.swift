@@ -1,5 +1,5 @@
 //
-//  DummyProtocolInitDeclFactory.swift
+//  ProtocolConcreteInitDeclFactory.swift
 //  Dummyable
 //
 //  Created by Nayanda Haberty on 01/03/25.
@@ -7,17 +7,20 @@
 
 import SwiftSyntax
 
-struct DummyProtocolInitDeclFactory: DummyFuncCallExprBuilder {
+struct ProtocolConcreteInitDeclFactory: DummyFuncCallExprBuilder {
     
     private let modifiers: DeclModifierListSyntax
     private let baseInit: InitializerDeclSyntax
     private let mandatoryVariables: [VariableDeclExtraction]
     
-    @inlinable init(modifiers: DeclModifierListSyntax, baseInit: InitializerDeclSyntax, mandatoryVariables: [VariableDeclExtraction]) {
-        self.modifiers = modifiers
-        self.baseInit = baseInit
-        self.mandatoryVariables = mandatoryVariables
-    }
+    @inlinable init(
+        modifiers: DeclModifierListSyntax,
+        baseInit: InitializerDeclSyntax,
+        mandatoryVariables: [VariableDeclExtraction]) {
+            self.modifiers = modifiers
+            self.baseInit = baseInit
+            self.mandatoryVariables = mandatoryVariables
+        }
     
     @inlinable func buildInitDecl() -> InitializerDeclSyntax {
         var modifiedInit = baseInit

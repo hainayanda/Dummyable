@@ -1,5 +1,5 @@
 //
-//  DummyInitFuncDeclFactory.swift
+//  DummyFuncUsingInitDeclFactory.swift
 //  Dummyable
 //
 //  Created by Nayanda Haberty on 26/02/25.
@@ -7,7 +7,7 @@
 
 import SwiftSyntax
 
-struct DummyInitFuncDeclFactory: DummyFuncCallExprBuilder {
+struct DummyFuncUsingInitDeclFactory: DeclBuilder, DummyFuncCallExprBuilder {
     
     private let baseFactory: DummyFuncDeclFactory
     private let initType: DeclReferenceExprSyntax
@@ -28,6 +28,10 @@ struct DummyInitFuncDeclFactory: DummyFuncCallExprBuilder {
                 genericWhereClause: genericWhereClause
             )
         }
+    
+    @inlinable func buildDecl() -> DeclSyntax? {
+        DeclSyntax(buildDummyFuncDecl())
+    }
     
     @inlinable func buildDummyFuncDecl() -> FunctionDeclSyntax {
         baseFactory.buildDummyFuncDecl {

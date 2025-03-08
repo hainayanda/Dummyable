@@ -8,36 +8,43 @@
 import Foundation
 
 extension String {
-    static var dummyMetaDataIsGenericRegex: String = #"(Dummyable\s*\.\s*)?(\s*DummyMetadata\s*)?\.\s*isGeneric\s*\(\s*[\[]?\s*"#
-    + arrayIntContentRegex
-    + #"\s*[\]]?\s*\)"#
+    static var regexDummyMetaIsGeneric: String = #"(Dummyable\s*\.\s*)?(\s*DummyMetadata\s*)?\.\s*isGeneric\s*\(\s*\[?\s*"#
+    + regexSeqOfInt
+    + #"\s*\]?\s*\)"#
     
-    static var dummyMetaDataWhereConformRegex: String = #"(Dummyable\s*\.\s*)?(\s*DummyMetadata\s*)?\.\s*whereConform\s*\(\s*(\d+)\s*,\s*[\[]?\s*"#
-    + arrayTypeContentRegex
-    + #"\s*[\]]?\s*\)"#
+    static var regexDummyMetaConform: String = #"(Dummyable\s*\.\s*)?(\s*DummyMetadata\s*)?\.\s*whereConform\s*\(\s*(\d+)\s*,\s*\[?\s*"#
+    + regexSeqOfType
+    + #"\s*\]?\s*\)"#
     
-    static var dummyMetaDataWhereConformAltRegex: String = #"(Dummyable\s*\.\s*)?(\s*DummyMetadata\s*)?\.\s*[`]?where[`]?\s*\(\s*(\d+)\s*,\s*conform\s*:\s*"#
-    + arrayTypeContentRegex
+    static var regexDummyMetaConformAlt: String = #"(Dummyable\s*\.\s*)?(\s*DummyMetadata\s*)?\.\s*`?where`?\s*\(\s*(\d+)\s*,\s*conform\s*:\s*"#
+    + regexSeqOfType
     + #"\s*\)"#
     
-    static var dummyMetaDataAvailableRegex: String = #"(Dummyable\s*\.\s*)?(\s*DummyMetadata\s*)?\.\s*available\s*\("#
-    + dummyAvailableContentRegex
+    static var regexDummyMetaAvailable: String = #"(Dummyable\s*\.\s*)?(\s*DummyMetadata\s*)?\.\s*available\s*\("#
+    + regexDummyMetaAvailableParam
     + #"\)"#
     
-    static var dummyAvailableContentRegex: String = #"(Dummyable\s*\.\s*)?(\s*DummyMetadata\s*.\s*)?(Platform\s*)?\.\s*\w+\s*\(\d+\.\d+\)?"#.regexArrayContent
+    static var regexDummyMetaAvailableParam: String = #"(Dummyable\s*\.\s*)?(\s*DummyMetadata\s*.\s*)?(Platform\s*)?\.\s*\w+\s*\(\d+\.\d+\)?"#
+        .regexArrayContent
         .regexCaptured
     
     // Int.self, String.self, Bool.self
-    static var arrayTypeContentRegex: String = #"(\(\s*any\s*)?\S+\s*\)?\.self"#.regexArrayContent.regexCaptured
+    static var regexSeqOfType: String = #"(\(\s*any\s*)?\S+\s*\)?\.self"#
+        .regexArrayContent
+        .regexCaptured
     
     // 1, 2, 3, 4, 5
-    static var arrayIntContentRegex: String = #"\d+"#.regexArrayContent.regexCaptured
+    static var regexSeqOfInt: String = regexDecimal.regexArrayContent.regexCaptured
     
-    @inlinable var regexTrimmed: String { "^\(self)$" }
+    static var regexDecimal: String = "\\d+"
     
-    @inlinable var regexArrayContent: String { #"\s*"# + self + #"\s*(,\s*"# + self + #"\s*)*"# }
+    @inlinable var regexAnchored: String { "^\(self)$" }
     
-    @inlinable var regexCaptured: String { #"("# + self + #")"# }
+    @inlinable var regexArrayContent: String {
+        "\\s*\(self)\\s*(,\\s*\(self)\\s*)*"
+    }
+    
+    @inlinable var regexCaptured: String { "(\(self))" }
     
     
     @inlinable func match(_ regex: String) -> Bool {

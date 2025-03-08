@@ -11,8 +11,8 @@ struct DeclBuildersAggregator: ArrayDeclBuilder {
     
     private let builders: [ArrayDeclBuilder]
     
-    @inlinable init(_ builders: ArrayDeclBuilder...) {
-        self.builders = builders
+    @inlinable init(_ builders: ArrayDeclBuilder?...) {
+        self.builders = builders.compactMap { $0 }
     }
     
     @inlinable func buildDecls() throws -> [DeclSyntax] {

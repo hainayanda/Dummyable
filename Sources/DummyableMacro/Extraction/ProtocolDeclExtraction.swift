@@ -65,8 +65,10 @@ struct ProtocolDeclExtraction: TypeDeclExtraction {
 
 // MARK: DummyInitFuncDeclFactory + Extensions
 
-extension DummyInitFuncDeclFactory {
-    @inlinable init(protocolExtraction: ProtocolDeclExtraction) {
+extension DummyFuncUsingInitDeclFactory {
+    
+    @inlinable init(protocolDecl: ProtocolDeclSyntax, node: AttributeSyntax) {
+        let protocolExtraction = ProtocolDeclExtraction(source: protocolDecl, attribute: node)
         self.init(
             attributes: protocolExtraction.usableAttributes,
             modifiers: protocolExtraction.modifiers,
@@ -77,9 +79,9 @@ extension DummyInitFuncDeclFactory {
     }
 }
 
-// MARK: DummyClosureFuncDeclFactory + Extensions
+// MARK: DummyFuncForClosureDeclFactory + Extensions
 
-extension DummyClosuresFuncDeclFactory {
+extension DummyFuncForClosuresDeclFactory {
     @inlinable init(protocolDecl: ProtocolDeclSyntax, node: AttributeSyntax) {
         let extraction = ProtocolDeclExtraction(source: protocolDecl, attribute: node)
         self.init(

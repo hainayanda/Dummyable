@@ -1,5 +1,5 @@
 //
-//  DummyClosureFuncDeclFactory.swift
+//  DummyFuncForClosureDeclFactory.swift
 //  Dummyable
 //
 //  Created by Nayanda Haberty on 02/03/25.
@@ -7,7 +7,7 @@
 
 import SwiftSyntax
 
-struct DummyClosureFuncDeclFactory: DeclBuilder {
+struct DummyFuncForClosureDeclFactory: DeclBuilder {
     
     typealias DTS = DummyableTokenSyntaxes
     
@@ -21,18 +21,19 @@ struct DummyClosureFuncDeclFactory: DeclBuilder {
     
     private var hasGenericParameters: Bool { genericParameters?.isEmpty == false }
     
-    @inlinable init(closureType: ClosureType, attributes: AttributeListSyntax,
-         modifiers: DeclModifierListSyntax, genericParameters: GenericParameterListSyntax? = nil,
-         returnType: IdentifierTypeSyntax, genericWhereClause: GenericWhereClauseSyntax? = nil,
-         creationType: ClosureTypeCreation) {
-        self.closureType = closureType
-        self.attributes = attributes
-        self.modifiers = modifiers
-        self.returnType = returnType
-        self.genericParameters = genericParameters
-        self.genericWhereClause = genericWhereClause
-        self.creationType = creationType
-    }
+    @inlinable init(
+        closureType: ClosureType, attributes: AttributeListSyntax,
+        modifiers: DeclModifierListSyntax, genericParameters: GenericParameterListSyntax?,
+        returnType: IdentifierTypeSyntax, genericWhereClause: GenericWhereClauseSyntax?,
+        creationType: ClosureTypeCreation) {
+            self.closureType = closureType
+            self.attributes = attributes
+            self.modifiers = modifiers
+            self.returnType = returnType
+            self.genericParameters = genericParameters
+            self.genericWhereClause = genericWhereClause
+            self.creationType = creationType
+        }
     
     @inlinable func buildDecl() -> DeclSyntax? {
         DeclSyntax(buildDummyFuncDecl())
@@ -155,9 +156,9 @@ struct DummyClosureFuncDeclFactory: DeclBuilder {
     }
 }
 
-// MARK: DummyClosureFuncDeclFactory.ClosureType
+// MARK: DummyFuncForClosureDeclFactory.ClosureType
 
-extension DummyClosureFuncDeclFactory {
+extension DummyFuncForClosureDeclFactory {
     enum ClosureType: Int {
         case noArg = 0
         case oneArg = 1
@@ -182,9 +183,9 @@ extension DummyClosureFuncDeclFactory {
     }
 }
 
-// MARK: DummyClosureFuncDeclFactory.ClosureTypeCreation
+// MARK: DummyFuncForClosureDeclFactory.ClosureTypeCreation
 
-extension DummyClosureFuncDeclFactory {
+extension DummyFuncForClosureDeclFactory {
     enum ClosureTypeCreation {
         case dummyFuncCall
         case emptyInitCall(TokenSyntax)

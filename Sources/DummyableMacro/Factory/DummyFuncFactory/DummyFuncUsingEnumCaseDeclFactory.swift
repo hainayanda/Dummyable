@@ -1,5 +1,5 @@
 //
-//  DummyEnumFuncDeclFactory.swift
+//  DummyFuncUsingEnumCaseDeclFactory.swift
 //  Dummyable
 //
 //  Created by Nayanda Haberty on 02/03/25.
@@ -7,15 +7,15 @@
 
 import SwiftSyntax
 
-struct DummyEnumFuncDeclFactory: DummyFuncCallExprBuilder {
+struct DummyFuncUsingEnumCaseDeclFactory: DeclBuilder, DummyFuncCallExprBuilder {
     
     private let baseFactory: DummyFuncDeclFactory
     private let enumCase: EnumCaseElementSyntax
     
     @inlinable init(
         attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax,
-        genericParameters: GenericParameterListSyntax? = nil,  returnType: IdentifierTypeSyntax,
-        genericWhereClause: GenericWhereClauseSyntax? = nil, enumCase: EnumCaseElementSyntax) {
+        genericParameters: GenericParameterListSyntax?,  returnType: IdentifierTypeSyntax,
+        genericWhereClause: GenericWhereClauseSyntax?, enumCase: EnumCaseElementSyntax) {
             self.baseFactory = DummyFuncDeclFactory(
                 attributes: attributes,
                 modifiers: modifiers,
@@ -25,6 +25,10 @@ struct DummyEnumFuncDeclFactory: DummyFuncCallExprBuilder {
             )
             self.enumCase = enumCase
         }
+    
+    @inlinable func buildDecl() -> DeclSyntax? {
+        DeclSyntax(buildDummyFuncDecl())
+    }
     
     @inlinable func buildDummyFuncDecl() -> FunctionDeclSyntax {
         baseFactory.buildDummyFuncDecl {

@@ -11,11 +11,13 @@ import SwiftSyntaxMacros
 import SwiftSyntax
 
 struct DummyMacro: DeclarationMacro {
-    @inlinable static func expansion(of node: some FreestandingMacroExpansionSyntax, in context: some MacroExpansionContext) throws -> [DeclSyntax] {
-        try DeclBuildersAggregator(
-            FreestandingDummyDeclarationFactory(use: node),
-            DummyClosuresFuncDeclFactory(node: node)
-        )
-        .buildDecls()
-    }
+    @inlinable static func expansion(
+        of node: some FreestandingMacroExpansionSyntax,
+        in context: some MacroExpansionContext) throws -> [DeclSyntax] {
+            try DeclBuildersAggregator(
+                FreestandingDummyDeclarationFactory(use: node),
+                DummyFuncForClosuresDeclFactory(node: node)
+            )
+            .buildDecls()
+        }
 }

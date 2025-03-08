@@ -17,13 +17,16 @@ struct DummyFuncDeclFactory {
     private let returnType: IdentifierTypeSyntax
     private let genericWhereClause: GenericWhereClauseSyntax?
     
-    @inlinable init(attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax, genericParametersClause: GenericParameterClauseSyntax? = nil, returnType: IdentifierTypeSyntax, genericWhereClause: GenericWhereClauseSyntax? = nil) {
-        self.attributes = attributes
-        self.modifiers = modifiers
-        self.genericParametersClause = genericParametersClause
-        self.returnType = returnType
-        self.genericWhereClause = genericWhereClause
-    }
+    @inlinable init(
+        attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax,
+        genericParametersClause: GenericParameterClauseSyntax?, returnType: IdentifierTypeSyntax,
+        genericWhereClause: GenericWhereClauseSyntax?) {
+            self.attributes = attributes
+            self.modifiers = modifiers
+            self.genericParametersClause = genericParametersClause
+            self.returnType = returnType
+            self.genericWhereClause = genericWhereClause
+        }
     
     @inlinable func buildDummyFuncDecl(codeBlockBuilder: @escaping () -> CodeBlockItemListSyntax) -> FunctionDeclSyntax {
         FunctionDeclSyntax(

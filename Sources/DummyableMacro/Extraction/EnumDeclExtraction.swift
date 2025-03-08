@@ -24,10 +24,21 @@ struct EnumDeclExtraction: TypeDeclExtraction {
     }
 }
 
-// MARK: DummyEnumFuncDeclFactory + Extensions
+// MARK: DummyFuncForClosureDeclFactory + Extensions
 
-extension DummyEnumFuncDeclFactory {
-    @inlinable init(extraction: EnumDeclExtraction) {
+extension DummyFuncForClosuresDeclFactory {
+    @inlinable init(enumDecl: EnumDeclSyntax) throws {
+        self.init(
+            typeExtraction: try EnumDeclExtraction(source: enumDecl)
+        )
+    }
+}
+
+// MARK: DummyFuncUsingEnumCaseDeclFactory + Extensions
+
+extension DummyFuncUsingEnumCaseDeclFactory {
+    @inlinable init(enumDecl: EnumDeclSyntax) throws {
+        let extraction = try EnumDeclExtraction(source: enumDecl)
         self.init(
             attributes: extraction.usableAttributes,
             modifiers: extraction.modifiers,
@@ -38,16 +49,6 @@ extension DummyEnumFuncDeclFactory {
             ),
             genericWhereClause: extraction.genericWhereClause,
             enumCase: extraction.choosenCase
-        )
-    }
-}
-
-// MARK: DummyClosureFuncDeclFactory + Extensions
-
-extension DummyClosuresFuncDeclFactory {
-    @inlinable init(enumDecl: EnumDeclSyntax) throws {
-        self.init(
-            typeExtraction: try EnumDeclExtraction(source: enumDecl)
         )
     }
 }

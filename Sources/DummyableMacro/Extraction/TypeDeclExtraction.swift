@@ -51,7 +51,7 @@ extension TypeDeclExtraction {
 
 // MARK: DummyInitFuncDeclFactory + Extensions
 
-extension DummyInitFuncDeclFactory {
+extension DummyFuncUsingInitDeclFactory {
     @inlinable init(typeExtraction: TypeDeclExtraction) {
         self.init(
             attributes: typeExtraction.usableAttributes,
@@ -70,10 +70,10 @@ extension DummyInitFuncDeclFactory {
 
 
 
-// MARK: DummyClosureFuncDeclFactory + Extensions
+// MARK: DummyFuncForClosureDeclFactory + Extensions
 
-extension DummyClosuresFuncDeclFactory {
-    @inlinable init(typeExtraction: TypeDeclExtraction, creationType: DummyClosureFuncDeclFactory.ClosureTypeCreation = .dummyFuncCall) {
+extension DummyFuncForClosuresDeclFactory {
+    @inlinable init(typeExtraction: TypeDeclExtraction, creationType: DummyFuncForClosureDeclFactory.ClosureTypeCreation = .dummyFuncCall) {
         self.init(
             attributes: typeExtraction.usableAttributes,
             modifiers: typeExtraction.modifiers.onlyAccessModifier(),

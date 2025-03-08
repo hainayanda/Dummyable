@@ -1,5 +1,5 @@
 //
-//  DummyFuncFromProtocolDeclFactory.swift
+//  ProtocolConcreteFuncDeclFactory.swift
 //  Dummyable
 //
 //  Created by Nayanda Haberty on 02/03/25.
@@ -7,7 +7,7 @@
 
 import SwiftSyntax
 
-struct DummyFuncFromProtocolDeclFactory: DummyFuncCallExprBuilder {
+struct ProtocolConcreteFuncDeclFactory: DummyFuncCallExprBuilder {
     
     private let modifiers: DeclModifierListSyntax
     private let baseFunc: FunctionDeclSyntax

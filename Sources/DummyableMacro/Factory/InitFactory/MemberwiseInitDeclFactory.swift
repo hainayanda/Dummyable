@@ -1,5 +1,5 @@
 //
-//  DummyMemberwiseInitDeclFactory.swift
+//  MemberwiseInitDeclFactory.swift
 //  Dummyable
 //
 //  Created by Nayanda Haberty on 25/02/25.
@@ -7,7 +7,7 @@
 
 import SwiftSyntax
 
-struct DummyMemberwiseInitDeclFactory: DummyFuncCallExprBuilder {
+struct MemberwiseInitDeclFactory: DeclBuilder, DummyFuncCallExprBuilder {
     
     private let modifiers: DeclModifierListSyntax
     private let parameters: [InitMemberwiseParam]
@@ -15,6 +15,10 @@ struct DummyMemberwiseInitDeclFactory: DummyFuncCallExprBuilder {
     @inlinable init(modifiers: DeclModifierListSyntax, parameters: [InitMemberwiseParam]) {
         self.modifiers = modifiers
         self.parameters = parameters
+    }
+    
+    func buildDecl() -> DeclSyntax? {
+        DeclSyntax(buildInitDecl())
     }
     
     @inlinable func buildInitDecl() -> InitializerDeclSyntax {

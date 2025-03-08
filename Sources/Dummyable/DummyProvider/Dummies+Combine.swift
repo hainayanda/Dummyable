@@ -19,7 +19,7 @@ import Combine
 #PublicDummy(
     of: CurrentValueSubject<Generic, Generic>.self,
     .isGeneric(0, 1),
-    .where(0, conform: EmptyInitializable.self)
+    .where(0, conform: PlainInitializable.self)
 ) {
     CurrentValueSubject(.init())
 }

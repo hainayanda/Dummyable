@@ -1,5 +1,5 @@
 //
-//  DummyProtocolVariableDeclFactory.swift
+//  .swift
 //  Dummyable
 //
 //  Created by Nayanda Haberty on 02/03/25.
@@ -7,7 +7,7 @@
 
 import SwiftSyntax
 
-struct DummyProtocolVariableDeclFactory {
+struct ProtocolConcreteVariableDeclFactory {
     
     private let modifiers: DeclModifierListSyntax
     private let baseVariable: VariableDeclSyntax

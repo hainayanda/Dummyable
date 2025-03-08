@@ -161,11 +161,11 @@ extension Sequence where Element == FreestandingMetaData {
 
 private extension String {
     func dummyMetaDataIsGenericIndexes() -> [Int]? {
-        guard let matches = matches(.dummyMetaDataIsGenericRegex.regexTrimmed) else {
+        guard let matches = matches(.regexDummyMetaIsGeneric.regexAnchored) else {
             return nil
         }
         
-        let indexes = matches.first { $0.match(.arrayIntContentRegex.regexTrimmed) }?
+        let indexes = matches.first { $0.match(.regexSeqOfInt.regexAnchored) }?
             .components(separatedBy: ",")
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
             .compactMap { Int($0) }
@@ -178,15 +178,15 @@ private extension String {
     
     
     func dummyMetaDataWhereConformType() -> (Int, [TokenSyntax])? {
-        dummyMetaDataWhereExtraction(.dummyMetaDataWhereConformRegex)
-        ?? dummyMetaDataWhereExtraction(.dummyMetaDataWhereConformAltRegex)
+        dummyMetaDataWhereExtraction(.regexDummyMetaConform)
+        ?? dummyMetaDataWhereExtraction(.regexDummyMetaConformAlt)
     }
     
     func dummyMetaDataAvailablePlatforms() -> [FreestandingMetaData.Platform]? {
-        guard let matches = matches(.dummyMetaDataAvailableRegex.regexTrimmed) else {
+        guard let matches = matches(.regexDummyMetaAvailable.regexAnchored) else {
             return nil
         }
-        let platforms = matches.first { $0.match(.dummyAvailableContentRegex.regexTrimmed) }?
+        let platforms = matches.first { $0.match(.regexDummyMetaAvailableParam.regexAnchored) }?
             .components(separatedBy: ",")
             .compactMap { FreestandingMetaData.Platform(from: $0) }
         guard let platforms, !platforms.isEmpty else {
@@ -197,13 +197,13 @@ private extension String {
     
     
     func dummyMetaDataWhereExtraction(_ regex: String) -> (Int, [TokenSyntax])? {
-        guard let matches = matches(regex.regexTrimmed),
-              let indexString = matches.first(where: { $0.match(#"^\d+$"#) }),
+        guard let matches = matches(regex.regexAnchored),
+              let indexString = matches.first(where: { $0.match(.regexDecimal.regexAnchored) }),
               let index = Int(indexString) else {
             return nil
         }
         
-        let tokens = matches.first { $0.match(.arrayTypeContentRegex.regexTrimmed) }?
+        let tokens = matches.first { $0.match(.regexSeqOfType.regexAnchored) }?
             .components(separatedBy: ",")
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
             .map {

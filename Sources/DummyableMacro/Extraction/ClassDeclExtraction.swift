@@ -27,10 +27,20 @@ struct ClassDeclExtraction: TypeDeclExtraction {
     }
 }
 
-// MARK: DummyClosureFuncDeclFactory + Extensions
+// MARK: DummyFuncForClosuresDeclFactory + Extensions
 
-extension DummyClosuresFuncDeclFactory {
+extension DummyFuncForClosuresDeclFactory {
     @inlinable init(classDecl: ClassDeclSyntax) throws {
+        self.init(
+            typeExtraction: try ClassDeclExtraction(source: classDecl)
+        )
+    }
+}
+
+// MARK: DummyFuncUsingInitDeclFactory + Extensions
+
+extension DummyFuncUsingInitDeclFactory {
+    init(classDecl: ClassDeclSyntax) throws {
         self.init(
             typeExtraction: try ClassDeclExtraction(source: classDecl)
         )

@@ -10,13 +10,16 @@ import SwiftSyntaxMacros
 import SwiftSyntax
 
 struct DummyableInitMacro: PeerMacro {
-    @inlinable static func expansion(of node: AttributeSyntax, providingPeersOf declaration: some DeclSyntaxProtocol, in context: some MacroExpansionContext) throws -> [DeclSyntax] {
-        guard declaration.canBeAttachedWithDummyableInitMacro else {
-            throw DummyableMacroError.attachedToInvalidType(
-                attribute: "@DummyableInit",
-                type: "struct or class initializer"
-            )
+    @inlinable static func expansion(
+        of node: AttributeSyntax,
+        providingPeersOf declaration: some DeclSyntaxProtocol,
+        in context: some MacroExpansionContext) throws -> [DeclSyntax] {
+            guard declaration.canBeAttachedWithDummyableInitMacro else {
+                throw DummyableMacroError.attachedToInvalidType(
+                    attribute: "@DummyableInit",
+                    type: "struct or class initializer"
+                )
+            }
+            return []
         }
-        return []
-    }
 }

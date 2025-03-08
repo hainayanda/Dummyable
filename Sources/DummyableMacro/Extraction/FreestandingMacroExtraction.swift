@@ -38,9 +38,9 @@ struct FreestandingMacroExtraction {
 
 
 
-// MARK: DummyClosureFuncDeclFactory + Extensions
+// MARK: DummyFuncForClosureDeclFactory + Extensions
 
-extension DummyClosuresFuncDeclFactory {
+extension DummyFuncForClosuresDeclFactory {
     @inlinable init(node: FreestandingMacroExpansionSyntax) throws {
         let extraction = try FreestandingMacroExtraction(from: node)
         self.init(
