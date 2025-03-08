@@ -12,14 +12,19 @@ struct DummyEnumFuncDeclFactory: DummyFuncCallExprBuilder {
     private let baseFactory: DummyFuncDeclFactory
     private let enumCase: EnumCaseElementSyntax
     
-    @inlinable init(attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax, returnType: IdentifierTypeSyntax, enumCase: EnumCaseElementSyntax) {
-        self.baseFactory = DummyFuncDeclFactory(
-            attributes: attributes,
-            modifiers: modifiers,
-            returnType: returnType
-        )
-        self.enumCase = enumCase
-    }
+    @inlinable init(
+        attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax,
+        genericParameters: GenericParameterListSyntax? = nil,  returnType: IdentifierTypeSyntax,
+        genericWhereClause: GenericWhereClauseSyntax? = nil, enumCase: EnumCaseElementSyntax) {
+            self.baseFactory = DummyFuncDeclFactory(
+                attributes: attributes,
+                modifiers: modifiers,
+                genericParametersClause: genericParameters.asGenericParametersClause,
+                returnType: returnType,
+                genericWhereClause: genericWhereClause
+            )
+            self.enumCase = enumCase
+        }
     
     @inlinable func buildDummyFuncDecl() -> FunctionDeclSyntax {
         baseFactory.buildDummyFuncDecl {

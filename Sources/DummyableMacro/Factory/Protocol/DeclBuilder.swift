@@ -7,6 +7,19 @@
 
 import SwiftSyntax
 
-protocol DeclBuilder {
+protocol DeclBuilder: ArrayDeclBuilder {
     func buildDecl() throws -> DeclSyntax?
+}
+
+extension DeclBuilder {
+    @inlinable func buildDecls() throws -> [DeclSyntax] {
+        guard let decl = try buildDecl() else {
+            return []
+        }
+        return decl.inArray()
+    }
+}
+
+protocol ArrayDeclBuilder {
+    func buildDecls() throws -> [DeclSyntax]
 }

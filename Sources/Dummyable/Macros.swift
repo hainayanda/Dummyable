@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// periphery:ignore
+
 // MARK: Dummyable
 
 @attached(member, names: arbitrary)
@@ -37,6 +39,11 @@ public macro DummyableCase() = #externalMacro(
 // MARK: Dummy
 
 @freestanding(declaration, names: named(dummy(of:)))
+public macro Dummy<T>(of type: T.Type, _ meta: DummyMetadata..., dummyProvider: () -> T) = #externalMacro(
+    module: "DummyableMacro", type: "DummyMacro"
+)
+
+@freestanding(declaration, names: named(dummy(of:)))
 public macro Dummy<T>(of type: T.Type, dummyProvider: () -> T) = #externalMacro(
     module: "DummyableMacro", type: "DummyMacro"
 )
@@ -44,11 +51,21 @@ public macro Dummy<T>(of type: T.Type, dummyProvider: () -> T) = #externalMacro(
 // MARK: PublicDummy
 
 @freestanding(declaration, names: named(dummy(of:)))
+public macro PublicDummy<T>(of type: T.Type, _ meta: DummyMetadata..., dummyProvider: () -> T) = #externalMacro(
+    module: "DummyableMacro", type: "DummyMacro"
+)
+
+@freestanding(declaration, names: named(dummy(of:)))
 public macro PublicDummy<T>(of type: T.Type, dummyProvider: () -> T) = #externalMacro(
     module: "DummyableMacro", type: "DummyMacro"
 )
 
 // MARK: PrivateDummy
+
+@freestanding(declaration, names: named(dummy(of:)))
+public macro PrivateDummy<T>(of type: T.Type, _ meta: DummyMetadata..., dummyProvider: () -> T) = #externalMacro(
+    module: "DummyableMacro", type: "DummyMacro"
+)
 
 @freestanding(declaration, names: named(dummy(of:)))
 public macro PrivateDummy<T>(of type: T.Type, dummyProvider: () -> T) = #externalMacro(

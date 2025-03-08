@@ -41,6 +41,27 @@ final class FreestandingDummyMacroTests: XCTestCase {
             macros: ["PrivateDummy": DummyMacro.self]
         )
     }
+    
+    func test_givenGenericDummy_whenExpanded_shouldUseGenericDummyExpansion() {
+        assertMacroExpansion(
+            genericDummy, expandedSource: genericDummyExpansions,
+            macros: ["PrivateDummy": DummyMacro.self]
+        )
+    }
+    
+    func test_givenMetaDummy_whenExpanded_shouldUseMetaDummyExpansion() {
+        assertMacroExpansion(
+            metaAvailabeleConformDummy, expandedSource: metaAvailableConformDummyExpansions,
+            macros: ["PrivateDummy": DummyMacro.self]
+        )
+    }
+    
+    func test_givenMetaAnyDummy_whenExpanded_shouldUseMetaAnyDummyExpansion() {
+        assertMacroExpansion(
+            metaAvailabeleConformAnyDummy, expandedSource: metaAvailableConformAnyDummyExpansions,
+            macros: ["PrivateDummy": DummyMacro.self]
+        )
+    }
 }
 
 private let basicDummy = #"""
@@ -185,6 +206,117 @@ private func dummy<A, B, C>(of type: ThreeArgsClosure<A, B, C, Some>.Type) -> Th
     }
 }
 private func dummy<A, B, C, D>(of type: FourArgsClosure<A, B, C, D, Some>.Type) -> FourArgsClosure<A, B, C, D, Some> {
+    { _, _, _, _ in
+        Some()
+    }
+}
+"""#
+
+private let genericDummy = #"""
+#PrivateDummy(of: Some<Generic>.self, .isGeneric(0)) {
+    Some()
+}
+"""#
+
+private let genericDummyExpansions = #"""
+private func dummy<A>(of type: Some<A>.Type) -> Some<A> {
+    Some()
+}
+private func dummy<A>(of type: Closure<Some<A>>.Type) -> Closure<Some<A>> {
+    {
+        Some()
+    }
+}
+private func dummy<B, A>(of type: ArgClosure<B, Some<A>>.Type) -> ArgClosure<B, Some<A>> {
+    { _ in
+        Some()
+    }
+}
+private func dummy<B, C, A>(of type: TwoArgsClosure<B, C, Some<A>>.Type) -> TwoArgsClosure<B, C, Some<A>> {
+    { _, _ in
+        Some()
+    }
+}
+private func dummy<B, C, D, A>(of type: ThreeArgsClosure<B, C, D, Some<A>>.Type) -> ThreeArgsClosure<B, C, D, Some<A>> {
+    { _, _, _ in
+        Some()
+    }
+}
+private func dummy<B, C, D, E, A>(of type: FourArgsClosure<B, C, D, E, Some<A>>.Type) -> FourArgsClosure<B, C, D, E, Some<A>> {
+    { _, _, _, _ in
+        Some()
+    }
+}
+"""#
+
+private let metaAvailabeleConformDummy = #"""
+#PrivateDummy(of: Some<Generic>.self, .where(0, conform: EmptyInitializable.self), .available(.iOS(14.0))) {
+    Some()
+}
+"""#
+
+private let metaAvailableConformDummyExpansions = #"""
+@available(iOS 14.0, *) private func dummy<A>(of type: Some<A>.Type) -> Some<A> where A: EmptyInitializable {
+    Some()
+}
+@available(iOS 14.0, *) private func dummy<A>(of type: Closure<Some<A>>.Type) -> Closure<Some<A>> where A: EmptyInitializable {
+    {
+        Some()
+    }
+}
+@available(iOS 14.0, *) private func dummy<B, A>(of type: ArgClosure<B, Some<A>>.Type) -> ArgClosure<B, Some<A>> where A: EmptyInitializable {
+    { _ in
+        Some()
+    }
+}
+@available(iOS 14.0, *) private func dummy<B, C, A>(of type: TwoArgsClosure<B, C, Some<A>>.Type) -> TwoArgsClosure<B, C, Some<A>> where A: EmptyInitializable {
+    { _, _ in
+        Some()
+    }
+}
+@available(iOS 14.0, *) private func dummy<B, C, D, A>(of type: ThreeArgsClosure<B, C, D, Some<A>>.Type) -> ThreeArgsClosure<B, C, D, Some<A>> where A: EmptyInitializable {
+    { _, _, _ in
+        Some()
+    }
+}
+@available(iOS 14.0, *) private func dummy<B, C, D, E, A>(of type: FourArgsClosure<B, C, D, E, Some<A>>.Type) -> FourArgsClosure<B, C, D, E, Some<A>> where A: EmptyInitializable {
+    { _, _, _, _ in
+        Some()
+    }
+}
+"""#
+
+private let metaAvailabeleConformAnyDummy = #"""
+#PrivateDummy(of: Some<Generic>.self, .where(0, conform: (any Equatable).self), .available(.iOS(14.0))) {
+    Some()
+}
+"""#
+
+private let metaAvailableConformAnyDummyExpansions = #"""
+@available(iOS 14.0, *) private func dummy<A>(of type: Some<A>.Type) -> Some<A> where A: Equatable {
+    Some()
+}
+@available(iOS 14.0, *) private func dummy<A>(of type: Closure<Some<A>>.Type) -> Closure<Some<A>> where A: Equatable {
+    {
+        Some()
+    }
+}
+@available(iOS 14.0, *) private func dummy<B, A>(of type: ArgClosure<B, Some<A>>.Type) -> ArgClosure<B, Some<A>> where A: Equatable {
+    { _ in
+        Some()
+    }
+}
+@available(iOS 14.0, *) private func dummy<B, C, A>(of type: TwoArgsClosure<B, C, Some<A>>.Type) -> TwoArgsClosure<B, C, Some<A>> where A: Equatable {
+    { _, _ in
+        Some()
+    }
+}
+@available(iOS 14.0, *) private func dummy<B, C, D, A>(of type: ThreeArgsClosure<B, C, D, Some<A>>.Type) -> ThreeArgsClosure<B, C, D, Some<A>> where A: Equatable {
+    { _, _, _ in
+        Some()
+    }
+}
+@available(iOS 14.0, *) private func dummy<B, C, D, E, A>(of type: FourArgsClosure<B, C, D, E, Some<A>>.Type) -> FourArgsClosure<B, C, D, E, Some<A>> where A: Equatable {
     { _, _, _, _ in
         Some()
     }

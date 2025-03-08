@@ -31,7 +31,12 @@ extension DummyEnumFuncDeclFactory {
         self.init(
             attributes: extraction.usableAttributes,
             modifiers: extraction.modifiers,
-            returnType: IdentifierTypeSyntax(name: extraction.declName),
+            genericParameters: extraction.genericParameters,
+            returnType: IdentifierTypeSyntax(
+                name: extraction.declName,
+                genericArgumentClause: extraction.genericParameters?.asGenericArgumentClause
+            ),
+            genericWhereClause: extraction.genericWhereClause,
             enumCase: extraction.choosenCase
         )
     }
@@ -39,11 +44,10 @@ extension DummyEnumFuncDeclFactory {
 
 // MARK: DummyClosureFuncDeclFactory + Extensions
 
-extension DummyClosureFuncDeclFactory {
-    init(enumDecl: EnumDeclSyntax, closureType: DummyClosureFuncDeclFactory.ClosureType) throws {
+extension DummyClosuresFuncDeclFactory {
+    @inlinable init(enumDecl: EnumDeclSyntax) throws {
         self.init(
-            typeExtraction: try EnumDeclExtraction(source: enumDecl),
-            closureType: closureType
+            typeExtraction: try EnumDeclExtraction(source: enumDecl)
         )
     }
 }

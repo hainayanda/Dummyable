@@ -32,6 +32,13 @@ final class DummyableMacroOnEnumTests: XCTestCase {
             macros: ["Dummyable": DummyableMacro.self]
         )
     }
+    
+    func test_givenGenericEnum_whenExpanded_shouldUseGenericEnumExpansion() {
+        assertMacroExpansion(
+            genericEnum, expandedSource: genericEnumExpansions,
+            macros: ["Dummyable": DummyableMacro.self]
+        )
+    }
 }
 
 private let basicEnum = #"""
@@ -187,6 +194,59 @@ func dummy<A, B, C>(of type: ThreeArgsClosure<A, B, C, Some>.Type) -> ThreeArgsC
 func dummy<A, B, C, D>(of type: FourArgsClosure<A, B, C, D, Some>.Type) -> FourArgsClosure<A, B, C, D, Some> {
     { _, _, _, _ in
         dummy(of: Some.self)
+    }
+}
+"""#
+
+private let genericEnum = #"""
+@Dummyable
+enum Some<T: Equatable> {
+    case some
+    case another
+    case withParameter(generic: T, int: Int)
+    case none
+}
+"""#
+
+private let genericEnumExpansions = #"""
+enum Some<T: Equatable> {
+    case some
+    case another
+    case withParameter(generic: T, int: Int)
+    case none
+}
+
+func dummy<T: Equatable>(of type: Some<T>.Type) -> Some<T> {
+    .none
+}
+
+func dummy<T: Equatable>(of type: Closure<Some<T>>.Type) -> Closure<Some<T>> {
+    {
+        dummy(of: Some<T>.self)
+    }
+}
+
+func dummy<A, T: Equatable>(of type: ArgClosure<A, Some<T>>.Type) -> ArgClosure<A, Some<T>> {
+    { _ in
+        dummy(of: Some<T>.self)
+    }
+}
+
+func dummy<A, B, T: Equatable>(of type: TwoArgsClosure<A, B, Some<T>>.Type) -> TwoArgsClosure<A, B, Some<T>> {
+    { _, _ in
+        dummy(of: Some<T>.self)
+    }
+}
+
+func dummy<A, B, C, T: Equatable>(of type: ThreeArgsClosure<A, B, C, Some<T>>.Type) -> ThreeArgsClosure<A, B, C, Some<T>> {
+    { _, _, _ in
+        dummy(of: Some<T>.self)
+    }
+}
+
+func dummy<A, B, C, D, T: Equatable>(of type: FourArgsClosure<A, B, C, D, Some<T>>.Type) -> FourArgsClosure<A, B, C, D, Some<T>> {
+    { _, _, _, _ in
+        dummy(of: Some<T>.self)
     }
 }
 """#

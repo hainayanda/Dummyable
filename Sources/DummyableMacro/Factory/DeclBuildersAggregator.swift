@@ -7,15 +7,17 @@
 
 import SwiftSyntax
 
-struct DeclBuildersAggregator {
+struct DeclBuildersAggregator: ArrayDeclBuilder {
     
-    private let builders: [DeclBuilder]
+    private let builders: [ArrayDeclBuilder]
     
-    @inlinable init(_ builders: DeclBuilder...) {
+    @inlinable init(_ builders: ArrayDeclBuilder...) {
         self.builders = builders
     }
     
-    @inlinable func buildAllDecl() throws -> [DeclSyntax] {
-        try builders.compactMap { try $0.buildDecl() }
+    @inlinable func buildDecls() throws -> [DeclSyntax] {
+        try builders.flatMap {
+            try $0.buildDecls()
+        }
     }
 }

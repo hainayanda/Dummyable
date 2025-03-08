@@ -15,6 +15,7 @@ public struct DummyableTokenSyntaxes {
     static let type: TokenSyntax = "type"
     static let of: TokenSyntax = "of"
     static let get: TokenSyntax = "get"
+    static let available: TokenSyntax = "available"
     
     // MARK: Name
     
@@ -28,11 +29,15 @@ public struct DummyableTokenSyntaxes {
     static let voidType: TokenSyntax = "Void"
     static let closureType: TokenSyntax = "Closure"
     static let argClosureType: TokenSyntax = "ArgClosure"
-    static let twoArgClosureType: TokenSyntax = "TwoArgsClosure"
-    static let threeArgClosureType: TokenSyntax = "ThreeArgsClosure"
-    static let fourArgClosureType: TokenSyntax = "FourArgsClosure"
-    static let aType: TokenSyntax = "A"
-    static let bType: TokenSyntax = "B"
-    static let cType: TokenSyntax = "C"
-    static let dType: TokenSyntax = "D"
+    static let twoArgsClosureType: TokenSyntax = "TwoArgsClosure"
+    static let threeArgsClosureType: TokenSyntax = "ThreeArgsClosure"
+    static let fourArgsClosureType: TokenSyntax = "FourArgsClosure"
+    
+    // MARK: Generics
+    
+    static let genericTypes: [TokenSyntax] = [
+        "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
+        "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
+        "U", "V", "W", "X", "Y", "Z"
+    ]
 }

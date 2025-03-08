@@ -28,11 +28,10 @@ struct StructDeclExtraction: TypeDeclExtraction {
 
 // MARK: DummyClosureFuncDeclFactory + Extensions
 
-extension DummyClosureFuncDeclFactory {
-    init(structDecl: StructDeclSyntax, closureType: DummyClosureFuncDeclFactory.ClosureType) {
+extension DummyClosuresFuncDeclFactory {
+    @inlinable init(structDecl: StructDeclSyntax) {
         self.init(
-            typeExtraction: StructDeclExtraction(source: structDecl),
-            closureType: closureType
+            typeExtraction: StructDeclExtraction(source: structDecl)
         )
     }
 }

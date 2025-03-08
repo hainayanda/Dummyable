@@ -14,9 +14,11 @@ struct FreestandingDummyDeclarationFactory: DeclBuilder {
     @inlinable init(use freestanding: FreestandingMacroExpansionSyntax) throws {
         self.extraction = try FreestandingMacroExtraction(from: freestanding)
         self.dummyFuncDeclFactory = DummyFuncDeclFactory(
-            attributes: [],
+            attributes: extraction.metaDatas.attributes ?? [],
             modifiers: extraction.modifiers,
-            returnType: IdentifierTypeSyntax(name: extraction.type.baseName)
+            genericParametersClause: extraction.metaDatas.genericParametersClause,
+            returnType: extraction.type,
+            genericWhereClause: extraction.metaDatas.genericWhereClauses
         )
     }
     

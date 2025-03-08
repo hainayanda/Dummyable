@@ -145,6 +145,47 @@ public struct PublicDum {
     PublicDum(string: "some")
 }
 
+public struct GenericDummyA<T> {
+    let value: T?
+}
+
+#PublicDummy(of: GenericDummyA<Generic>.self, .isGeneric(0)) {
+    GenericDummyA(value: nil)
+}
+
+public struct GenericDummyB<T> {
+    let value: T?
+}
+
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *) public func dummy<A>(of type: GenericDummyB<A>.Type) -> GenericDummyB<A> where A: Equatable {
+    GenericDummyB(value: nil)
+}
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *) public func dummy<A>(of type: Closure<GenericDummyB<A>>.Type) -> Closure<GenericDummyB<A>> where A: Equatable {
+    {
+        GenericDummyB(value: nil)
+    }
+}
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *) public func dummy<B, A>(of type: ArgClosure<B, GenericDummyB<A>>.Type) -> ArgClosure<B, GenericDummyB<A>> where A: Equatable {
+    { _ in
+        GenericDummyB(value: nil)
+    }
+}
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *) public func dummy<B, C, A>(of type: TwoArgsClosure<B, C, GenericDummyB<A>>.Type) -> TwoArgsClosure<B, C, GenericDummyB<A>> where A: Equatable {
+    { _, _ in
+        GenericDummyB(value: nil)
+    }
+}
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *) public func dummy<B, C, D, A>(of type: ThreeArgsClosure<B, C, D, GenericDummyB<A>>.Type) -> ThreeArgsClosure<B, C, D, GenericDummyB<A>> where A: Equatable {
+    { _, _, _ in
+        GenericDummyB(value: nil)
+    }
+}
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *) public func dummy<B, C, D, E, A>(of type: FourArgsClosure<B, C, D, E, GenericDummyB<A>>.Type) -> FourArgsClosure<B, C, D, E, GenericDummyB<A>> where A: Equatable {
+    { _, _, _, _ in
+        GenericDummyB(value: nil)
+    }
+}
+
 // periphery:ignore
 func testCompiledDummyCreation() {
     _ = dummy(of: StructDummyProtocol.self)
@@ -158,4 +199,6 @@ func testCompiledDummyCreation() {
     _ = dummy(of: Dum.self)
     _ = dummy(of: PublicDum.self)
     _ = dummy(of: PrivateDum.self)
+    _ = dummy(of: GenericDummyA<String>.self)
+    _ = dummy(of: GenericDummyB<Int>.self)
 }

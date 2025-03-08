@@ -9,16 +9,15 @@ import SwiftSyntax
 
 protocol TypeDeclExtraction {
     var sourceDecl: TypeDeclSyntax { get }
-    var declName: TokenSyntax { get }
     var usableAttributes: AttributeListSyntax { get }
     var modifiers: DeclModifierListSyntax { get }
+    var declName: TokenSyntax { get }
+    var genericParameters: GenericParameterListSyntax? { get }
+    var genericWhereClause: GenericWhereClauseSyntax? { get }
     var usableInitDecl: InitializerDeclSyntax? { get }
 }
 
 extension TypeDeclExtraction {
-    @inlinable var declName: TokenSyntax {
-        sourceDecl.name.trimmed
-    }
     
     @inlinable var usableAttributes: AttributeListSyntax {
         AttributeListSyntax(
@@ -33,6 +32,18 @@ extension TypeDeclExtraction {
         sourceDecl.modifiers.trimmed
     }
     
+    @inlinable var declName: TokenSyntax {
+        sourceDecl.name.trimmed
+    }
+    
+    @inlinable var genericParameters: GenericParameterListSyntax? {
+        sourceDecl.genericParameterClause?.parameters.trimmed
+    }
+    
+    @inlinable var genericWhereClause: GenericWhereClauseSyntax? {
+        sourceDecl.genericWhereClause?.trimmed
+    }
+    
     @inlinable var usableInitDecl: InitializerDeclSyntax? {
         nil
     }
@@ -45,22 +56,33 @@ extension DummyInitFuncDeclFactory {
         self.init(
             attributes: typeExtraction.usableAttributes,
             modifiers: typeExtraction.modifiers,
-            returnType: IdentifierTypeSyntax(name: typeExtraction.declName),
+            genericParameters: typeExtraction.genericParameters,
+            returnType: IdentifierTypeSyntax(
+                name: typeExtraction.declName,
+                genericArgumentClause: typeExtraction.genericParameters?.asGenericArgumentClause
+            ),
+            genericWhereClause: typeExtraction.genericWhereClause,
             initType: DeclReferenceExprSyntax(baseName: typeExtraction.declName),
             dummyInitializerParameters: typeExtraction.usableInitDecl?.asInitializerParameters() ?? []
         )
     }
 }
 
+
+
 // MARK: DummyClosureFuncDeclFactory + Extensions
 
-extension DummyClosureFuncDeclFactory {
-    init(typeExtraction: TypeDeclExtraction, closureType: DummyClosureFuncDeclFactory.ClosureType, creationType: DummyClosureFuncDeclFactory.ClosureTypeCreation = .dummyFuncCall) {
+extension DummyClosuresFuncDeclFactory {
+    @inlinable init(typeExtraction: TypeDeclExtraction, creationType: DummyClosureFuncDeclFactory.ClosureTypeCreation = .dummyFuncCall) {
         self.init(
-            closureType: closureType,
             attributes: typeExtraction.usableAttributes,
             modifiers: typeExtraction.modifiers.onlyAccessModifier(),
-            returnType: IdentifierTypeSyntax(name: typeExtraction.declName),
+            genericParameters: typeExtraction.genericParameters,
+            returnType: IdentifierTypeSyntax(
+                name: typeExtraction.declName,
+                genericArgumentClause: typeExtraction.genericParameters?.asGenericArgumentClause
+            ),
+            genericWhereClause: typeExtraction.genericWhereClause,
             creationType: creationType
         )
     }

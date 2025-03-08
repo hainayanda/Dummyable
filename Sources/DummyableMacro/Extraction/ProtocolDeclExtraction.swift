@@ -79,12 +79,11 @@ extension DummyInitFuncDeclFactory {
 
 // MARK: DummyClosureFuncDeclFactory + Extensions
 
-extension DummyClosureFuncDeclFactory {
-    init(protocolDecl: ProtocolDeclSyntax, node: AttributeSyntax, closureType: DummyClosureFuncDeclFactory.ClosureType) {
+extension DummyClosuresFuncDeclFactory {
+    @inlinable init(protocolDecl: ProtocolDeclSyntax, node: AttributeSyntax) {
         let extraction = ProtocolDeclExtraction(source: protocolDecl, attribute: node)
         self.init(
             typeExtraction: extraction,
-            closureType: closureType,
             creationType: .emptyInitCall(extraction.generationName)
         )
     }

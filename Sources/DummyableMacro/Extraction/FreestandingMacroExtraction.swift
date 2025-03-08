@@ -9,24 +9,24 @@ import SwiftSyntax
 
 struct FreestandingMacroExtraction {
     let modifiers: DeclModifierListSyntax
-    let type: DeclReferenceExprSyntax
+    let type: IdentifierTypeSyntax
     let closure: ClosureExprSyntax
+    let metaDatas: [FreestandingMetaData]
     
     @inlinable init(from node: FreestandingMacroExpansionSyntax) throws {
-        guard let expression = node.argumentList.first?.expression.as(MemberAccessExprSyntax.self),
-              let type = expression.base?.as(DeclReferenceExprSyntax.self) else {
+        
+        guard let expression = node.argumentList.first?.expression.as(MemberAccessExprSyntax.self)?.base,
+              let closure = node.lastClosure else {
             throw DummyableMacroError.wrongArguments
         }
         
-        self.type = type.trimmed
+        self.closure = closure
         
-        self.closure = if let trailingClosure = node.trailingClosure {
-            trailingClosure.trimmed
-        } else if node.argumentList.count == 2, let closure = node.argumentList.last?.expression.as(ClosureExprSyntax.self) {
-            closure.trimmed
-        } else {
-            throw DummyableMacroError.wrongArguments
-        }
+        self.metaDatas = node.argumentList.dropFirst()
+            .compactMap { FreestandingMetaData(from: $0) }
+            .compacted()
+        
+        self.type = expression.identifierTypeSyntax(metaDatas: metaDatas)
         
         self.modifiers = switch node.macro.trimmedDescription {
         case "PublicDummy", "Dummyable.PublicDummy": [.public]
@@ -36,18 +36,20 @@ struct FreestandingMacroExtraction {
     }
 }
 
+
+
 // MARK: DummyClosureFuncDeclFactory + Extensions
 
-extension DummyClosureFuncDeclFactory {
-    init(node: FreestandingMacroExpansionSyntax, closureType: DummyClosureFuncDeclFactory.ClosureType) throws {
+extension DummyClosuresFuncDeclFactory {
+    @inlinable init(node: FreestandingMacroExpansionSyntax) throws {
         let extraction = try FreestandingMacroExtraction(from: node)
         self.init(
-            closureType: closureType,
-            attributes: [],
+            attributes: extraction.metaDatas.attributes ?? [],
             modifiers: extraction.modifiers,
-            returnType: IdentifierTypeSyntax(name: .identifier(extraction.type.trimmedDescription)),
+            genericParameters: extraction.metaDatas.genericParameters,
+            returnType: extraction.type,
+            genericWhereClause: extraction.metaDatas.genericWhereClauses,
             creationType: .codeBlock(extraction.closure.statements.trimmed)
         )
     }
-        
 }

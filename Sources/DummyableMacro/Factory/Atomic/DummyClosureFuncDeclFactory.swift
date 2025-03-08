@@ -15,17 +15,26 @@ struct DummyClosureFuncDeclFactory: DeclBuilder {
     private let attributes: AttributeListSyntax
     private let modifiers: DeclModifierListSyntax
     private let returnType: IdentifierTypeSyntax
+    private let genericParameters: GenericParameterListSyntax?
+    private let genericWhereClause: GenericWhereClauseSyntax?
     private let creationType: ClosureTypeCreation
     
-    init(closureType: ClosureType, attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax, returnType: IdentifierTypeSyntax, creationType: ClosureTypeCreation) {
+    private var hasGenericParameters: Bool { genericParameters?.isEmpty == false }
+    
+    @inlinable init(closureType: ClosureType, attributes: AttributeListSyntax,
+         modifiers: DeclModifierListSyntax, genericParameters: GenericParameterListSyntax? = nil,
+         returnType: IdentifierTypeSyntax, genericWhereClause: GenericWhereClauseSyntax? = nil,
+         creationType: ClosureTypeCreation) {
         self.closureType = closureType
         self.attributes = attributes
         self.modifiers = modifiers
         self.returnType = returnType
+        self.genericParameters = genericParameters
+        self.genericWhereClause = genericWhereClause
         self.creationType = creationType
     }
     
-    func buildDecl() -> DeclSyntax? {
+    @inlinable func buildDecl() -> DeclSyntax? {
         DeclSyntax(buildDummyFuncDecl())
     }
     
@@ -33,8 +42,9 @@ struct DummyClosureFuncDeclFactory: DeclBuilder {
         DummyFuncDeclFactory(
             attributes: attributes,
             modifiers: modifiers,
-            genericParameters: buildGenericParameterClause(),
-            returnType: buildReturnType(forType: returnType)
+            genericParametersClause: buildGenericParameterClause(),
+            returnType: buildReturnType(forType: returnType),
+            genericWhereClause: genericWhereClause
         )
         .buildDummyFuncDecl {
             CodeBlockItemListSyntax {
@@ -47,19 +57,23 @@ struct DummyClosureFuncDeclFactory: DeclBuilder {
     }
     
     private func buildGenericParameterClause() -> GenericParameterClauseSyntax? {
-        guard closureType.rawValue > 0 else { return nil }
+        guard closureType.rawValue > 0 || hasGenericParameters  else { return nil }
+        var additive = 0
         return GenericParameterClauseSyntax {
-            GenericParameterSyntax(name: DTS.aType)
-            if closureType.rawValue > 1 {
-                GenericParameterSyntax(name: DTS.bType)
+            for index in 0 ..< closureType.rawValue {
+                closureGenericParam(at: index, additive: &additive)
             }
-            if closureType.rawValue > 2 {
-                GenericParameterSyntax(name: DTS.cType)
-            }
-            if closureType.rawValue > 3 {
-                GenericParameterSyntax(name: DTS.dType)
+            for parameter in genericParameters ?? [] {
+                parameter
             }
         }
+    }
+    
+    private func closureGenericParam(at index: Int, additive: inout Int) -> GenericParameterSyntax {
+        while genericParameters?.contains(type: DTS.genericTypes[index + additive]) == true {
+            additive += 1
+        }
+        return GenericParameterSyntax(name: DTS.genericTypes[index + additive])
     }
     
     private func buildClosureSignature() -> ClosureSignatureSyntax? {
@@ -115,24 +129,27 @@ struct DummyClosureFuncDeclFactory: DeclBuilder {
     }
     
     private func buildReturnType(forType type: IdentifierTypeSyntax) -> IdentifierTypeSyntax {
-        IdentifierTypeSyntax(
+        var additive = 0
+        return IdentifierTypeSyntax(
             name: closureType.type,
             genericArgumentClause: GenericArgumentClauseSyntax(
                 arguments: GenericArgumentListSyntax {
-                    if closureType.rawValue > 0 {
-                        GenericArgumentSyntax(argument: IdentifierTypeSyntax(name: DTS.aType))
-                    }
-                    if closureType.rawValue > 1 {
-                        GenericArgumentSyntax(argument: IdentifierTypeSyntax(name: DTS.bType))
-                    }
-                    if closureType.rawValue > 2 {
-                        GenericArgumentSyntax(argument: IdentifierTypeSyntax(name: DTS.cType))
-                    }
-                    if closureType.rawValue > 3 {
-                        GenericArgumentSyntax(argument: IdentifierTypeSyntax(name: DTS.dType))
+                    for index in 0 ..< closureType.rawValue {
+                        genericArgumentSyntax(at: index, additive: &additive)
                     }
                     GenericArgumentSyntax(argument: type)
                 }
+            )
+        )
+    }
+    
+    private func genericArgumentSyntax(at index: Int, additive: inout Int) -> GenericArgumentSyntax {
+        while genericParameters?.contains(type: DTS.genericTypes[index + additive]) == true {
+            additive += 1
+        }
+        return GenericArgumentSyntax(
+            argument: IdentifierTypeSyntax(
+                name: DTS.genericTypes[index + additive]
             )
         )
     }
@@ -144,22 +161,22 @@ extension DummyClosureFuncDeclFactory {
     enum ClosureType: Int {
         case noArg = 0
         case oneArg = 1
-        case twoArg = 2
-        case threeArg = 3
-        case fourArg = 4
+        case twoArgs = 2
+        case threeArgs = 3
+        case fourArgs = 4
         
-        var type: TokenSyntax {
+        @inlinable var type: TokenSyntax {
             switch self {
             case .noArg:
                 return DTS.closureType
             case .oneArg:
                 return DTS.argClosureType
-            case .twoArg:
-                return DTS.twoArgClosureType
-            case .threeArg:
-                return DTS.threeArgClosureType
-            case .fourArg:
-                return DTS.fourArgClosureType
+            case .twoArgs:
+                return DTS.twoArgsClosureType
+            case .threeArgs:
+                return DTS.threeArgsClosureType
+            case .fourArgs:
+                return DTS.fourArgsClosureType
             }
         }
     }
@@ -172,5 +189,13 @@ extension DummyClosureFuncDeclFactory {
         case dummyFuncCall
         case emptyInitCall(TokenSyntax)
         case codeBlock(CodeBlockItemListSyntax)
+    }
+}
+
+extension GenericParameterListSyntax {
+    func contains(type: TokenSyntax) -> Bool {
+        contains { parameter in
+            parameter.name.trimmedDescription == type.trimmedDescription
+        }
     }
 }

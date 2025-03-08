@@ -18,6 +18,13 @@ final class DummyableMacroOnClassTests: XCTestCase {
             macros: ["Dummyable": DummyableMacro.self]
         )
     }
+    
+    func test_givenGenericClass_whenExpanded_shouldUseGenericClassExpansion() {
+        assertMacroExpansion(
+            genericClass, expandedSource: genericClassExpansions,
+            macros: ["Dummyable": DummyableMacro.self]
+        )
+    }
 }
 
 private let basicClass = #"""
@@ -81,6 +88,71 @@ func dummy<A, B, C>(of type: ThreeArgsClosure<A, B, C, Some>.Type) -> ThreeArgsC
 func dummy<A, B, C, D>(of type: FourArgsClosure<A, B, C, D, Some>.Type) -> FourArgsClosure<A, B, C, D, Some> {
     { _, _, _, _ in
         dummy(of: Some.self)
+    }
+}
+"""#
+
+private let genericClass = #"""
+@Dummyable
+class Some<T: Equatable> where T: Hashable {
+    var generic: T?
+    let int: Int
+    var doubles: [Double] = []
+    let floats: Float = 0.0
+
+    @DummyableInit
+    init(generic: T?, int: Int = 10) {
+        self.generic = nil
+        self.int = int
+    }
+}
+"""#
+
+private let genericClassExpansions = #"""
+class Some<T: Equatable> where T: Hashable {
+    var generic: T?
+    let int: Int
+    var doubles: [Double] = []
+    let floats: Float = 0.0
+
+    @DummyableInit
+    init(generic: T?, int: Int = 10) {
+        self.generic = nil
+        self.int = int
+    }
+}
+
+func dummy<T: Equatable>(of type: Some<T>.Type) -> Some<T> where T: Hashable {
+    Some(generic: dummy(of: T?.self))
+}
+
+func dummy<T: Equatable>(of type: Closure<Some<T>>.Type) -> Closure<Some<T>> where T: Hashable {
+    {
+        dummy(of: Some<T>.self)
+    }
+}
+
+func dummy<A, T: Equatable>(of type: ArgClosure<A, Some<T>>.Type) -> ArgClosure<A, Some<T>> where T: Hashable {
+    { _ in
+        dummy(of: Some<T>.self)
+    }
+}
+
+func dummy<A, B, T: Equatable>(of type: TwoArgsClosure<A, B, Some<T>>.Type) -> TwoArgsClosure<A, B, Some<T>> where T: Hashable {
+    { _, _ in
+        dummy(of: Some<T>.self)
+    }
+}
+
+func dummy<A, B, C, T: Equatable>(of type: ThreeArgsClosure<A, B, C, Some<T>>.Type) -> ThreeArgsClosure<A, B, C, Some<T>> where T: Hashable {
+    { _, _, _ in
+        dummy(of: Some<T>.self)
+    }
+}
+
+func dummy<A, B, C, D, T: Equatable>(of type: FourArgsClosure<A, B, C, D, Some<T>>.Type) -> FourArgsClosure<A, B, C, D, Some<T>> where T: Hashable {
+    { _, _, _, _ in
+        dummy(of: Some<T>.self)
     }
 }
 """#

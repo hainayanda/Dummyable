@@ -13,14 +13,16 @@ struct DummyFuncDeclFactory {
     
     private let attributes: AttributeListSyntax
     private let modifiers: DeclModifierListSyntax
-    private let genericParameters: GenericParameterClauseSyntax?
+    private let genericParametersClause: GenericParameterClauseSyntax?
     private let returnType: IdentifierTypeSyntax
+    private let genericWhereClause: GenericWhereClauseSyntax?
     
-    init(attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax, genericParameters: GenericParameterClauseSyntax? = nil, returnType: IdentifierTypeSyntax) {
+    @inlinable init(attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax, genericParametersClause: GenericParameterClauseSyntax? = nil, returnType: IdentifierTypeSyntax, genericWhereClause: GenericWhereClauseSyntax? = nil) {
         self.attributes = attributes
         self.modifiers = modifiers
-        self.genericParameters = genericParameters
+        self.genericParametersClause = genericParametersClause
         self.returnType = returnType
+        self.genericWhereClause = genericWhereClause
     }
     
     @inlinable func buildDummyFuncDecl(codeBlockBuilder: @escaping () -> CodeBlockItemListSyntax) -> FunctionDeclSyntax {
@@ -28,8 +30,9 @@ struct DummyFuncDeclFactory {
             attributes: attributes,
             modifiers: modifiers,
             name: DTS.dummy,
-            genericParameterClause: genericParameters,
-            signature: buildDummyFuncSignature()) {
+            genericParameterClause: genericParametersClause,
+            signature: buildDummyFuncSignature(),
+            genericWhereClause: genericWhereClause) {
                 codeBlockBuilder()
             }
     }

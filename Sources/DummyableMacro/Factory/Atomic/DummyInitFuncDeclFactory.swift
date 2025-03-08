@@ -8,20 +8,26 @@
 import SwiftSyntax
 
 struct DummyInitFuncDeclFactory: DummyFuncCallExprBuilder {
-
+    
     private let baseFactory: DummyFuncDeclFactory
     private let initType: DeclReferenceExprSyntax
     private let dummyInitParameters: [InitializerParameter]
     
-    @inlinable init(attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax, returnType: IdentifierTypeSyntax, initType: DeclReferenceExprSyntax, dummyInitializerParameters: [InitializerParameter]) {
-        self.initType = initType
-        self.dummyInitParameters = dummyInitializerParameters
-        self.baseFactory = DummyFuncDeclFactory(
-            attributes: attributes,
-            modifiers: modifiers,
-            returnType: returnType
-        )
-    }
+    @inlinable init(
+        attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax,
+        genericParameters: GenericParameterListSyntax? = nil, returnType: IdentifierTypeSyntax,
+        genericWhereClause: GenericWhereClauseSyntax? = nil, initType: DeclReferenceExprSyntax,
+        dummyInitializerParameters: [InitializerParameter]) {
+            self.initType = initType
+            self.dummyInitParameters = dummyInitializerParameters
+            self.baseFactory = DummyFuncDeclFactory(
+                attributes: attributes,
+                modifiers: modifiers,
+                genericParametersClause: genericParameters.asGenericParametersClause,
+                returnType: returnType,
+                genericWhereClause: genericWhereClause
+            )
+        }
     
     @inlinable func buildDummyFuncDecl() -> FunctionDeclSyntax {
         baseFactory.buildDummyFuncDecl {
@@ -57,5 +63,14 @@ struct DummyInitFuncDeclFactory: DummyFuncCallExprBuilder {
             }
             
         }
+    }
+}
+
+extension Optional where Wrapped == GenericParameterListSyntax {
+    @inlinable var asGenericParametersClause: GenericParameterClauseSyntax? {
+        guard let self = self, !self.isEmpty else {
+            return nil
+        }
+        return GenericParameterClauseSyntax(parameters: self)
     }
 }
