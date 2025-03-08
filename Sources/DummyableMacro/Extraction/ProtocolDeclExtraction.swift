@@ -16,7 +16,7 @@ struct ProtocolDeclExtraction: TypeDeclExtraction {
     
     let attribute: AttributeSyntax
     
-    @inlinable var generationType: DummyGenerationType {
+    @inlinable var generationType: ProtocolConcreteType {
         get throws {
             let isObjectProtocol = source.isObjectProtocol
             if let fromArguments = try attribute.typeArgumentGenerationType {
@@ -67,8 +67,7 @@ struct ProtocolDeclExtraction: TypeDeclExtraction {
 
 extension DummyFuncUsingInitDeclFactory {
     
-    @inlinable init(protocolDecl: ProtocolDeclSyntax, node: AttributeSyntax) {
-        let protocolExtraction = ProtocolDeclExtraction(source: protocolDecl, attribute: node)
+    @inlinable init(protocolExtraction: ProtocolDeclExtraction) {
         self.init(
             attributes: protocolExtraction.usableAttributes,
             modifiers: protocolExtraction.modifiers,
@@ -82,11 +81,21 @@ extension DummyFuncUsingInitDeclFactory {
 // MARK: DummyFuncForClosureDeclFactory + Extensions
 
 extension DummyFuncForClosuresDeclFactory {
-    @inlinable init(protocolDecl: ProtocolDeclSyntax, node: AttributeSyntax) {
-        let extraction = ProtocolDeclExtraction(source: protocolDecl, attribute: node)
+    @inlinable init(protocolExtraction: ProtocolDeclExtraction) {
         self.init(
-            typeExtraction: extraction,
-            creationType: .emptyInitCall(extraction.generationName)
+            typeExtraction: protocolExtraction,
+            creationType: .emptyInitCall(protocolExtraction.generationName)
+        )
+    }
+}
+
+// MARK: DummiesFuncDeclFactory + Extensions
+
+extension DummyFuncForArrayDeclFactory {
+    @inlinable init(protocolExtraction: ProtocolDeclExtraction) {
+        self.init(
+            typeExtraction: protocolExtraction,
+            creationType: .emptyInitCall(protocolExtraction.generationName)
         )
     }
 }

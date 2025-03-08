@@ -7,7 +7,7 @@
 
 import SwiftSyntax
 
-struct DummyFuncForClosureDeclFactory: DeclBuilder {
+struct DummyFuncForClosureDeclFactory: DeclBuilder, DummyClosureCreationExprBuilder {
     
     typealias DTS = DummyableTokenSyntaxes
     
@@ -17,7 +17,7 @@ struct DummyFuncForClosureDeclFactory: DeclBuilder {
     private let returnType: IdentifierTypeSyntax
     private let genericParameters: GenericParameterListSyntax?
     private let genericWhereClause: GenericWhereClauseSyntax?
-    private let creationType: ClosureTypeCreation
+    private let creationType: DummyCreationType
     
     private var hasGenericParameters: Bool { genericParameters?.isEmpty == false }
     
@@ -25,7 +25,7 @@ struct DummyFuncForClosureDeclFactory: DeclBuilder {
         closureType: ClosureType, attributes: AttributeListSyntax,
         modifiers: DeclModifierListSyntax, genericParameters: GenericParameterListSyntax?,
         returnType: IdentifierTypeSyntax, genericWhereClause: GenericWhereClauseSyntax?,
-        creationType: ClosureTypeCreation) {
+        creationType: DummyCreationType) {
             self.closureType = closureType
             self.attributes = attributes
             self.modifiers = modifiers
@@ -51,7 +51,12 @@ struct DummyFuncForClosureDeclFactory: DeclBuilder {
             CodeBlockItemListSyntax {
                 ClosureExprSyntax(
                     signature: buildClosureSignature(),
-                    statements: buildClosureCodeBlock()
+                    statements: buildClosureCodeBlock(
+                        for: creationType,
+                        returnType: DeclReferenceExprSyntax(
+                            baseName: .identifier(returnType.trimmedDescription)
+                        )
+                    )
                 )
             }
         }
@@ -85,47 +90,6 @@ struct DummyFuncForClosureDeclFactory: DeclBuilder {
                     ClosureShorthandParameterSyntax(name: DTS.underscore)
                 }
             })
-        )
-    }
-    
-    private func buildClosureCodeBlock() -> CodeBlockItemListSyntax {
-        CodeBlockItemListSyntax {
-            switch creationType {
-            case .emptyInitCall(let type):
-                buildDummyInitCall(forType: type)
-            case .dummyFuncCall:
-                buildDummyFuncCall()
-            case .codeBlock(let codeBlock):
-                codeBlock
-            }
-        }
-    }
-    
-    private func buildDummyInitCall(forType type: TokenSyntax)  -> FunctionCallExprSyntax {
-        FunctionCallExprSyntax(
-            calledExpression: DeclReferenceExprSyntax(baseName: .identifier(type.trimmedDescription)),
-            leftParen: .leftParenToken(),
-            arguments: [],
-            rightParen: .rightParenToken()
-        )
-    }
-    
-    private func buildDummyFuncCall() -> FunctionCallExprSyntax {
-        FunctionCallExprSyntax(
-            calledExpression: DeclReferenceExprSyntax(baseName: DTS.dummy),
-            leftParen: .leftParenToken(),
-            arguments: LabeledExprListSyntax {
-                LabeledExprSyntax(
-                    label: DTS.of,
-                    colon: .colonToken(),
-                    expression: MemberAccessExprSyntax(
-                        base: DeclReferenceExprSyntax(baseName: .identifier(returnType.trimmedDescription)),
-                        period: .periodToken(),
-                        name: .keyword(.self)
-                    )
-                )
-            },
-            rightParen: .rightParenToken()
         )
     }
     
@@ -180,16 +144,6 @@ extension DummyFuncForClosureDeclFactory {
                 return DTS.fourArgsClosureType
             }
         }
-    }
-}
-
-// MARK: DummyFuncForClosureDeclFactory.ClosureTypeCreation
-
-extension DummyFuncForClosureDeclFactory {
-    enum ClosureTypeCreation {
-        case dummyFuncCall
-        case emptyInitCall(TokenSyntax)
-        case codeBlock(CodeBlockItemListSyntax)
     }
 }
 

@@ -26,31 +26,10 @@ struct StructDeclExtraction: TypeDeclExtraction {
     }
 }
 
-// MARK: DummyFuncForClosureDeclFactory + Extensions
-
-extension DummyFuncForClosuresDeclFactory {
-    @inlinable init(structDecl: StructDeclSyntax) {
-        self.init(
-            typeExtraction: StructDeclExtraction(source: structDecl)
-        )
-    }
-}
-
-// MARK: DummyFuncUsingInitDeclFactory + Extensions
-
-extension DummyFuncUsingInitDeclFactory {
-    @inlinable init(structDecl: StructDeclSyntax) {
-        self.init(
-            typeExtraction: StructDeclExtraction(source: structDecl)
-        )
-    }
-}
-
 // MARK: MemberwiseInitDeclFactory + Extensions
 
 extension MemberwiseInitDeclFactory {
-    @inlinable init?(structDecl: StructDeclSyntax) {
-        let extraction = StructDeclExtraction(source: structDecl)
+    @inlinable init?(extraction: StructDeclExtraction) {
         guard extraction.usableInitDecl == nil else { return nil }
         self.init(
             modifiers: extraction.modifiers.noLessThanInternal(),

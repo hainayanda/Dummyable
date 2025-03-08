@@ -36,20 +36,32 @@ struct FreestandingMacroExtraction {
     }
 }
 
-
-
 // MARK: DummyFuncForClosureDeclFactory + Extensions
 
 extension DummyFuncForClosuresDeclFactory {
-    @inlinable init(node: FreestandingMacroExpansionSyntax) throws {
-        let extraction = try FreestandingMacroExtraction(from: node)
+    @inlinable init(freestandingExtraction: FreestandingMacroExtraction) throws {
         self.init(
-            attributes: extraction.metaDatas.attributes ?? [],
-            modifiers: extraction.modifiers,
-            genericParameters: extraction.metaDatas.genericParameters,
-            returnType: extraction.type,
-            genericWhereClause: extraction.metaDatas.genericWhereClauses,
-            creationType: .codeBlock(extraction.closure.statements.trimmed)
+            attributes: freestandingExtraction.metaDatas.attributes ?? [],
+            modifiers: freestandingExtraction.modifiers,
+            genericParameters: freestandingExtraction.metaDatas.genericParameters,
+            returnType: freestandingExtraction.type,
+            genericWhereClause: freestandingExtraction.metaDatas.genericWhereClauses,
+            creationType: .codeBlock(freestandingExtraction.closure.statements.trimmed)
+        )
+    }
+}
+
+// MARK: DummiesFuncDeclFactory + Extensions
+
+extension DummyFuncForArrayDeclFactory {
+    @inlinable init(freestandingExtraction: FreestandingMacroExtraction) throws {
+        self.init(
+            attributes: freestandingExtraction.metaDatas.attributes ?? [],
+            modifiers: freestandingExtraction.modifiers,
+            genericParameters: freestandingExtraction.metaDatas.genericParameters,
+            elementType: freestandingExtraction.type,
+            genericWhereClause: freestandingExtraction.metaDatas.genericWhereClauses,
+            creationType: .codeBlock(freestandingExtraction.closure.statements.trimmed)
         )
     }
 }

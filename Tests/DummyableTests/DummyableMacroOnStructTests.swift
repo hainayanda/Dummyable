@@ -61,6 +61,12 @@ func dummy(of type: Some.Type) -> Some {
     Some()
 }
 
+func dummy(of type: [Some].Type, count: Int) -> [Some] {
+    Array(repeat: count) {
+        dummy(of: Some.self)
+    }
+}
+
 func dummy(of type: Closure<Some>.Type) -> Closure<Some> {
     {
         dummy(of: Some.self)
@@ -126,6 +132,12 @@ private func dummy(of type: Some.Type) -> Some {
     Some(string: dummy(of: String?.self))
 }
 
+private func dummy(of type: [Some].Type, count: Int) -> [Some] {
+    Array(repeat: count) {
+        dummy(of: Some.self)
+    }
+}
+
 private func dummy(of type: Closure<Some>.Type) -> Closure<Some> {
     {
         dummy(of: Some.self)
@@ -182,6 +194,12 @@ struct Some<T: Equatable> where T: Hashable {
 
 func dummy<T: Equatable>(of type: Some<T>.Type) -> Some<T> where T: Hashable {
     Some()
+}
+
+func dummy<T: Equatable>(of type: [Some<T>].Type, count: Int) -> [Some<T>] where T: Hashable {
+    Array(repeat: count) {
+        dummy(of: Some<T>.self)
+    }
 }
 
 func dummy<T: Equatable>(of type: Closure<Some<T>>.Type) -> Closure<Some<T>> where T: Hashable {

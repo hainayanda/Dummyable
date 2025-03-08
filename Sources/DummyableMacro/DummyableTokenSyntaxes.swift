@@ -16,6 +16,8 @@ public struct DummyableTokenSyntaxes {
     static let of: TokenSyntax = "of"
     static let get: TokenSyntax = "get"
     static let available: TokenSyntax = "available"
+    static let `repeat`: TokenSyntax = "repeat"
+    static let count: TokenSyntax = "count"
     
     // MARK: Name
     
@@ -27,6 +29,8 @@ public struct DummyableTokenSyntaxes {
     static let dummyType: TokenSyntax = "Dummy"
     static let typeType: TokenSyntax = "Type"
     static let voidType: TokenSyntax = "Void"
+    static let arrayType: TokenSyntax = "Array"
+    static let intType: TokenSyntax = "Int"
     static let closureType: TokenSyntax = "Closure"
     static let argClosureType: TokenSyntax = "ArgClosure"
     static let twoArgsClosureType: TokenSyntax = "TwoArgsClosure"

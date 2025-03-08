@@ -31,7 +31,8 @@ extension DummyableMacro: MemberMacro {
         }
     
     private static func memberExpansion(of structDecl: StructDeclSyntax) throws -> [DeclSyntax] {
-        try MemberwiseInitDeclFactory(structDecl: structDecl)?
+        let extraction = StructDeclExtraction(source: structDecl)
+        return try MemberwiseInitDeclFactory(extraction: extraction)?
             .buildDecls() ?? []
     }
 }
@@ -56,34 +57,42 @@ extension DummyableMacro: PeerMacro {
     }
     
     private static func peerExpansion(of protocolDecl: ProtocolDeclSyntax, _ node: AttributeSyntax) throws -> [DeclSyntax] {
-        try DeclBuildersAggregator(
-            ProtocolConcreteTypeDeclFactory(protocolDecl: protocolDecl, node: node),
-            DummyFuncUsingInitDeclFactory(protocolDecl: protocolDecl, node: node),
-            DummyFuncForClosuresDeclFactory(protocolDecl: protocolDecl, node: node)
+        let extraction = ProtocolDeclExtraction(source: protocolDecl, attribute: node)
+        return try DeclBuildersAggregator(
+            ProtocolConcreteTypeDeclFactory(extraction: extraction),
+            DummyFuncUsingInitDeclFactory(protocolExtraction: extraction),
+            DummyFuncForArrayDeclFactory(protocolExtraction: extraction),
+            DummyFuncForClosuresDeclFactory(protocolExtraction: extraction)
         )
         .buildDecls()
     }
     
     private static func peerExpansion(of structDecl: StructDeclSyntax) throws -> [DeclSyntax] {
-        try DeclBuildersAggregator(
-            DummyFuncUsingInitDeclFactory(structDecl: structDecl),
-            DummyFuncForClosuresDeclFactory(structDecl: structDecl)
+        let extraction = StructDeclExtraction(source: structDecl)
+        return try DeclBuildersAggregator(
+            DummyFuncUsingInitDeclFactory(typeExtraction: extraction),
+            DummyFuncForArrayDeclFactory(typeExtraction: extraction),
+            DummyFuncForClosuresDeclFactory(typeExtraction: extraction)
         )
         .buildDecls()
     }
     
     private static func peerExpansion(of classDecl: ClassDeclSyntax) throws -> [DeclSyntax] {
-        try DeclBuildersAggregator(
-            DummyFuncUsingInitDeclFactory(classDecl: classDecl),
-            DummyFuncForClosuresDeclFactory(classDecl: classDecl)
+        let extraction = try ClassDeclExtraction(source: classDecl)
+        return try DeclBuildersAggregator(
+            DummyFuncUsingInitDeclFactory(typeExtraction: extraction),
+            DummyFuncForArrayDeclFactory(typeExtraction: extraction),
+            DummyFuncForClosuresDeclFactory(typeExtraction: extraction)
         )
         .buildDecls()
     }
     
     private static func peerExpansion(of enumDecl: EnumDeclSyntax) throws -> [DeclSyntax] {
-        try DeclBuildersAggregator(
-            DummyFuncUsingEnumCaseDeclFactory(enumDecl: enumDecl),
-            DummyFuncForClosuresDeclFactory(enumDecl: enumDecl)
+        let extraction = try EnumDeclExtraction(source: enumDecl)
+        return try DeclBuildersAggregator(
+            DummyFuncUsingEnumCaseDeclFactory(extraction: extraction),
+            DummyFuncForArrayDeclFactory(typeExtraction: extraction),
+            DummyFuncForClosuresDeclFactory(typeExtraction: extraction)
         )
         .buildDecls()
     }

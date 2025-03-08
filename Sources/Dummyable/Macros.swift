@@ -12,12 +12,12 @@ import SwiftUI
 // MARK: Dummyable
 
 @attached(member, names: arbitrary)
-@attached(peer, names: suffixed(Dummy), named(dummy(of:)))
+@attached(peer, names: suffixed(Dummy), named(dummy(of:)), named(dummy(of:count:)))
 public macro Dummyable() = #externalMacro(
     module: "DummyableMacro", type: "DummyableMacro"
 )
 
-@attached(peer, names: suffixed(Dummy), named(dummy(of:)))
+@attached(peer, names: suffixed(Dummy), named(dummy(of:)), named(dummy(of:count:)))
 public macro Dummyable(type: DummyType) = #externalMacro(
     module: "DummyableMacro", type: "DummyableMacro"
 )
@@ -38,36 +38,36 @@ public macro DummyableCase() = #externalMacro(
 
 // MARK: Dummy
 
-@freestanding(declaration, names: named(dummy(of:)))
+@freestanding(declaration, names: named(dummy(of:)), named(dummy(of:count:)))
 public macro Dummy<T>(of type: T.Type, _ meta: DummyMetadata..., dummyProvider: () -> T) = #externalMacro(
     module: "DummyableMacro", type: "DummyMacro"
 )
 
-@freestanding(declaration, names: named(dummy(of:)))
+@freestanding(declaration, names: named(dummy(of:)), named(dummy(of:count:)))
 public macro Dummy<T>(of type: T.Type, dummyProvider: () -> T) = #externalMacro(
     module: "DummyableMacro", type: "DummyMacro"
 )
 
 // MARK: PublicDummy
 
-@freestanding(declaration, names: named(dummy(of:)))
+@freestanding(declaration, names: named(dummy(of:)), named(dummy(of:count:)))
 public macro PublicDummy<T>(of type: T.Type, _ meta: DummyMetadata..., dummyProvider: () -> T) = #externalMacro(
     module: "DummyableMacro", type: "DummyMacro"
 )
 
-@freestanding(declaration, names: named(dummy(of:)))
+@freestanding(declaration, names: named(dummy(of:)), named(dummy(of:count:)))
 public macro PublicDummy<T>(of type: T.Type, dummyProvider: () -> T) = #externalMacro(
     module: "DummyableMacro", type: "DummyMacro"
 )
 
 // MARK: PrivateDummy
 
-@freestanding(declaration, names: named(dummy(of:)))
+@freestanding(declaration, names: named(dummy(of:)), named(dummy(of:count:)))
 public macro PrivateDummy<T>(of type: T.Type, _ meta: DummyMetadata..., dummyProvider: () -> T) = #externalMacro(
     module: "DummyableMacro", type: "DummyMacro"
 )
 
-@freestanding(declaration, names: named(dummy(of:)))
+@freestanding(declaration, names: named(dummy(of:)), named(dummy(of:count:)))
 public macro PrivateDummy<T>(of type: T.Type, dummyProvider: () -> T) = #externalMacro(
     module: "DummyableMacro", type: "DummyMacro"
 )

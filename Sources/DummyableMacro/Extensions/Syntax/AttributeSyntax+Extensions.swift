@@ -14,7 +14,7 @@ extension AttributeSyntax {
         name.applicableAttributes.contains(attributeName.trimmedDescription)
     }
     
-    var typeArgumentGenerationType: DummyGenerationType? {
+    var typeArgumentGenerationType: ProtocolConcreteType? {
         get throws {
             guard let expr = try typeArgumentExpr else {
                 return nil
@@ -38,7 +38,7 @@ extension AttributeSyntax {
         }
     }
     
-    private func extractTypeArgumentGenerationType(from memberExpr: MemberAccessExprSyntax) throws -> DummyGenerationType? {
+    private func extractTypeArgumentGenerationType(from memberExpr: MemberAccessExprSyntax) throws -> ProtocolConcreteType? {
         if memberExpr.trimmedDescription.match(#"^(Dummyable\.)?(DummyType)?\.`?struct`?$"#) {
             return .struct
         } else if memberExpr.trimmedDescription.match(#"^(Dummyable\.)?(DummyType)?\.`?class`?$"#) {

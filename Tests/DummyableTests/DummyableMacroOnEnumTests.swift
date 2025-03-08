@@ -63,6 +63,12 @@ func dummy(of type: Some.Type) -> Some {
     .none
 }
 
+func dummy(of type: [Some].Type, count: Int) -> [Some] {
+    Array(repeat: count) {
+        dummy(of: Some.self)
+    }
+}
+
 func dummy(of type: Closure<Some>.Type) -> Closure<Some> {
     {
         dummy(of: Some.self)
@@ -112,6 +118,12 @@ enum Some {
 
 func dummy(of type: Some.Type) -> Some {
     .oneParameter(string: dummy(of: String.self))
+}
+
+func dummy(of type: [Some].Type, count: Int) -> [Some] {
+    Array(repeat: count) {
+        dummy(of: Some.self)
+    }
 }
 
 func dummy(of type: Closure<Some>.Type) -> Closure<Some> {
@@ -167,6 +179,12 @@ func dummy(of type: Some.Type) -> Some {
     .withParameter(string: dummy(of: String.self), int: dummy(of: Int.self))
 }
 
+func dummy(of type: [Some].Type, count: Int) -> [Some] {
+    Array(repeat: count) {
+        dummy(of: Some.self)
+    }
+}
+
 func dummy(of type: Closure<Some>.Type) -> Closure<Some> {
     {
         dummy(of: Some.self)
@@ -218,6 +236,12 @@ enum Some<T: Equatable> {
 
 func dummy<T: Equatable>(of type: Some<T>.Type) -> Some<T> {
     .none
+}
+
+func dummy<T: Equatable>(of type: [Some<T>].Type, count: Int) -> [Some<T>] {
+    Array(repeat: count) {
+        dummy(of: Some<T>.self)
+    }
 }
 
 func dummy<T: Equatable>(of type: Closure<Some<T>>.Type) -> Closure<Some<T>> {

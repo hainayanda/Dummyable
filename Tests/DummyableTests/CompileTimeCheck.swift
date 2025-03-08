@@ -119,45 +119,47 @@ enum EnumDummyableMarkedCase {
 }
 
 // periphery:ignore
-struct Dum {
+struct ManualDummy {
     let string: String?
 }
 
-#Dummy(of: Dum.self) {
-    Dum(string: "some")
+#Dummy(of: ManualDummy.self) {
+    ManualDummy(string: "some")
 }
 
 // periphery:ignore
-struct PrivateDum {
+struct PrivateManualDummy {
     let string: String?
 }
 
-#PrivateDummy(of: PrivateDum.self) {
-    PrivateDum(string: "some")
+#PrivateDummy(of: PrivateManualDummy.self) {
+    PrivateManualDummy(string: "some")
 }
 
 // periphery:ignore
-public struct PublicDum {
+public struct PublicManualDummy {
     let string: String?
 }
 
-#PublicDummy(of: PublicDum.self) {
-    PublicDum(string: "some")
+#PublicDummy(of: PublicManualDummy.self) {
+    PublicManualDummy(string: "some")
 }
 
+// periphery:ignore
 public struct GenericDummyA<T> {
     let value: T?
 }
 
-#PublicDummy(of: GenericDummyA<Generic>.self, .isGeneric(0)) {
+#Dummy(of: GenericDummyA<Generic>.self, .isGeneric(0)) {
     GenericDummyA(value: nil)
 }
 
+// periphery:ignore
 public struct GenericDummyB<T> {
     let value: T?
 }
 
-#PublicDummy(
+#Dummy(
     of: GenericDummyB<Generic>.self,
     .where(0, conform: (any Equatable).self),
     .available(.iOS(15.0), .macOS(12.0), .tvOS(15.0), .watchOS(8.0))
@@ -166,18 +168,53 @@ public struct GenericDummyB<T> {
 }
 
 // periphery:ignore
+public struct PublicGenericDummy<T> {
+    let value: T?
+}
+
+#PublicDummy(of: PublicGenericDummy<Generic>.self, .isGeneric(0)) {
+    PublicGenericDummy(value: nil)
+}
+
+// periphery:ignore
+private struct PrivateGenericDummy<T> {
+    let value: T?
+}
+
+#PrivateDummy(of: PrivateGenericDummy<Generic>.self, .isGeneric(0)) {
+    PrivateGenericDummy(value: nil)
+}
+
+// periphery:ignore
 func testCompiledDummyCreation() {
     _ = dummy(of: StructDummyProtocol.self)
+    _ = dummy(of: [StructDummyProtocol].self, count: 2)
     _ = dummy(of: ClassDummyProtocol.self)
+    _ = dummy(of: [ClassDummyProtocol].self, count: 3)
     _ = dummy(of: AnyObjectDummyProtocol.self)
+    _ = dummy(of: [AnyObjectDummyProtocol].self, count: 4)
     _ = dummy(of: StructDummy.self)
+    _ = dummy(of: [StructDummy].self, count: 5)
     _ = dummy(of: StructDummyableMarkedInit.self)
+    _ = dummy(of: [StructDummyableMarkedInit].self, count: 6)
     _ = dummy(of: ClassDummyableMarkedInit.self)
+    _ = dummy(of: [ClassDummyableMarkedInit].self, count: 7)
     _ = dummy(of: EnumDummyable.self)
+    _ = dummy(of: [EnumDummyable].self, count: 8)
     _ = dummy(of: EnumDummyableMarkedCase.self)
-    _ = dummy(of: Dum.self)
-    _ = dummy(of: PublicDum.self)
-    _ = dummy(of: PrivateDum.self)
+    _ = dummy(of: [EnumDummyableMarkedCase].self, count: 9)
+    _ = dummy(of: ManualDummy.self)
+    _ = dummy(of: [ManualDummy].self, count: 10)
+    _ = dummy(of: PublicManualDummy.self)
+    _ = dummy(of: [PublicManualDummy].self, count: 11)
+    _ = dummy(of: PrivateManualDummy.self)
+    _ = dummy(of: [PrivateManualDummy].self, count: 12)
     _ = dummy(of: GenericDummyA<String>.self)
+    _ = dummy(of: [GenericDummyA<Double>].self, count: 13)
     _ = dummy(of: GenericDummyB<Int>.self)
+    _ = dummy(of: [GenericDummyB<Bool>].self, count: 14)
+    _ = dummy(of: PublicGenericDummy<Int>.self)
+    _ = dummy(of: [PublicGenericDummy<Bool>].self, count: 15)
+    _ = dummy(of: PrivateGenericDummy<Int>.self)
+    _ = dummy(of: [PrivateGenericDummy<Bool>].self, count: 16)
 }

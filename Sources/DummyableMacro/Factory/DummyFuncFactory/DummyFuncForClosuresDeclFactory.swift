@@ -9,14 +9,13 @@ import SwiftSyntax
 
 struct DummyFuncForClosuresDeclFactory: ArrayDeclBuilder {
     typealias ClosureType = DummyFuncForClosureDeclFactory.ClosureType
-    typealias ClosureTypeCreation = DummyFuncForClosureDeclFactory.ClosureTypeCreation
     
     let closureFuncDeclFactory: [DummyFuncForClosureDeclFactory]
     
     @inlinable init(
         attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax,
         genericParameters: GenericParameterListSyntax?, returnType: IdentifierTypeSyntax,
-        genericWhereClause: GenericWhereClauseSyntax?, creationType: ClosureTypeCreation) {
+        genericWhereClause: GenericWhereClauseSyntax?, creationType: DummyCreationType) {
             closureFuncDeclFactory = [
                 ClosureType.noArg, ClosureType.oneArg,
                 ClosureType.twoArgs, ClosureType.threeArgs,

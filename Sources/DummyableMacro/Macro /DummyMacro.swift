@@ -14,9 +14,11 @@ struct DummyMacro: DeclarationMacro {
     @inlinable static func expansion(
         of node: some FreestandingMacroExpansionSyntax,
         in context: some MacroExpansionContext) throws -> [DeclSyntax] {
-            try DeclBuildersAggregator(
-                FreestandingDummyDeclarationFactory(use: node),
-                DummyFuncForClosuresDeclFactory(node: node)
+            let extraction = try FreestandingMacroExtraction(from: node)
+            return try DeclBuildersAggregator(
+                FreestandingDummyDeclarationFactory(extraction: extraction),
+                DummyFuncForArrayDeclFactory(freestandingExtraction: extraction),
+                DummyFuncForClosuresDeclFactory(freestandingExtraction: extraction)
             )
             .buildDecls()
         }

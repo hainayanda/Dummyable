@@ -1,5 +1,5 @@
 //
-//  DummyGenerationType.swift
+//  ProtocolConcreteType.swift
 //  Dummyable
 //
 //  Created by Nayanda Haberty on 24/02/25.
@@ -8,7 +8,7 @@
 import SwiftSyntax
 
 @usableFromInline
-enum DummyGenerationType {
+enum ProtocolConcreteType {
     case `class`
     case `struct`
     

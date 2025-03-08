@@ -11,8 +11,8 @@ struct ProtocolConcreteTypeDeclFactory: DeclBuilder, DummyFuncCallExprBuilder {
     
     private let extraction: ProtocolDeclExtraction
     
-    @inlinable init(protocolDecl: ProtocolDeclSyntax, node: AttributeSyntax) {
-        self.extraction = ProtocolDeclExtraction(source: protocolDecl, attribute: node)
+    @inlinable init(extraction: ProtocolDeclExtraction) {
+        self.extraction = extraction
     }
     
     @inlinable func buildDecl() throws -> DeclSyntax? {

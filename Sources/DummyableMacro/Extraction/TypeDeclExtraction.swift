@@ -73,17 +73,39 @@ extension DummyFuncUsingInitDeclFactory {
 // MARK: DummyFuncForClosureDeclFactory + Extensions
 
 extension DummyFuncForClosuresDeclFactory {
-    @inlinable init(typeExtraction: TypeDeclExtraction, creationType: DummyFuncForClosureDeclFactory.ClosureTypeCreation = .dummyFuncCall) {
-        self.init(
-            attributes: typeExtraction.usableAttributes,
-            modifiers: typeExtraction.modifiers.onlyAccessModifier(),
-            genericParameters: typeExtraction.genericParameters,
-            returnType: IdentifierTypeSyntax(
-                name: typeExtraction.declName,
-                genericArgumentClause: typeExtraction.genericParameters?.asGenericArgumentClause
-            ),
-            genericWhereClause: typeExtraction.genericWhereClause,
-            creationType: creationType
-        )
-    }
+    @inlinable init(
+        typeExtraction: TypeDeclExtraction,
+        creationType: DummyCreationType = .dummyFuncCall) {
+            self.init(
+                attributes: typeExtraction.usableAttributes,
+                modifiers: typeExtraction.modifiers.onlyAccessModifier(),
+                genericParameters: typeExtraction.genericParameters,
+                returnType: IdentifierTypeSyntax(
+                    name: typeExtraction.declName,
+                    genericArgumentClause: typeExtraction.genericParameters?.asGenericArgumentClause
+                ),
+                genericWhereClause: typeExtraction.genericWhereClause,
+                creationType: creationType
+            )
+        }
+}
+
+// MARK: DummiesFuncDeclFactory + Extensions
+
+extension DummyFuncForArrayDeclFactory {
+    @inlinable init(
+        typeExtraction: TypeDeclExtraction,
+        creationType: DummyCreationType = .dummyFuncCall) {
+            self.init(
+                attributes: typeExtraction.usableAttributes,
+                modifiers: typeExtraction.modifiers.onlyAccessModifier(),
+                genericParameters: typeExtraction.genericParameters,
+                elementType: IdentifierTypeSyntax(
+                    name: typeExtraction.declName,
+                    genericArgumentClause: typeExtraction.genericParameters?.asGenericArgumentClause
+                ),
+                genericWhereClause: typeExtraction.genericWhereClause,
+                creationType: creationType
+            )
+        }
 }

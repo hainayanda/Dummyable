@@ -26,23 +26,3 @@ struct ClassDeclExtraction: TypeDeclExtraction {
         self.usableInitDecl = initDecl
     }
 }
-
-// MARK: DummyFuncForClosuresDeclFactory + Extensions
-
-extension DummyFuncForClosuresDeclFactory {
-    @inlinable init(classDecl: ClassDeclSyntax) throws {
-        self.init(
-            typeExtraction: try ClassDeclExtraction(source: classDecl)
-        )
-    }
-}
-
-// MARK: DummyFuncUsingInitDeclFactory + Extensions
-
-extension DummyFuncUsingInitDeclFactory {
-    init(classDecl: ClassDeclSyntax) throws {
-        self.init(
-            typeExtraction: try ClassDeclExtraction(source: classDecl)
-        )
-    }
-}

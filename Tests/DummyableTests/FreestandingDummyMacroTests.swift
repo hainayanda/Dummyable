@@ -74,6 +74,11 @@ private let basicDummyExpansions = #"""
 func dummy(of type: Some.Type) -> Some {
     Some()
 }
+func dummy(of type: [Some].Type, count: Int) -> [Some] {
+    Array(repeat: count) {
+        Some()
+    }
+}
 func dummy(of type: Closure<Some>.Type) -> Closure<Some> {
     {
         Some()
@@ -110,6 +115,11 @@ private let trailingDummy = #"""
 private let trailingDummyExpansions = #"""
 func dummy(of type: Some.Type) -> Some {
     Some()
+}
+func dummy(of type: [Some].Type, count: Int) -> [Some] {
+    Array(repeat: count) {
+        Some()
+    }
 }
 func dummy(of type: Closure<Some>.Type) -> Closure<Some> {
     {
@@ -148,6 +158,11 @@ private let publicDummyExpansions = #"""
 public func dummy(of type: Some.Type) -> Some {
     Some()
 }
+public func dummy(of type: [Some].Type, count: Int) -> [Some] {
+    Array(repeat: count) {
+        Some()
+    }
+}
 public func dummy(of type: Closure<Some>.Type) -> Closure<Some> {
     {
         Some()
@@ -184,6 +199,11 @@ private let privateDummy = #"""
 private let privateDummyExpansions = #"""
 private func dummy(of type: Some.Type) -> Some {
     Some()
+}
+private func dummy(of type: [Some].Type, count: Int) -> [Some] {
+    Array(repeat: count) {
+        Some()
+    }
 }
 private func dummy(of type: Closure<Some>.Type) -> Closure<Some> {
     {
@@ -222,6 +242,11 @@ private let genericDummyExpansions = #"""
 private func dummy<A>(of type: Some<A>.Type) -> Some<A> {
     Some()
 }
+private func dummy<A>(of type: [Some<A>].Type, count: Int) -> [Some<A>] {
+    Array(repeat: count) {
+        Some()
+    }
+}
 private func dummy<A>(of type: Closure<Some<A>>.Type) -> Closure<Some<A>> {
     {
         Some()
@@ -259,6 +284,11 @@ private let metaAvailableConformDummyExpansions = #"""
 @available(iOS 14.0, *) private func dummy<A>(of type: Some<A>.Type) -> Some<A> where A: EmptyInitializable {
     Some()
 }
+@available(iOS 14.0, *) private func dummy<A>(of type: [Some<A>].Type, count: Int) -> [Some<A>] where A: EmptyInitializable {
+    Array(repeat: count) {
+        Some()
+    }
+}
 @available(iOS 14.0, *) private func dummy<A>(of type: Closure<Some<A>>.Type) -> Closure<Some<A>> where A: EmptyInitializable {
     {
         Some()
@@ -295,6 +325,11 @@ private let metaAvailabeleConformAnyDummy = #"""
 private let metaAvailableConformAnyDummyExpansions = #"""
 @available(iOS 14.0, *) private func dummy<A>(of type: Some<A>.Type) -> Some<A> where A: Equatable {
     Some()
+}
+@available(iOS 14.0, *) private func dummy<A>(of type: [Some<A>].Type, count: Int) -> [Some<A>] where A: Equatable {
+    Array(repeat: count) {
+        Some()
+    }
 }
 @available(iOS 14.0, *) private func dummy<A>(of type: Closure<Some<A>>.Type) -> Closure<Some<A>> where A: Equatable {
     {

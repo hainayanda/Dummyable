@@ -77,6 +77,12 @@ func dummy(of type: Some.Type) -> Some {
     SomeDummy()
 }
 
+func dummy(of type: [Some].Type, count: Int) -> [Some] {
+    Array(repeat: count) {
+        SomeDummy()
+    }
+}
+
 func dummy(of type: Closure<Some>.Type) -> Closure<Some> {
     {
         SomeDummy()
@@ -151,6 +157,12 @@ private func dummy(of type: Some.Type) -> Some {
     SomeDummy()
 }
 
+private func dummy(of type: [Some].Type, count: Int) -> [Some] {
+    Array(repeat: count) {
+        SomeDummy()
+    }
+}
+
 private func dummy(of type: Closure<Some>.Type) -> Closure<Some> {
     {
         SomeDummy()
@@ -219,6 +231,12 @@ final private class SomeDummy: Some {
 
 public func dummy(of type: Some.Type) -> Some {
     SomeDummy()
+}
+
+public func dummy(of type: [Some].Type, count: Int) -> [Some] {
+    Array(repeat: count) {
+        SomeDummy()
+    }
 }
 
 public func dummy(of type: Closure<Some>.Type) -> Closure<Some> {
