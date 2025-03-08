@@ -13,6 +13,10 @@ import UIKit
 // periphery:ignore:parameters type
 @inlinable public func dummy<A: UIView>(of type: A.Type) -> A { A() }
 // periphery:ignore:parameters type
+@inlinable public func dummy<A: UIView>(of type: [A].Type, count: Int) -> [A] {
+    Array(repeat: count) { A() }
+}
+// periphery:ignore:parameters type
 @inlinable public func dummy<A: UIView>(of type: Closure<A>.Type) -> Closure<A> {
     return { dummy(of: A.self) }
 }
@@ -38,6 +42,10 @@ import UIKit
 // periphery:ignore:parameters type
 @inlinable public func dummy<A: UIViewController>(of type: A.Type) -> A { A() }
 // periphery:ignore:parameters type
+@inlinable public func dummy<A: UIViewController>(of type: [A].Type, count: Int) -> [A] {
+    Array(repeat: count) { A() }
+}
+// periphery:ignore:parameters type
 @inlinable public func dummy<A: UIViewController>(of type: Closure<A>.Type) -> Closure<A> {
     return { dummy(of: A.self) }
 }
@@ -62,6 +70,10 @@ import UIKit
 
 // periphery:ignore:parameters type
 @inlinable public func dummy<A: UIWindow>(of type: A.Type) -> A { A() }
+// periphery:ignore:parameters type
+@inlinable public func dummy<A: UIWindow>(of type: [A].Type, count: Int) -> [A] {
+    Array(repeat: count) { A() }
+}
 // periphery:ignore:parameters type
 @inlinable public func dummy<A: UIWindow>(of type: Closure<A>.Type) -> Closure<A> {
     return { dummy(of: A.self) }

@@ -11,7 +11,8 @@ import Combine
 #PublicDummy(of: Future<Generic, Generic>.self, .isGeneric(0, 1)) {
     Future { _ in }
 }
-#PublicDummy(of: AnyPublisher<Generic, Generic>.self, .isGeneric(0, 1)) { Empty(completeImmediately: true).eraseToAnyPublisher()
+#PublicDummy(of: AnyPublisher<Generic, Generic>.self, .isGeneric(0, 1)) {
+    Empty(completeImmediately: true).eraseToAnyPublisher()
 }
 #PublicDummy(of: PassthroughSubject<Generic, Generic>.self, .isGeneric(0, 1)) {
     PassthroughSubject()
