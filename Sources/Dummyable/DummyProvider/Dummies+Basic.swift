@@ -7,6 +7,7 @@
 
 import Foundation
 
+#PublicDummy(of: Any.self) { 0 }
 #PublicDummy(of: AnyClass.self) { NSObject.self }
 #PublicDummy(of: AnyHashable.self) { AnyHashable(0) }
 #PublicDummy(of: AnyObject.self) { NSObject() }
