@@ -20,6 +20,7 @@ struct DummyFuncUsingEnumCaseDeclFactory: DeclBuilder, DummyFuncCallExprBuilder 
                 attributes: attributes,
                 modifiers: modifiers,
                 genericParametersClause: genericParameters.asGenericParametersClause,
+                isProtocol: false,
                 returnType: returnType,
                 genericWhereClause: genericWhereClause
             )

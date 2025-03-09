@@ -14,16 +14,18 @@ struct DummyFuncDeclFactory {
     private let attributes: AttributeListSyntax
     private let modifiers: DeclModifierListSyntax
     private let genericParametersClause: GenericParameterClauseSyntax?
+    private let isProtocol: Bool
     private let returnType: TypeSyntaxProtocol
     private let genericWhereClause: GenericWhereClauseSyntax?
     
     @inlinable init(
         attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax,
-        genericParametersClause: GenericParameterClauseSyntax?, returnType: TypeSyntaxProtocol,
-        genericWhereClause: GenericWhereClauseSyntax?) {
+        genericParametersClause: GenericParameterClauseSyntax?, isProtocol: Bool,
+        returnType: TypeSyntaxProtocol, genericWhereClause: GenericWhereClauseSyntax?) {
             self.attributes = attributes
             self.modifiers = modifiers
             self.genericParametersClause = genericParametersClause
+            self.isProtocol = isProtocol
             self.returnType = returnType
             self.genericWhereClause = genericWhereClause
         }
@@ -56,14 +58,31 @@ struct DummyFuncDeclFactory {
             FunctionParameterSyntax(
                 firstName: DTS.of,
                 secondName: DTS.type,
-                type: MemberTypeSyntax(
-                    baseType: returnType,
-                    name: DTS.typeType
-                )
+                type: argumentType()
             )
             for param in additionalParam ?? [] {
                 param
             }
         }
+    }
+    
+    private func argumentType() -> TypeSyntaxProtocol {
+        guard isProtocol else {
+            return MemberTypeSyntax(
+                baseType: returnType,
+                name: DTS.typeType
+            )
+        }
+        return MemberTypeSyntax(
+            baseType: TupleTypeSyntax(elements: TupleTypeElementListSyntax {
+                TupleTypeElementSyntax(
+                    type: SomeOrAnyTypeSyntax(
+                        someOrAnySpecifier: .keyword(.any),
+                        constraint: returnType
+                    )
+                )
+            }),
+            name: DTS.typeType
+        )
     }
 }

@@ -39,6 +39,7 @@ struct DummyFuncForArrayDeclFactory: DeclBuilder, DummyClosureCreationExprBuilde
             attributes: attributes,
             modifiers: modifiers,
             genericParametersClause: buildGenericParameterClause(),
+            isProtocol: false,
             returnType: ArrayTypeSyntax(element: elementType),
             genericWhereClause: genericWhereClause
         )

@@ -17,6 +17,7 @@ struct FreestandingDummyDeclarationFactory: DeclBuilder {
             attributes: extraction.metaDatas.attributes ?? [],
             modifiers: extraction.modifiers,
             genericParametersClause: extraction.metaDatas.genericParametersClause,
+            isProtocol: false,
             returnType: extraction.type,
             genericWhereClause: extraction.metaDatas.genericWhereClauses
         )

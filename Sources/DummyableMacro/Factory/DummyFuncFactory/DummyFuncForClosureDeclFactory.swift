@@ -44,6 +44,7 @@ struct DummyFuncForClosureDeclFactory: DeclBuilder, DummyClosureCreationExprBuil
             attributes: attributes,
             modifiers: modifiers,
             genericParametersClause: buildGenericParameterClause(),
+            isProtocol: false,
             returnType: buildReturnType(forType: returnType),
             genericWhereClause: genericWhereClause
         )

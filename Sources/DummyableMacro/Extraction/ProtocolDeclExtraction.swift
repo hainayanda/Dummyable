@@ -71,6 +71,7 @@ extension DummyFuncUsingInitDeclFactory {
         self.init(
             attributes: protocolExtraction.usableAttributes,
             modifiers: protocolExtraction.modifiers,
+            isProtocol: true,
             returnType: IdentifierTypeSyntax(name: protocolExtraction.declName),
             initType: DeclReferenceExprSyntax(baseName: protocolExtraction.generationName),
             dummyInitializerParameters: []

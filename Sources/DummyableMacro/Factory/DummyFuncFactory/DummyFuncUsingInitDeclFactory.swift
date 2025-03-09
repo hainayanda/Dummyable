@@ -15,15 +15,16 @@ struct DummyFuncUsingInitDeclFactory: DeclBuilder, DummyFuncCallExprBuilder {
     
     @inlinable init(
         attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax,
-        genericParameters: GenericParameterListSyntax? = nil, returnType: IdentifierTypeSyntax,
-        genericWhereClause: GenericWhereClauseSyntax? = nil, initType: DeclReferenceExprSyntax,
-        dummyInitializerParameters: [InitializerParameter]) {
+        genericParameters: GenericParameterListSyntax? = nil, isProtocol: Bool = false,
+        returnType: IdentifierTypeSyntax, genericWhereClause: GenericWhereClauseSyntax? = nil,
+        initType: DeclReferenceExprSyntax, dummyInitializerParameters: [InitializerParameter]) {
             self.initType = initType
             self.dummyInitParameters = dummyInitializerParameters
             self.baseFactory = DummyFuncDeclFactory(
                 attributes: attributes,
                 modifiers: modifiers,
                 genericParametersClause: genericParameters.asGenericParametersClause,
+                isProtocol: isProtocol,
                 returnType: returnType,
                 genericWhereClause: genericWhereClause
             )
