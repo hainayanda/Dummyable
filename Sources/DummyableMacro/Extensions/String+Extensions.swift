@@ -8,19 +8,23 @@
 import Foundation
 
 extension String {
-    static var regexDummyMetaIsGeneric: String = #"(Dummyable\s*\.\s*)?(\s*DummyMetadata\s*)?\.\s*isGeneric\s*\(\s*\[?\s*"#
+    static var regexDummyMetaIsGeneric: String = regexDummyMeta 
+    + #"\.\s*isGeneric\s*\(\s*\[?\s*"#
     + regexSeqOfInt
     + #"\s*\]?\s*\)"#
     
-    static var regexDummyMetaConform: String = #"(Dummyable\s*\.\s*)?(\s*DummyMetadata\s*)?\.\s*whereConform\s*\(\s*(\d+)\s*,\s*\[?\s*"#
+    static var regexDummyMetaConform: String = regexDummyMeta
+    + #"\.\s*whereConform\s*\(\s*(\d+)\s*,\s*\[?\s*"#
     + regexSeqOfType
     + #"\s*\]?\s*\)"#
     
-    static var regexDummyMetaConformAlt: String = #"(Dummyable\s*\.\s*)?(\s*DummyMetadata\s*)?\.\s*`?where`?\s*\(\s*(\d+)\s*,\s*conform\s*:\s*"#
+    static var regexDummyMetaConformAlt: String = regexDummyMeta
+    + #"\.\s*`?where`?\s*\(\s*(\d+)\s*,\s*conform\s*:\s*"#
     + regexSeqOfType
     + #"\s*\)"#
     
-    static var regexDummyMetaAvailable: String = #"(Dummyable\s*\.\s*)?(\s*DummyMetadata\s*)?\.\s*available\s*\("#
+    static var regexDummyMetaAvailable: String = regexDummyMeta
+    + #"\.\s*available\s*\("#
     + regexDummyMetaAvailableParam
     + #"\)"#
     
@@ -32,6 +36,8 @@ extension String {
     static var regexSeqOfType: String = #"(\(\s*any\s*)?\S+\s*\)?\.self"#
         .regexArrayContent
         .regexCaptured
+    
+    static var regexDummyMeta: String = #"(Dummyable\s*\.\s*)?(\s*DummyMetadata\s*)?"#
     
     // 1, 2, 3, 4, 5
     static var regexSeqOfInt: String = regexDecimal.regexArrayContent.regexCaptured
@@ -45,7 +51,6 @@ extension String {
     }
     
     @inlinable var regexCaptured: String { "(\(self))" }
-    
     
     @inlinable func match(_ regex: String) -> Bool {
         do {

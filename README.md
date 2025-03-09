@@ -57,7 +57,7 @@ let intDummy = dummy(of: Int.self)
 let intDummies = dummy(of: [Int].self, count: 10)
 ```
 
-If your type marked with `@Dummyable` or has associated `#Dummy` macro declaration, you can create a dummy instance by calling the `dummy(of:)` global function:
+If your type is marked with `@Dummyable` or has an associated `#Dummy` macro declaration, you can create a dummy instance by calling the `dummy(of:)` global function:
 
 ```swift
 let someDummy = dummy(of: SomeMarkedWithDummyable.self)
@@ -65,37 +65,37 @@ let someDummy = dummy(of: SomeMarkedWithDummyable.self)
 
 ### Enabling Dummy Creation on Protocol
 
-`Dummyable` allow you to create dummy instances from a protocol by marking it with `@Dummyable`:
+`Dummyable` allows you to create dummy instances from a protocol by marking it with `@Dummyable`:
 
 ```swift
 @Dummyable(.struct)
 protocol SomeModelProtocol { 
     var title: String { get }
     var description: String { get set }
-    // SomeType must be marked with @Dummyable, have #Dummy macro declaration, or provided by a `dummy(of:)` global function
+    // SomeType must be marked with @Dummyable, have #Dummy macro declaration, or provided by a `dummy(of:)` global function
     var someType: SomeType { get }
     init(title: String, description: String)
     func doSomething()
 }
 ```
 
-If you want to create a class instance, you can do one of theese following methods:
+If you want to create a class instance, you can do one of the following methods:
 
 ```swift
-// tell Dummyable to implement the protocol to a dummy class
+// Tell Dummyable to implement the protocol to a dummy class
 @Dummyable(.class)
 protocol SomeModelProtocol { }
 
-// tell Dummyable the protocol is an object
+// Tell Dummyable the protocol is an object
 @Dummyable
 protocol SomeObjectProtocol: AnyObject { }
 
-// tell Dummyable the protocol is a class instance
+// Tell Dummyable the protocol is a class instance
 @Dummyable
 protocol SomeClassProtocol: class { }
 ```
 
-Keep in mind that the `@Dummyable` macro will not work well on protocol has an associated type or has an inheritance clause.
+Keep in mind that the `@Dummyable` macro will not work well on protocols with an associated type or an inheritance clause.
 
 
 ### Enabling Dummy on a Struct
@@ -107,25 +107,25 @@ Keep in mind that the `@Dummyable` macro will not work well on protocol has an a
 struct SomeModel { 
     let title: String
     var description: String
-    
-    // SomeType must be marked with @Dummyable, have #Dummy macro declaration, or provided by a `dummy(of:)` global function
+        
+    // SomeType must be marked with @Dummyable, have #Dummy macro declaration, or provided by a `dummy(of:)` global function
     let someType: SomeType
     
     func doSomething() { 
-        // do something
+        // Do something
     }
 }
 ```
 
-If you prefer the dummy to created using some custom initializer, you can mark it with `@DummyableInit`:
+If you prefer the dummy to be created using some custom initializer, you can mark it with `@DummyableInit`:
 
 ```swift
 @Dummyable
 struct SomeModel { 
     let title: String
     var description: String
-    
-    // SomeType must be marked with @Dummyable, have #Dummy macro declaration, or provided by a `dummy(of:)` global function
+        
+    // SomeType must be marked with @Dummyable, have #Dummy macro declaration, or provided by a `dummy(of:)` global function
     let someType: SomeType
     
     @DummyableInit
@@ -135,14 +135,14 @@ struct SomeModel {
     }
     
     func doSomething() { 
-        // do something
+        // Do something
     }
 }
 ```
 
-Then it will create a dummy instance using marked ini by only provide the parameter that is have no default value.
+Then it will create a dummy instance using marked init by only providing the parameter that has no default value.
 
-The macro will still work on struct with generic parameter as long as the mandatory type can be created using `dummy(of:)` global function.
+The macro will still work on the struct with generic parameters as long as the mandatory type can be created using the `dummy(of:)` global function.
 
 ### Enabling Dummy on a Class
 
@@ -154,7 +154,6 @@ class SomeModel {
     let title: String
     var description: String
     
-    // SomeType must be marked with @Dummyable, have #Dummy macro declaration, or provided by a `dummy(of:)` global function
     let someType: SomeType
     
     @DummyableInit
@@ -162,10 +161,11 @@ class SomeModel {
         self.title = title
         self.description = description
     }
+    // SomeType must be marked with @Dummyable, have #Dummy macro declaration, or provided by a `dummy(of:)` global function
 }
 ```
 
-The macro will still work on class with generic parameter as long as the mandatory type can be created using `dummy(of:)` global function.
+The macro will still work on class with a generic parameter as long as the mandatory type can be created using the `dummy(of:)` global function.
 
 ### Enabling Dummy on an Enum
 
@@ -180,7 +180,7 @@ enum SomeEnum {
 }
 ```
 
-It will try to create an instance using the last case, and the one with least associated value.
+It will try to create an instance using the last case, and the one with the least associated value.
 
 If you want to make sure the dummy instance is created with a specific case, you can mark the enum with `@DummyableCase`:
 
@@ -193,11 +193,11 @@ enum SomeEnum {
 }
 ```
 
-The macro will still work on enum with generic parameter as long as the mandatory type can be created using `dummy(of:)` global function.
+The macro will still work on an enum with a generic parameter as long as the mandatory type can be created using the `dummy(of:)` global function.
 
 ### Dummy with no Declaration
 
-If you want enable dummy creation on a type that you don't have access to the declaration, you can use the `#Dummy` macro:
+If you want to enable dummy creation on a type that you don't have access to the declaration, you can use the `#Dummy` macro:
 
 ```swift
 #Dummy(SomeType.self) { 
@@ -205,7 +205,7 @@ If you want enable dummy creation on a type that you don't have access to the de
 }
 ```
 
-This will be helpful if you have a dependency that you want to mock, but you don't have access to the declaration. You can also use this to create a dummy instance of Closure, Tuple or some other type that is not a class, struct, or enum:
+This will be helpful if you have a dependency that you want to mock but don't have access to the declaration. You can also use this to create a dummy instance of Closure, Tuple, or some other type that is not a class, struct, or enum:
 
 ```swift
 #Dummy((() -> (Int, String)).self) {
@@ -213,16 +213,16 @@ This will be helpful if you have a dependency that you want to mock, but you don
 }
 ```
 
-By default, the global `dummy(of:)` function will have no modifier and act as internal function. To make it public or fileprivate, use `#PublicDummy` or `#PrivateDummy` macro:
+By default, the global `dummy(of:)` function will have no modifier and act as an internal function. To make it `public` or `fileprivate`, use the `#PublicDummy` or `#PrivateDummy` macro:
 
 ```swift
-// or #PrivateDummy for fileprivate global function
+// Or #PrivateDummy for fileprivate global function
 #PublicDummy(SomeType.self) { 
     SomeType()
 }
 ```
 
-if your type has a generic parameter, you can provide the generic parameter using `Generic` type as well:
+If your type has a generic parameter, you can provide the generic parameter using the `Generic` type as well:
 
 ```swift
 #Dummy(TypeWithGeneric<Generic>.self) {
@@ -231,16 +231,16 @@ if your type has a generic parameter, you can provide the generic parameter usin
 ```
 
 
-`Generic` is a real type that implements `Hashable`, `Equatable`, `Identifiable`, `Sendable`, `Error`, and `Codable`. You can implement more if you need to. But in case you can't, you can use any generic parameter and tell `#Dummy` macro to treat it as a generic parameter:
+`Generic` is a real type that implements `Hashable`, `Equatable`, `Identifiable`, `Sendable`, `Error`, and `Codable`. You can implement more if you need to. But in case you can't, you can use any generic parameter and tell the `#Dummy` macro to treat it as a generic parameter:
 
 ```swift
-// tell #Dummy to treat the generic parameter at 0 as generic
+// Tell #Dummy to treat the generic parameter at 0 as generic
 #Dummy(TypeWithGeneric<String>.self, .isGeneric(0)) {
     TypeWithGeneric()
 }
 ```
 
-If you want to add where clause to the generic parameter, you can do so by providing the where clause:
+If you want to add a where clause to the generic parameter, you can do so by providing the where clause:
 
 ```swift
 #Dummy(TypeWithGeneric<String>.self, .where(0, conform: SomeProtocol.self, (any Equatable).self)) {
@@ -258,17 +258,17 @@ If the Type is only available in a specific platform, you can provide the platfo
 
 ### How Dummyable Works
 
-`Dummyable` works by assuming that the mandatory type needed can be created using `dummy(of:)` global function:
+`Dummyable` works by assuming that the mandatory type needed can be created using the `dummy(of:)` global function:
 
 ```swift
-// on the generated code
+// On the generated code
 self.title = dummy(of: String.self)
 ```
 
-So it will throw a compile-time error if the type can't be created using `dummy(of:)` global function:
+So it will throw a compile-time error if the type can't be created using the `dummy(of:)` global function:
 
 ```swift
-// on the generated code
+// On the generated code
 self.someType = dummy(of: SomeType.self) // Default argument value of type 'Any' cannot be converted to type 'SomeType'
 ```
 
@@ -280,7 +280,7 @@ func dummy(of type: SomeType.Type) -> SomeType {
 }
 ```
 
-But doing it manually will not provide you with `dummy(of:count:)` and some other global function that use the type that is generated by `@Dummyable` or `#Dummy` macro.
+But doing it manually will not provide you with `dummy(of:count:)` and some other global function that uses the type that is generated by the `@Dummyable` or `#Dummy` macro.
 
 ## Contributing
 
