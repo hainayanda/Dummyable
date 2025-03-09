@@ -11,6 +11,7 @@ public final class Generic {
     @DummyableInit
     @inlinable public init() { }
     @inlinable required public init(from decoder: Decoder) throws { }
+    // periphery:ignore
     @inlinable required public init?(rawValue: Int) { }
 }
 
