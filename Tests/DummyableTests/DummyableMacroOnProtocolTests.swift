@@ -73,7 +73,7 @@ private struct SomeDummy: Some {
     }
 }
 
-func dummy(of type: Some.Type) -> Some {
+func dummy(of type: (any Some).Type) -> Some {
     SomeDummy()
 }
 
@@ -153,7 +153,7 @@ final private class SomeDummy: Some {
     }
 }
 
-private func dummy(of type: Some.Type) -> Some {
+private func dummy(of type: (any Some).Type) -> Some {
     SomeDummy()
 }
 
@@ -229,7 +229,7 @@ final private class SomeDummy: Some {
     }
 }
 
-public func dummy(of type: Some.Type) -> Some {
+public func dummy(of type: (any Some).Type) -> Some {
     SomeDummy()
 }
 
