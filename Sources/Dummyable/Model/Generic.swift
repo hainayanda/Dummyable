@@ -5,8 +5,10 @@
 //  Created by Nayanda Haberty on 04/03/25.
 //
 
+@Dummyable
 // periphery:ignore
 public final class Generic {
+    @DummyableInit
     @inlinable public init() { }
     @inlinable required public init(from decoder: Decoder) throws { }
     @inlinable required public init?(rawValue: Int) { }
@@ -35,5 +37,3 @@ extension Generic: Codable {
 extension Generic: CustomStringConvertible {
     @inlinable public var description: String { "Generic" }
 }
-
-#PublicDummy(of: Generic.self) { Generic() }
