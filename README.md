@@ -2,6 +2,7 @@
 
 `Dummyable` is a lightweight utility for easily generating dummy instances of Swift types for testing and prototyping.
 
+![GitHub Release](https://img.shields.io/github/v/release/hainayanda/Dummyable)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/dcaa4fc883d94d6bb73abaf8a8fa5edc)](https://app.codacy.com/gh/hainayanda/Dummyable/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Unit Test](https://github.com/hainayanda/Dummyable/actions/workflows/test.yml/badge.svg)](https://github.com/hainayanda/Dummyable/actions/workflows/test.yml)
 [![SwiftPM Compatible](https://img.shields.io/badge/SwiftPM-Compatible-brightgreen)](https://swift.org/package-manager/)
@@ -24,7 +25,7 @@ To install using Xcode's Swift Package Manager, follow these steps:
 
 - Go to **File > Swift Package > Add Package Dependency**
 - Enter the URL: **<https://github.com/hainayanda/Dummyable.git>**
-- Choose **Up to Next Major** for the version rule and set the version to **1.0.0**.
+- Choose **Up to Next Major** for the version rule and set the version to **1.1.1**.
 - Click "Next" and wait for the package to be fetched.
 
 ### Swift Package Manager (Package.swift)
@@ -33,7 +34,7 @@ If you prefer using Package.swift, add Dummyable as a dependency in your **Packa
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/hainayanda/Dummyable.git", .upToNextMajor(from: "1.0.0"))
+    .package(url: "https://github.com/hainayanda/Dummyable.git", .upToNextMajor(from: "1.1.1"))
 ]
 ```
 
