@@ -23,6 +23,7 @@ struct ProtocolConcreteVariableDeclFactory: DummyFuncCallExprBuilder {
         }
         var modifiedVariable = baseVariable
         modifiedVariable.modifiers = modifiers
+        modifiedVariable.bindingSpecifier = baseVariable.hasSetter ? .keyword(.var) : .keyword(.let)
         modifiedVariable.bindings = PatternBindingListSyntax {
             PatternBindingSyntax(
                 pattern: variableExtraction.name,
