@@ -76,8 +76,7 @@ struct ProtocolConcreteTypeDeclFactory: DeclBuilder, DummyFuncCallExprBuilder {
     private func buildMandatoryInit(from initializer: InitializerDeclSyntax) -> InitializerDeclSyntax {
         ProtocolConcreteInitDeclFactory(
             modifiers: extraction.modifiers.noLessThanInternal(),
-            baseInit: initializer,
-            mandatoryVariables: extraction.variablesNeededForInit.extracts()
+            baseInit: initializer
         )
         .buildInitDecl()
     }

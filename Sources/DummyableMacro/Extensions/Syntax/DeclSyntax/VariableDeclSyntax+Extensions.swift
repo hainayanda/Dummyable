@@ -28,6 +28,16 @@ extension VariableDeclSyntax {
         return accessors.contains(where: { $0.accessorSpecifier.text == DTS.get.text })
     }
     
+    var hasSetter: Bool {
+        guard let accessors = bindings.first?.accessorBlock?.accessors.as(AccessorDeclListSyntax.self) else {
+            return false
+        }
+        guard !accessors.isEmpty else {
+            return true
+        }
+        return accessors.contains(where: { $0.accessorSpecifier.text == DTS.set.text })
+    }
+    
     var extraction: VariableDeclExtraction? {
         VariableDeclExtraction(variable: self)
     }

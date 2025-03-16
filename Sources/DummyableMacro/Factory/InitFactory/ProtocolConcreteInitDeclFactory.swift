@@ -11,39 +11,18 @@ struct ProtocolConcreteInitDeclFactory: DummyFuncCallExprBuilder {
     
     private let modifiers: DeclModifierListSyntax
     private let baseInit: InitializerDeclSyntax
-    private let mandatoryVariables: [VariableDeclExtraction]
     
     @inlinable init(
         modifiers: DeclModifierListSyntax,
-        baseInit: InitializerDeclSyntax,
-        mandatoryVariables: [VariableDeclExtraction]) {
+        baseInit: InitializerDeclSyntax) {
             self.modifiers = modifiers
             self.baseInit = baseInit
-            self.mandatoryVariables = mandatoryVariables
         }
     
     @inlinable func buildInitDecl() -> InitializerDeclSyntax {
         var modifiedInit = baseInit
         modifiedInit.modifiers = modifiers
-        modifiedInit.body = CodeBlockSyntax(statements: buildInitBodyCodeBlock())
-        return modifiedInit
-    }
-    
-    private func buildInitBodyCodeBlock() -> CodeBlockItemListSyntax {
-        CodeBlockItemListSyntax {
-            for variable in mandatoryVariables {
-                SequenceExprSyntax {
-                    MemberAccessExprSyntax(
-                        base: DeclReferenceExprSyntax(baseName: .keyword(.self)),
-                        period: .periodToken(),
-                        name: .identifier(variable.name.trimmedDescription)
-                    )
-                    AssignmentExprSyntax()
-                    buildDummyFuncCallExpr(
-                        forType: variable.typeAnotation.type
-                    )
-                }
-            }
-        }
+        modifiedInit.body = CodeBlockSyntax(statements: [])
+        return modifiedInit.trimmed
     }
 }
