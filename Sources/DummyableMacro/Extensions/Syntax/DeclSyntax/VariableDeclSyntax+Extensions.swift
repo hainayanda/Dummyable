@@ -18,14 +18,22 @@ extension VariableDeclSyntax {
         return true
     }
     
-    var hasGetter: Bool {
+    var accessors: AccessorDeclListSyntax? {
         guard let accessors = bindings.first?.accessorBlock?.accessors.as(AccessorDeclListSyntax.self) else {
-            return false
+            return nil
         }
         guard !accessors.isEmpty else {
-            return true
+            return nil
         }
-        return accessors.contains(where: { $0.accessorSpecifier.text == DTS.get.text })
+        return accessors
+    }
+    
+    var hasGetter: Bool {
+        accessors?.contains { $0.accessorSpecifier.text == DTS.get.text } ?? false
+    }
+    
+    var hasSetter: Bool {
+        accessors?.contains { $0.accessorSpecifier.text == DTS.set.text } ?? false
     }
     
     var extraction: VariableDeclExtraction? {
@@ -59,10 +67,6 @@ extension Sequence where Element == VariableDeclSyntax {
     
     func asInitMemberwiseParam() -> [InitMemberwiseParam] {
         compactMap { $0.asInitMemberwiseParam }
-    }
-    
-    func extracts() -> [VariableDeclExtraction] {
-        compactMap { $0.extraction }
     }
 }
 

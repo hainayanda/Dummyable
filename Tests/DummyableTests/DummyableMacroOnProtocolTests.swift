@@ -55,15 +55,11 @@ protocol Some {
 }
 
 private struct SomeDummy: Some {
-    var string: String
-    var float: Float?
+    let string: String = dummy(of: String.self)
+    var float: Float? = dummy(of: Float?.self)
     init() {
-        self.string = dummy(of: String.self)
-        self.float = dummy(of: Float?.self)
     }
     init?(int: Int) {
-        self.string = dummy(of: String.self)
-        self.float = dummy(of: Float?.self)
     }
     func voidFunc() async throws {
         dummy(of: Void.self)
@@ -135,15 +131,11 @@ private protocol Some {
 }
 
 final private class SomeDummy: Some {
-    var string: String
-    var float: Float?
+    let string: String = dummy(of: String.self)
+    var float: Float? = dummy(of: Float?.self)
     init() {
-        self.string = dummy(of: String.self)
-        self.float = dummy(of: Float?.self)
     }
     init?(int: Int) {
-        self.string = dummy(of: String.self)
-        self.float = dummy(of: Float?.self)
     }
     func voidFunc() async throws {
         dummy(of: Void.self)
@@ -215,11 +207,9 @@ public protocol Some: AnyObject {
 }
 
 final private class SomeDummy: Some {
-    public var string: String
-    public var float: Float?
+    public let string: String = dummy(of: String.self)
+    public var float: Float? = dummy(of: Float?.self)
     public init() {
-        self.string = dummy(of: String.self)
-        self.float = dummy(of: Float?.self)
     }
     public func voidFunc() async throws {
         dummy(of: Void.self)
