@@ -12,7 +12,7 @@ extension VariableDeclSyntax {
     typealias DTS = DummyableTokenSyntaxes
     
     var shouldBeAssignedFromInit: Bool {
-        guard let binding = self.bindings.first, binding.initializer == nil, !hasGetter else {
+        guard let binding = self.bindings.first, binding.initializer == nil, !hasGetter, !isComputedProperty else {
             return false
         }
         return true
@@ -34,6 +34,19 @@ extension VariableDeclSyntax {
     
     var hasSetter: Bool {
         accessors?.contains { $0.accessorSpecifier.text == DTS.set.text } ?? false
+    }
+    
+    var isComputedProperty: Bool {
+        guard let accessorsBlock = bindings.first?.accessorBlock else {
+            return false
+        }
+        guard let accessors = accessorsBlock.accessors.as(AccessorDeclListSyntax.self) else {
+            return true
+        }
+        return accessors.contains { accessor in
+            let text = accessor.accessorSpecifier.text
+            return text == DTS.get.text
+        }
     }
     
     var extraction: VariableDeclExtraction? {
