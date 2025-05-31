@@ -34,6 +34,9 @@ class Some {
     let int: Int
     var doubles: [Double] = []
     let floats: Float = 0.0
+    var someComputed: String {
+        "computed"
+    }
 
     @DummyableInit
     init(string: String?, int: Int = 10) {
@@ -49,6 +52,9 @@ class Some {
     let int: Int
     var doubles: [Double] = []
     let floats: Float = 0.0
+    var someComputed: String {
+        "computed"
+    }
 
     @DummyableInit
     init(string: String?, int: Int = 10) {
@@ -105,6 +111,9 @@ class Some<T: Equatable> where T: Hashable {
     let int: Int
     var doubles: [Double] = []
     let floats: Float = 0.0
+    var someComputed: String {
+        "computed"
+    }
 
     @DummyableInit
     init(generic: T?, int: Int = 10) {
@@ -120,6 +129,9 @@ class Some<T: Equatable> where T: Hashable {
     let int: Int
     var doubles: [Double] = []
     let floats: Float = 0.0
+    var someComputed: String {
+        "computed"
+    }
 
     @DummyableInit
     init(generic: T?, int: Int = 10) {
