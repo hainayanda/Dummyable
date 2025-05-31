@@ -41,6 +41,9 @@ struct Some {
     let int: Int
     var doubles: [Double] = []
     let floats: Float = 0.0
+    var someComputed: String {
+        "computed"
+    }
 }
 """#
 
@@ -50,6 +53,9 @@ struct Some {
     let int: Int
     var doubles: [Double] = []
     let floats: Float = 0.0
+    var someComputed: String {
+        "computed"
+    }
 
     init(string: String? = dummy(of: String?.self), int: Int = dummy(of: Int.self)) {
         self.string = string
@@ -105,6 +111,9 @@ private struct Some {
     let int: Int
     var doubles: [Double] = []
     let floats: Float = 0.0
+    var someComputed: String {
+        "computed"
+    }
 
     @DummyableInit
     init(string: String?, int: Int = 10) {
@@ -120,6 +129,9 @@ private struct Some {
     let int: Int
     var doubles: [Double] = []
     let floats: Float = 0.0
+    var someComputed: String {
+        "computed"
+    }
 
     @DummyableInit
     init(string: String?, int: Int = 10) {
@@ -176,6 +188,9 @@ struct Some<T: Equatable> where T: Hashable {
     let int: Int
     var doubles: [Double] = []
     let floats: Float = 0.0
+    var someComputed: String {
+        "computed"
+    }
 }
 """#
 
@@ -185,6 +200,9 @@ struct Some<T: Equatable> where T: Hashable {
     let int: Int
     var doubles: [Double] = []
     let floats: Float = 0.0
+    var someComputed: String {
+        "computed"
+    }
 
     init(generic: T? = dummy(of: T?.self), int: Int = dummy(of: Int.self)) {
         self.generic = generic

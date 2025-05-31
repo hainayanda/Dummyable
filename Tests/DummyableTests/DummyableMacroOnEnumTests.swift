@@ -48,6 +48,9 @@ enum Some {
     case another
     case withParameter(string: String, int: Int)
     case none
+    var someComputed: String {
+        "computed"
+    }
 }
 """#
 
@@ -57,6 +60,9 @@ enum Some {
     case another
     case withParameter(string: String, int: Int)
     case none
+    var someComputed: String {
+        "computed"
+    }
 }
 
 func dummy(of type: Some.Type) -> Some {
@@ -106,6 +112,9 @@ enum Some {
     case oneParameter(string: String)
     case twoParameter(string: String, int: Int)
     case threeParameter(string: String, int: Int, double: Double)
+    var someComputed: String {
+        "computed"
+    }
 }
 """#
 
@@ -114,6 +123,9 @@ enum Some {
     case oneParameter(string: String)
     case twoParameter(string: String, int: Int)
     case threeParameter(string: String, int: Int, double: Double)
+    var someComputed: String {
+        "computed"
+    }
 }
 
 func dummy(of type: Some.Type) -> Some {
@@ -164,6 +176,9 @@ enum Some {
     case another
     @DummyableCase case withParameter(string: String, int: Int)
     case none
+    var someComputed: String {
+        "computed"
+    }
 }
 """#
 
@@ -173,6 +188,9 @@ enum Some {
     case another
     @DummyableCase case withParameter(string: String, int: Int)
     case none
+    var someComputed: String {
+        "computed"
+    }
 }
 
 func dummy(of type: Some.Type) -> Some {
@@ -223,6 +241,9 @@ enum Some<T: Equatable> {
     case another
     case withParameter(generic: T, int: Int)
     case none
+    var someComputed: String {
+        "computed"
+    }
 }
 """#
 
@@ -232,6 +253,9 @@ enum Some<T: Equatable> {
     case another
     case withParameter(generic: T, int: Int)
     case none
+    var someComputed: String {
+        "computed"
+    }
 }
 
 func dummy<T: Equatable>(of type: Some<T>.Type) -> Some<T> {
