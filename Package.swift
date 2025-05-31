@@ -4,6 +4,19 @@
 import PackageDescription
 import CompilerPluginSupport
 
+// Set this to true to enable swiftlint plugin
+var development: Bool = false
+
+let dependencies: [PackageDescription.Package.Dependency] = [
+    .package(url: "https://github.com/swiftlang/swift-syntax.git", "509.0.0"..<"601.0.0"),
+]
+let pluginsDependencie: [PackageDescription.Package.Dependency] = [
+    .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", from: "0.58.2")
+]
+let packageDependencies: [PackageDescription.Package.Dependency] = development ? dependencies + pluginsDependencie : dependencies
+
+let plugins: [PackageDescription.Target.PluginUsage] = development ? [.plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")] : []
+
 let package = Package(
     name: "Dummyable",
     platforms: [
@@ -19,17 +32,12 @@ let package = Package(
             targets: ["Dummyable"]
         ),
     ],
-    dependencies: [
-        .package(url: "https://github.com/swiftlang/swift-syntax.git", "509.0.0"..<"601.0.0"),
-        .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", from: "0.58.2")
-    ],
+    dependencies: packageDependencies,
     targets: [
         .target(
             name: "Dummyable",
             dependencies: ["DummyableMacro"],
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
-            ]
+            plugins: plugins
         ),
         .macro(
             name: "DummyableMacro",
