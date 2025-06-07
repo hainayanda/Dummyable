@@ -88,6 +88,24 @@ extension DummyFuncForClosuresDeclFactory {
                 creationType: creationType
             )
         }
+    
+    @inlinable init(
+        protocolExtraction: ProtocolDeclExtraction,
+        creationType: DummyCreationType = .dummyFuncCall) {
+            self.init(
+                attributes: protocolExtraction.usableAttributes,
+                modifiers: protocolExtraction.modifiers.onlyAccessModifier(),
+                genericParameters: protocolExtraction.genericParameters,
+                returnType: SomeOrAnyTypeSyntax(
+                    someOrAnySpecifier: .keyword(.any),
+                    constraint: IdentifierTypeSyntax(
+                        name: protocolExtraction.declName
+                    )
+                ),
+                genericWhereClause: protocolExtraction.genericWhereClause,
+                creationType: creationType
+            )
+        }
 }
 
 // MARK: DummiesFuncDeclFactory + Extensions
@@ -105,6 +123,24 @@ extension DummyFuncForArrayDeclFactory {
                     genericArgumentClause: typeExtraction.genericParameters?.asGenericArgumentClause
                 ),
                 genericWhereClause: typeExtraction.genericWhereClause,
+                creationType: creationType
+            )
+        }
+    
+    @inlinable init(
+        protocolExtraction: ProtocolDeclExtraction,
+        creationType: DummyCreationType = .dummyFuncCall) {
+            self.init(
+                attributes: protocolExtraction.usableAttributes,
+                modifiers: protocolExtraction.modifiers.onlyAccessModifier(),
+                genericParameters: protocolExtraction.genericParameters,
+                elementType: SomeOrAnyTypeSyntax(
+                    someOrAnySpecifier: .keyword(.any),
+                    constraint: IdentifierTypeSyntax(
+                        name: protocolExtraction.declName
+                    )
+                ),
+                genericWhereClause: protocolExtraction.genericWhereClause,
                 creationType: creationType
             )
         }

@@ -14,7 +14,7 @@ struct DummyFuncForClosuresDeclFactory: ArrayDeclBuilder {
     
     @inlinable init(
         attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax,
-        genericParameters: GenericParameterListSyntax?, returnType: IdentifierTypeSyntax,
+        genericParameters: GenericParameterListSyntax?, returnType: TypeSyntaxProtocol,
         genericWhereClause: GenericWhereClauseSyntax?, creationType: DummyCreationType) {
             closureFuncDeclFactory = [
                 ClosureType.noArg, ClosureType.oneArg,
