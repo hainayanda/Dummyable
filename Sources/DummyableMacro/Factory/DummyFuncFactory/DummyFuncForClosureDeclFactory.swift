@@ -14,7 +14,7 @@ struct DummyFuncForClosureDeclFactory: DeclBuilder, DummyClosureCreationExprBuil
     private let closureType: ClosureType
     private let attributes: AttributeListSyntax
     private let modifiers: DeclModifierListSyntax
-    private let returnType: IdentifierTypeSyntax
+    private let returnType: TypeSyntaxProtocol
     private let genericParameters: GenericParameterListSyntax?
     private let genericWhereClause: GenericWhereClauseSyntax?
     private let creationType: DummyCreationType
@@ -24,7 +24,7 @@ struct DummyFuncForClosureDeclFactory: DeclBuilder, DummyClosureCreationExprBuil
     @inlinable init(
         closureType: ClosureType, attributes: AttributeListSyntax,
         modifiers: DeclModifierListSyntax, genericParameters: GenericParameterListSyntax?,
-        returnType: IdentifierTypeSyntax, genericWhereClause: GenericWhereClauseSyntax?,
+        returnType: TypeSyntaxProtocol, genericWhereClause: GenericWhereClauseSyntax?,
         creationType: DummyCreationType) {
             self.closureType = closureType
             self.attributes = attributes
@@ -94,7 +94,7 @@ struct DummyFuncForClosureDeclFactory: DeclBuilder, DummyClosureCreationExprBuil
         )
     }
     
-    private func buildReturnType(forType type: IdentifierTypeSyntax) -> IdentifierTypeSyntax {
+    private func buildReturnType(forType type: TypeSyntaxProtocol) -> TypeSyntaxProtocol {
         var additive = 0
         return IdentifierTypeSyntax(
             name: closureType.type,

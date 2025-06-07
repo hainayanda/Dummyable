@@ -49,7 +49,7 @@ struct DummyFuncDeclFactory {
             parameterClause: FunctionParameterClauseSyntax(
                 parameters: buildDummyFuncParams(additionalParam: additionalParam)
             ),
-            returnClause: ReturnClauseSyntax(type: returnType)
+            returnClause: returnClause()
         )
     }
     
@@ -83,6 +83,18 @@ struct DummyFuncDeclFactory {
                 )
             }),
             name: DTS.typeType
+        )
+    }
+    
+    private func returnClause() -> ReturnClauseSyntax {
+        guard isProtocol else {
+            return ReturnClauseSyntax(type: returnType)
+        }
+        return ReturnClauseSyntax(
+            type: SomeOrAnyTypeSyntax(
+                someOrAnySpecifier: .keyword(.any),
+                constraint: returnType
+            )
         )
     }
 }

@@ -15,7 +15,7 @@ struct FreestandingMacroExtraction {
     
     @inlinable init(from node: FreestandingMacroExpansionSyntax) throws {
         
-        guard let expression = node.argumentList.first?.expression.as(MemberAccessExprSyntax.self)?.base,
+        guard let expression = node.arguments.first?.expression.as(MemberAccessExprSyntax.self)?.base,
               let closure = node.lastClosure else {
             throw DummyableMacroError.wrongArguments
         }
@@ -23,13 +23,13 @@ struct FreestandingMacroExtraction {
         self.closure = closure
         
         self.metaDatas = (
-            node.argumentList.dropFirst().compactMap { FreestandingMetaData(from: $0) }
+            node.arguments.dropFirst().compactMap { FreestandingMetaData(from: $0) }
             + expression.genericMetaDatas()
         ).compacted()
         
         self.type = expression.identifierTypeSyntax(metaDatas: metaDatas)
         
-        self.modifiers = switch node.macro.trimmedDescription {
+        self.modifiers = switch node.macroName.trimmedDescription {
         case "PublicDummy", "Dummyable.PublicDummy": [.public]
         case "PrivateDummy", "Dummyable.PrivateDummy": [.private]
         default: []

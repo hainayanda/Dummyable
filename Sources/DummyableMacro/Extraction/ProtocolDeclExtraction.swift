@@ -84,7 +84,7 @@ extension DummyFuncUsingInitDeclFactory {
 extension DummyFuncForClosuresDeclFactory {
     @inlinable init(protocolExtraction: ProtocolDeclExtraction) {
         self.init(
-            typeExtraction: protocolExtraction,
+            protocolExtraction: protocolExtraction,
             creationType: .emptyInitCall(protocolExtraction.generationName)
         )
     }
@@ -95,7 +95,7 @@ extension DummyFuncForClosuresDeclFactory {
 extension DummyFuncForArrayDeclFactory {
     @inlinable init(protocolExtraction: ProtocolDeclExtraction) {
         self.init(
-            typeExtraction: protocolExtraction,
+            protocolExtraction: protocolExtraction,
             creationType: .emptyInitCall(protocolExtraction.generationName)
         )
     }

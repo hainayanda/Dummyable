@@ -13,14 +13,14 @@ struct DummyFuncForArrayDeclFactory: DeclBuilder, DummyClosureCreationExprBuilde
     
     private let attributes: AttributeListSyntax
     private let modifiers: DeclModifierListSyntax
-    private let elementType: IdentifierTypeSyntax
+    private let elementType: TypeSyntaxProtocol
     private let genericParameters: GenericParameterListSyntax?
     private let genericWhereClause: GenericWhereClauseSyntax?
     private let creationType: DummyCreationType
     
     @inlinable init(
         attributes: AttributeListSyntax, modifiers: DeclModifierListSyntax,
-        genericParameters: GenericParameterListSyntax?, elementType: IdentifierTypeSyntax,
+        genericParameters: GenericParameterListSyntax?, elementType: TypeSyntaxProtocol,
         genericWhereClause: GenericWhereClauseSyntax?, creationType: DummyCreationType) {
             self.attributes = attributes
             self.modifiers = modifiers
