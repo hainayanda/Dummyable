@@ -24,7 +24,7 @@ extension DummyFuncCallExprBuilder {
                     label: DummyableTokenSyntaxes.of,
                     colon: .colonToken(),
                     expression: MemberAccessExprSyntax(
-                        base: DeclReferenceExprSyntax(baseName: .identifier(type.trimmedDescription)),
+                        base: buildDummyFuncBaseExpr(forType: type),
                         period: .periodToken(),
                         name: .keyword(.self)
                     )
@@ -32,5 +32,20 @@ extension DummyFuncCallExprBuilder {
             },
             rightParen: .rightParenToken()
         )
+    }
+    
+    private func buildDummyFuncBaseExpr(forType type: TypeSyntax) -> ExprSyntaxProtocol {
+        return if let anyTypeSyntax = type.as(SomeOrAnyTypeSyntax.self) {
+            TupleExprSyntax(elements: LabeledExprListSyntax {
+                LabeledExprSyntax(
+                    expression: DeclReferenceExprSyntax(
+                        baseName: .identifier(anyTypeSyntax.trimmedDescription)
+                    )
+                )
+            })
+        } else {
+            DeclReferenceExprSyntax(baseName: .identifier(type.trimmedDescription))
+        }
+        
     }
 }
