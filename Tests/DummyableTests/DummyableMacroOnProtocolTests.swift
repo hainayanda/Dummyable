@@ -42,6 +42,7 @@ protocol Some {
     init?(int: Int)
     func voidFunc() async throws
     func returnFunc(arg argument: String) async throws -> String
+    func returnAnyFunc() -> any Some
 }
 """#
 
@@ -52,6 +53,7 @@ protocol Some {
     init?(int: Int)
     func voidFunc() async throws
     func returnFunc(arg argument: String) async throws -> String
+    func returnAnyFunc() -> any Some
 }
 
 private struct SomeDummy: Some {
@@ -66,6 +68,9 @@ private struct SomeDummy: Some {
     }
     func returnFunc(arg argument: String) async throws -> String {
         dummy(of: String.self)
+    }
+    func returnAnyFunc() -> any Some {
+        dummy(of: (any Some).self)
     }
 }
 
