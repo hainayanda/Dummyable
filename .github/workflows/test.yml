@@ -22,9 +22,9 @@ jobs:
       run: |
         swift build -v
         swift test -v
-    - name: Run Tests on iPhone 16 Simulator (iOS 18.2)
+    - name: Run Tests on iPhone 16 Simulator (iOS 18.4)
       run: |
         xcodebuild test \
           -scheme 'Dummyable' \
-          -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.2' \
+          -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.4' \
           -skipPackagePluginValidation
